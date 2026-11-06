@@ -1,0 +1,138 @@
+/* ---------- 섹션 ---------- */
+.con03 {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 40px 160px;
+}
+
+.con03 h3 {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 70px;
+}
+/* .con03-title span {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.8;
+} */
+
+/* ---------- 카드 목록 ---------- */
+.con03-list {
+  display: flex;
+  gap: 16px;
+  height: 460px;
+}
+
+.con03-list li {
+  position: relative;
+  flex: 1;
+  height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--img) center / cover no-repeat;
+}
+
+.con03-list li:nth-child(even) {
+  margin-top: 40px;
+}
+
+/* 이미지 경로는 프로젝트에 맞게 바꿔주세요 */
+.con03-list li:nth-child(1) {
+  --img: url(../img/con03-1.jpg);
+}
+.con03-list li:nth-child(2) {
+  --img: url(../img/con03-2.jpg);
+}
+.con03-list li:nth-child(3) {
+  --img: url(../img/con03-3-1.jpg);
+}
+.con03-list li:nth-child(4) {
+  --img: url(../img/con03-4.jpg);
+}
+
+/* 글자가 잘 보이도록 아래쪽 어둡게 */
+.con03-list li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.75));
+}
+
+/* a가 카드 전체를 덮어서 어디를 눌러도 이동 */
+.con03-list a {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 0 24px 40px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: inherit;
+}
+.con03-list a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+.con03-list h5,
+.con03-list p {
+  white-space: nowrap;
+  transition:
+    font-size 0.5s ease,
+    color 0.5s ease,
+    opacity 0.3s ease,
+    margin 0.5s ease;
+}
+.con03-list h5 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  transition: 0.1s;
+}
+.con03-list p {
+  font-size: 12px;
+  color: #ccc;
+  opacity: 0.85;
+  transition: 0.1s;
+}
+
+/* ---------- 호버: 마우스 올린 카드가 ul 너비의 70% ---------- */
+/* flex 비율 7 : 1 : 1 : 1  →  7 / 10 = 70% */
+.con03-list li:hover,
+.con03-list li:focus-within {
+  flex: 3;
+}
+
+/* 좁아진 카드는 설명글이 잘리니 잠시 숨김 */
+.con03-list:hover li:not(:hover) p {
+  opacity: 0;
+}
+/* 호버 시 글자 키우기 */
+.con03-list li:hover h5,
+.con03-list li:focus-within h5 {
+  font-size: 30px;
+  margin-bottom: 18px;
+}
+.con03-list li:hover p,
+.con03-list li:focus-within p {
+  font-size: 16px;
+  color: #fff;
+  opacity: 1;
+}
+
+/* ---------- 스크롤 등장: 섹션이 보이면 타이틀 → 카드 순서 ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition:
+    opacity 0.8s ease var(--delay, 0s),
+    transform 0.8s ease var(--delay, 0s),
+    flex 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.con03.is-visible .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
