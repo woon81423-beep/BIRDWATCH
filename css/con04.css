@@ -6,6 +6,7 @@
 .con04_wrap {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   .con04_right {
     width: 40%;
     .con04_txt {
@@ -14,10 +15,14 @@
       }
       li:nth-of-type(1) {
         display: block;
+        color: #f29985;
+        p {
+          color: #fff;
+        }
       }
     }
     .con04_ctr {
-      width: 80%;
+      width: 50%;
       margin: 0px auto;
       display: flex;
       justify-content: space-between;
@@ -56,6 +61,11 @@
     }
     li:nth-of-type(1) {
       transform: rotate(-10deg);
+      a {
+        background-color: #f29985;
+        transform: scale(1.2);
+      }
+      z-index: 10;
     }
     li:nth-of-type(2) {
       transform: rotate(15deg);
