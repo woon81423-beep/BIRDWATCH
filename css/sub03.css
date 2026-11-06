@@ -1,0 +1,12 @@
+header {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#visual {
+    width:100%;
+    height:800px;
+    background: url(../img/watching/gw_bg.jpg) no-repeat center center;
+    background-size: cover;
+    
+}
