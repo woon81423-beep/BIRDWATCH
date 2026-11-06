@@ -142,7 +142,11 @@ footer {
 
 .font_co:hover {
   color: #f29985;
+  p {
+    color: #fff;
+  }
 }
+
 .menu_font_co:hover {
   color: #f29985;
   div {
