@@ -141,7 +141,7 @@ footer {
 /* 폰트호버 */
 .font_co:hover {
   color: #f29985;
-  div {
+  > div {
     background-color: #f29985;
   }
 }
