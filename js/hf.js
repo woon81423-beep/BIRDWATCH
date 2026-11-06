@@ -3,12 +3,6 @@ $(function () {
   $(document).on("mousemove", function (e) {
     $(".cursor").css({ left: `${e.clientX}px`, top: `${e.clientY}px` });
   });
-  $(".txt01, .txt03").on("mouseenter", function () {
-    $(".cursor").addClass("on");
-  });
-  $(".txt01, .txt03").on("mouseleave", function () {
-    $(".cursor").removeClass("on");
-  });
   // 맨위로
   $(window).on("scroll", function () {
     let sc = $(this).scrollTop();
