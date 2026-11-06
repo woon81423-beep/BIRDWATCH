@@ -139,9 +139,13 @@ footer {
   display: none;
 }
 /* 폰트호버 */
+
 .font_co:hover {
   color: #f29985;
-  > div {
+}
+.menu_font_co:hover {
+  color: #f29985;
+  div {
     background-color: #f29985;
   }
 }
