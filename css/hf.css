@@ -54,7 +54,7 @@ header {
     display: block;
     width: 100%;
     height: 100%;
-    padding: 1rem 2rem 0rem;
+    padding: 1rem;
     font-size: 1.1rem;
     font-weight: bold;
   }
@@ -65,7 +65,18 @@ header {
     margin: 0px auto;
   }
 }
+.header_lnb {
+  font-size: 2rem;
+  padding: 1rem;
+  display: none;
 
+  i {
+    display: none;
+  }
+  .on {
+    display: block;
+  }
+}
 /* footer */
 footer {
   background-color: #2a3941;
@@ -86,6 +97,9 @@ footer {
   .footer_right {
     display: flex;
     gap: 1rem;
+    i {
+      font-size: 1.5rem;
+    }
   }
   p {
     color: #555;
@@ -104,10 +118,9 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  img {
-    width: 100%;
-  }
+  /* color: #f29985; */
 }
+
 /* 맨위로 */
 .sc_top {
   width: 50px;
@@ -123,14 +136,12 @@ footer {
   display: none;
 }
 /* 폰트호버 */
-
 .font_co:hover {
   color: #f29985;
   p {
     color: #fff;
   }
 }
-
 .menu_font_co:hover {
   color: #f29985;
   div {
@@ -144,6 +155,24 @@ footer {
     display: none;
   }
   .logo2 {
+    display: block;
+  }
+}
+
+/* 미디어쿼리 */
+@media (max-width: 999px) {
+  .header_gnb {
+    display: none;
+    text-align: right;
+    color: #fff;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    div {
+      display: none;
+    }
+  }
+  .header_lnb {
     display: block;
   }
 }
