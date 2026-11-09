@@ -1,0 +1,26 @@
+body {
+  height: 6000px;
+  background-color: #061221;
+}
+/* 폰트 */
+h2 {
+  font-size: 9rem;
+}
+h3 {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  span {
+    font-size: 1.1rem;
+  }
+}
+h4 {
+  font-size: 1.3rem;
+}
+p {
+  color: #aaa;
+}
+/* p태그 날짜 */
+.date {
+  text-align: right;
+  color: #fff;
+}

@@ -9,40 +9,17 @@ a {
   text-decoration: none;
   cursor: none;
 }
+button {
+  cursor: none;
+}
 ul {
   list-style: none;
 }
 body {
-  height: 6000px;
   color: #fff;
-  background-color: #061221;
   cursor: none;
 }
-/* 폰트 */
-h1 {
-  font-size: 1rem;
-}
-h2 {
-  font-size: 9rem;
-}
-h3 {
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  span {
-    font-size: 1.1rem;
-  }
-}
-h4 {
-  font-size: 1.3rem;
-}
-p {
-  color: #aaa;
-}
-/* p태그 날짜 */
-.date {
-  text-align: right;
-  color: #fff;
-}
+
 /* header */
 header {
   width: 90%;
@@ -50,6 +27,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  h1 {
+    font-size: 1rem;
+  }
 }
 .logo a {
   display: flex;
