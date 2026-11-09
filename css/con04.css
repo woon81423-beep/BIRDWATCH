@@ -7,6 +7,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  top: 200px;
+  opacity: 0;
   .con04_right {
     width: 40%;
     .con04_txt {
@@ -53,6 +56,7 @@
         display: block;
         background-color: #fff;
         padding: 0.5rem;
+        transition: 1s;
       }
       img {
         width: 100%;

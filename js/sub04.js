@@ -1,0 +1,70 @@
+$(function () {
+  // con01
+  gsap.from(".con01_wrap", {
+    scrollTrigger: {
+      trigger: "#con01",
+      start: "-=300 top",
+      // scrub: 1,
+    },
+    y: 200,
+    opacity: 0.5,
+    duration: 2,
+  });
+  setInterval(function () {
+    $(".con01_wrap li").eq(0).appendTo(".con01_wrap");
+  }, 3000);
+
+  // con02
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: "#con02",
+        start: "-=100 top",
+      },
+    })
+    .to(".con02_bird", {
+      x: "250%",
+      y: "120%",
+      ease: "bounce.out",
+      duration: 2,
+    })
+    .to(".con02_bird p", { opacity: 1 }, 2);
+  $(".con02_btn").on("click", () => {
+    $(".con02_bird").toggle();
+    $(".con02_bg").stop().toggleClass("on");
+    $(".con02_btn").stop().toggleClass("on");
+    let con02_text = $(".con02_btn").html();
+    if (con02_text === "새들을 구해주셔서<br>감사합니다") {
+      $(".con02_btn").html(`10cm X 4cm 패턴 규칙<br>새들을 구하세요`);
+    } else {
+      $(".con02_btn").html("새를 구해주셔서<br>감사합니다");
+    }
+  });
+
+  // con03
+  gsap.from(".con03_wrap li", {
+    scrollTrigger: {
+      trigger: "#con02",
+      start: "-=300 top",
+    },
+    y: 200,
+    stagger: 0.5,
+    ease: "back.out",
+    duration: 2,
+  });
+
+  // con04
+
+  //   con05
+  let i = 1;
+  setInterval(function () {
+    if (i == 4) {
+      i = 0;
+    }
+    $(".con05_img li").removeClass("on");
+    $(".con05_img li").eq(i).addClass("on");
+    $(".con05_txt li").removeClass("on");
+    $(".con05_txt li").eq(i).addClass("on");
+    i++;
+  }, 1500);
+});
