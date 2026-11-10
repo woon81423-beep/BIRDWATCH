@@ -26,6 +26,12 @@ a {
   transform: translateY(50px);
   opacity: 0;
 }
+#con02 li .con02_image{
+  transition:0.5s;
+}
+#con02 li:hover .con02_image {
+     box-shadow: 0 10px 35px rgba(244, 151, 133, 0.3);
+}
 @keyframes slide {
   0% {
     transform: translateY(200px);
@@ -52,6 +58,7 @@ a {
 #con02 li:nth-of-type(4).on {
   animation: slide 2s ease forwards;
   animation-delay: 1.5s;
+
 }
 
 /* #con02 li.on {
@@ -93,4 +100,5 @@ a {
 }
 #con02 li img:hover {
   transform: scale(1.2);
+  
 }
