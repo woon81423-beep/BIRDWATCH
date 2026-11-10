@@ -82,6 +82,7 @@ header {
 footer {
   background-color: #2a3941;
   width: 100%;
+  margin-top: 200px;
   padding: 2rem 3rem;
   position: relative;
   .footer_txt {

@@ -3,7 +3,7 @@ $(function () {
     let sc = $(this).scrollTop();
     let pg04 = $(".con04_wrap").offset().top;
     if (sc >= pg04 - 500) {
-      $(".con04_wrap").stop().animate({ top: "0px", opacity: "1" });
+      $(".con04_wrap").stop().animate({ top: "0px", opacity: "1" }, 1000);
     }
   });
   // con04
