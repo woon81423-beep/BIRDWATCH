@@ -6,7 +6,11 @@ $(function () {
   setInterval(() => {
     change.classList.add("hide");
     setTimeout(() => {
-      num = (num + 1) % words.length;
+      num++;
+
+      if (num >= words.length) {
+        num = 0;
+      }
       change.textContent = words[num];
       change.classList.remove("hide");
     }, 350);
