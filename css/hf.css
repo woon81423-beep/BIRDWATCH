@@ -176,4 +176,17 @@ footer {
   .header_lnb {
     display: block;
   }
+  @media (max-width: 768px) {
+    footer {
+      .footer_txt {
+        display: block;
+      }
+      .footer_right {
+        margin-top: 1rem;
+        i {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
 }

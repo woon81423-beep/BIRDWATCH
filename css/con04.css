@@ -1,6 +1,7 @@
 /* con04 */
 #con04 {
   width: 90%;
+  max-width: 1440px;
   margin: 50px auto;
 }
 .con04_wrap {

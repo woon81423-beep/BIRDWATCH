@@ -18,4 +18,38 @@ $(function () {
       duration: 1,
       opacity: 0,
     });
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: "#con01",
+        start: "-=300 top",
+        scrub: 3,
+        pin: true,
+      },
+    })
+    .from(".con01_txt", {
+      y: 200,
+      duration: 0.5,
+      opacity: 0.5,
+    })
+    .from(".con01_tree", {
+      y: 200,
+      duration: 0.5,
+      opacity: 0.5,
+    })
+    .to(".con01_bird", {
+      x: "200%",
+      y: "100%",
+      duration: 1,
+    })
+    .to(".con01_bird", {
+      x: "0%",
+      y: "200%",
+      duration: 1,
+    })
+    .to(".con01_bird", {
+      x: "200%",
+      y: "300%",
+      duration: 1,
+    });
 });
