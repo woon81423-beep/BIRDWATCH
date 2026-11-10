@@ -71,7 +71,7 @@ p {
     display: block;
   }
 }
-/* container */
+/* container *
 /* con01 */
 #con01 {
   width: 90%;
@@ -257,16 +257,16 @@ p {
     }
   }
   @media (max-width: 800px) {
-    #con01 {
-      width: 100%;
-      margin: 0px auto;
-    }
     .con01_wrap {
+      width: 100%;
       max-width: 700px;
       margin: 50px auto;
       .con01_txt {
         li {
           margin-top: 50px;
+          p {
+            font-size: 0.8rem;
+          }
         }
         li:nth-of-type(2) {
           p {
@@ -280,8 +280,9 @@ p {
         }
       }
       .con01_tree {
-        margin-top: -50px;
-        margin-right: 50px;
+        img {
+          width: 200px;
+        }
       }
       .con01_bird {
         width: 200px;
