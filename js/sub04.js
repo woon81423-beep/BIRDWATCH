@@ -1,4 +1,14 @@
 $(function () {
+  function res() {
+    let w = $(window).width();
+    if (w > 769) {
+    }
+  }
+  res();
+  $(window).on("resize", function () {
+    res();
+  });
+
   // con01
   gsap.from(".con01_wrap", {
     scrollTrigger: {
@@ -13,7 +23,6 @@ $(function () {
   setInterval(function () {
     $(".con01_wrap li").eq(0).appendTo(".con01_wrap");
   }, 3000);
-
   // con02
   gsap
     .timeline({

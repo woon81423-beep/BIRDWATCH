@@ -5,6 +5,7 @@
 h2 {
   font-size: 5rem;
   color: #fff;
+  margin-top: 100px;
   span {
     color: #f29985;
   }
@@ -42,8 +43,7 @@ h3 {
   align-items: center;
   div {
     width: calc(100% / 3);
-    height: 50px;
-    border-left: 2px solid #061221;
+    font-size: 2.5rem;
   }
   p {
     width: calc(100% / 3);
@@ -127,7 +127,7 @@ h3 {
     width: 90%;
     margin: 0px auto;
     div {
-      border-left: 2px solid #fff;
+      color: #fff;
     }
     p {
       color: #fff;
@@ -298,11 +298,110 @@ h3 {
 }
 /* 미디어쿼리 */
 @media (max-width: 999px) {
+  h2 {
+    font-size: 4rem;
+  }
   @media (max-width: 768px) {
+    .con_title {
+      h3 {
+        font-size: 1.5rem;
+      }
+      div {
+        text-align: center;
+      }
+    }
+    .con01_wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      li {
+        position: relative;
+      }
+      li:nth-of-type(1) {
+        width: 70%;
+      }
+      li:nth-of-type(2) {
+        width: calc((100% - 40px) / 3);
+        top: 0px;
+        right: 0px;
+        transform: translateX(0);
+        transition: none;
+      }
+      li:nth-of-type(3) {
+        width: calc((100% - 40px) / 3);
+        top: 0px;
+        right: 0px;
+        transform: translateY(0);
+        transition: none;
+      }
+      li:nth-of-type(4) {
+        width: calc((100% - 40px) / 3);
+        top: 0px;
+        right: 0px;
+        transform: translateX(0);
+        transition: none;
+      }
+    }
     .con04_wrap {
       flex-wrap: wrap;
       li {
         width: calc((100% - 50px) / 2);
+      }
+    }
+    .con05_txt li {
+      h4 {
+        font-size: 0.9rem;
+      }
+      p {
+        display: none;
+      }
+    }
+    @media (max-width: 499px) {
+      .con_title {
+        h3 {
+          font-size: 1.3rem;
+        }
+      }
+      .con01_wrap {
+        li:nth-of-type(1) {
+          width: calc((100% - 20px) / 2);
+          img {
+            aspect-ratio: 1/1.2;
+          }
+        }
+        li:nth-of-type(2) {
+          width: calc((100% - 20px) / 2);
+        }
+        li:nth-of-type(3) {
+          width: calc((100% - 20px) / 2);
+        }
+        li:nth-of-type(4) {
+          width: calc((100% - 20px) / 2);
+        }
+      }
+      .con03_wrap {
+        flex-wrap: wrap;
+        li {
+          width: 100%;
+          h4 {
+            font-size: 2rem;
+          }
+        }
+      }
+      .con04_wrap {
+        li {
+          width: 100%;
+        }
+      }
+      .con05_wrap {
+        display: block;
+        .con05_txt {
+          width: 100%;
+        }
+        .con05_img {
+          display: none;
+        }
       }
     }
   }
