@@ -22,7 +22,7 @@ $(function () {
     .timeline({
       scrollTrigger: {
         trigger: "#con01",
-        start: "-=300 top",
+        start: "top top",
         scrub: 3,
         pin: true,
       },
@@ -38,18 +38,18 @@ $(function () {
       opacity: 0.5,
     })
     .to(".con01_bird", {
-      x: "200%",
-      y: "100%",
+      x: "300",
+      y: "200",
       duration: 1,
     })
     .to(".con01_bird", {
-      x: "0%",
-      y: "200%",
+      x: "0",
+      y: "500",
       duration: 1,
     })
     .to(".con01_bird", {
-      x: "200%",
-      y: "300%",
+      x: "400",
+      y: "800",
       duration: 1,
     });
 });
