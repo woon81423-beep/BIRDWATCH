@@ -10,12 +10,17 @@ $(function () {
     })
     .from(".visual_bg02", {
       y: 300,
-      duration: 1,
+      duration: 3,
       opacity: 0,
     })
     .from(".visual_bg03", {
       y: 300,
-      duration: 1,
+      duration: 4,
+      opacity: 0,
+    })
+    .from(".visual_bg04", {
+      y: 300,
+      duration: 5,
       opacity: 0,
     });
   gsap
