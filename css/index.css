@@ -81,6 +81,9 @@ p {
     display: block;
   }
 }
+<<<<<<< HEAD
+/* container *
+=======
 /* visual 모바일 반응형*/
 @media (max-width: 768px) {
   #visual .visual_txt h2 {
@@ -94,6 +97,7 @@ p {
     }
 }
 /* container */
+>>>>>>> af969a03e224a754c3d732187f65357e10eb54e3
 /* con01 */
 #con01 {
   width: 90%;
@@ -279,16 +283,16 @@ p {
     }
   }
   @media (max-width: 800px) {
-    #con01 {
-      width: 100%;
-      margin: 0px auto;
-    }
     .con01_wrap {
+      width: 100%;
       max-width: 700px;
       margin: 50px auto;
       .con01_txt {
         li {
           margin-top: 50px;
+          p {
+            font-size: 0.8rem;
+          }
         }
         li:nth-of-type(2) {
           p {
@@ -302,8 +306,9 @@ p {
         }
       }
       .con01_tree {
-        margin-top: -50px;
-        margin-right: 50px;
+        img {
+          width: 200px;
+        }
       }
       .con01_bird {
         width: 200px;
