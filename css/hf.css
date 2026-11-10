@@ -31,6 +31,7 @@ header {
   top: 0px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 999;
   h1 {
     font-size: 1rem;
   }
@@ -174,5 +175,18 @@ footer {
   }
   .header_lnb {
     display: block;
+  }
+  @media (max-width: 768px) {
+    footer {
+      .footer_txt {
+        display: block;
+      }
+      .footer_right {
+        margin-top: 1rem;
+        i {
+          font-size: 1.5rem;
+        }
+      }
+    }
   }
 }
