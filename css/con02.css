@@ -17,6 +17,7 @@ a {
 #con02 {
   width: 90%;
   margin: 50px auto;
+  max-width: 1440px;
 }
 #con02 ul {
   display: flex;
@@ -88,9 +89,16 @@ a {
   width: 80%;
   overflow: hidden;
 }
+.con02_image:hover{
+   border-radius: 50% 0% 50% 50%;
+}
 .con02_image.wrap02,
 .con02_image.wrap04 {
   border-radius: 50% 0% 50% 50%;
+}
+.con02_image.wrap02:hover,
+.con02_image.wrap04:hover {
+ border-radius: 50% 50% 0% 50%;
 }
 #con02 li img {
   width: 100%;

@@ -10,19 +10,24 @@ $(function () {
     })
     .from(".visual_bg02", {
       y: 300,
-      duration: 1,
+      duration: 3,
       opacity: 0,
     })
     .from(".visual_bg03", {
       y: 300,
-      duration: 1,
+      duration: 4,
+      opacity: 0,
+    })
+    .from(".visual_bg04", {
+      y: 300,
+      duration: 5,
       opacity: 0,
     });
   gsap
     .timeline({
       scrollTrigger: {
         trigger: "#con01",
-        start: "-=300 top",
+        start: "top top",
         scrub: 3,
         pin: true,
       },
@@ -44,12 +49,12 @@ $(function () {
     })
     .to(".con01_bird", {
       x: "0%",
-      y: "200%",
+      y: "250%",
       duration: 1,
     })
     .to(".con01_bird", {
       x: "200%",
-      y: "300%",
+      y: "450%",
       duration: 1,
     });
 });

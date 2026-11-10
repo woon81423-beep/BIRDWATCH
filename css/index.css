@@ -35,9 +35,11 @@ p {
     transform: translateX(-50%);
     text-align: center;
     h2 {
-      font-size: 6rem;
+      font-size: clamp(4rem, 9vw, 14rem);
+      color: #000;
       span {
-        font-size: 3rem;
+        font-size: clamp(2rem, 3vw, 5rem);
+        color: #fff;
       }
     }
   }
@@ -46,15 +48,24 @@ p {
     width: 100%;
     aspect-ratio: 2/1;
     object-position: cover;
-    /* display: none; */
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
   }
+
   .visual_bg02 {
     position: absolute;
-    top: 0px;
+    top: -3px;
+    width: 100%;
   }
   .visual_bg03 {
     position: absolute;
     top: 0px;
+    width: 100%;
+  }
+  .visual_bg04 {
+    position: absolute;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
   }
   .on {
     display: block;
