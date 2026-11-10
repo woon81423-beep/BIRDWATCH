@@ -1,6 +1,6 @@
 body {
-  height: 6000px;
   background-color: #061221;
+  /* overflow-x: hidden; */
 }
 /* 폰트 */
 h2 {
@@ -257,6 +257,10 @@ p {
     }
   }
   @media (max-width: 800px) {
+    #con01 {
+      width: 100%;
+      margin: 0px auto;
+    }
     .con01_wrap {
       max-width: 700px;
       margin: 50px auto;
@@ -277,6 +281,7 @@ p {
       }
       .con01_tree {
         margin-top: -50px;
+        margin-right: 50px;
       }
       .con01_bird {
         width: 200px;
