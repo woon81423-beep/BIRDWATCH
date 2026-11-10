@@ -43,18 +43,18 @@ $(function () {
       opacity: 0.5,
     })
     .to(".con01_bird", {
-      x: "200%",
-      y: "100%",
+      x: "300",
+      y: "200",
       duration: 1,
     })
     .to(".con01_bird", {
-      x: "0%",
-      y: "250%",
+      x: "0",
+      y: "500",
       duration: 1,
     })
     .to(".con01_bird", {
-      x: "200%",
-      y: "450%",
+      x: "400",
+      y: "800",
       duration: 1,
     });
 });
