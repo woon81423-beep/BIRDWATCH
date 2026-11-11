@@ -25,16 +25,6 @@ p {
   color: #fff;
 }
 /* visual */
-@media (max-width: 768px) {
-  h2 {
-      font-size: clamp(4rem, 9vw, 14rem);
-      color: #000;
-      span {
-        font-size: clamp(2rem, 3vw, 5rem);
-        color: #fff;
-      }
-    }
-}
 #visual {
   width: 100%;
   position: relative;
@@ -81,23 +71,19 @@ p {
     display: block;
   }
 }
-<<<<<<< HEAD
-/* container *
-=======
 /* visual 모바일 반응형*/
 @media (max-width: 768px) {
   #visual .visual_txt h2 {
-      font-size: 2.5rem;
-      color: #000;
-      transform: translateY(-30px);
-      span {
-        font-size: 1rem;
-        color: #fff;
-      }
+    font-size: 2.5rem;
+    color: #000;
+    transform: translateY(-30px);
+    span {
+      font-size: 1rem;
+      color: #fff;
     }
+  }
 }
 /* container */
->>>>>>> af969a03e224a754c3d732187f65357e10eb54e3
 /* con01 */
 #con01 {
   width: 90%;
@@ -283,6 +269,14 @@ p {
     }
   }
   @media (max-width: 800px) {
+    h2 {
+      font-size: clamp(4rem, 9vw, 14rem);
+      color: #000;
+      span {
+        font-size: clamp(2rem, 3vw, 5rem);
+        color: #fff;
+      }
+    }
     .con01_wrap {
       width: 100%;
       max-width: 700px;
