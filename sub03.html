@@ -15,8 +15,15 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="css/hf.css" />
-    <link rel="stylesheet" href="css/index.css" />
+    <!-- <link rel="stylesheet" href="css/index.css" /> -->
     <link rel="stylesheet" href="css/sub03.css" />
+    <!--폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!--header-->
@@ -54,9 +61,10 @@
     <!--visual-->
     <section id="visual">
       <div class="bird">
+        <div class="cross"></div>
         <img src="img/watching/visual_1.jpg" alt="원안에 들어가는 새" />
       </div>
-      <div class="cross"></div>
+
       <div class="txt">
         <h2><span>Quite </span><span class="change">Watching</span>:Birds</h2>
         <p>
@@ -70,7 +78,7 @@
     <section id="container">
       <!--con01-->
       <section class="con01">
-        <div>
+        <div class="con01_txt">
           <h3>Birding</h3>
           <div class="bar"></div>
           <p>
@@ -96,7 +104,7 @@
       <!--con02-->
       <section class="con02">
         <div class="bg_width">
-          <div>
+          <div class="con02_txt">
             <h3>Starting</h3>
             <div class="bar"></div>
             <p>
@@ -150,8 +158,8 @@
       </section>
       <!--con03-->
 
-      <section id="con03">
-        <div>
+      <section class="con03">
+        <div class="txt">
           <h3>Meeting</h3>
           <div class="bar"></div>
           <p>
@@ -160,9 +168,9 @@
             보세요.
           </p>
         </div>
-        <div class="wrap">
+        <div class="con03_wrap">
           <div class="card_list">
-            <div class="card card1">
+            <div class="card card1 on">
               <div class="card_txt">
                 <h3>공원</h3>
                 <p>
@@ -202,12 +210,10 @@
         </div>
       </section>
 
-      <!--con04-->
-
       <!-- con04 -->
       <section id="con04">
         <div class="bg_width">
-          <div>
+          <div class="txt">
             <h3>Caring</h3>
             <div class="bar"></div>
             <p>
@@ -258,8 +264,11 @@
             </li>
           </ul>
 
-          <!-- 날아가는 새 -->
-          <div class="flying">
+          <!--나무 -->
+          <div class="tree01">
+            <img src="img/watching/con04_1.png" alt="날아가는 새" />
+          </div>
+          <div class="tree02">
             <img src="img/watching/con04_1.png" alt="날아가는 새" />
           </div>
         </div>
@@ -347,5 +356,5 @@
     </footer>
     <div class="cursor"><i class="fa-brands fa-twitter"></i></div>
     <a href="#"><i class="fa-solid fa-arrow-up-long sc_top font_co"></i></a>
-</body>
+  </body>
 </html>
