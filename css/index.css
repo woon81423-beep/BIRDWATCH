@@ -5,6 +5,10 @@ body {
 /* 폰트 */
 h2 {
   font-size: 9rem;
+  font-family: "Playfair Display", serif;
+}
+h2 span {
+  font-family: "IBM Plex Sans KR", sans-serif;
 }
 h3 {
   font-size: 2rem;
@@ -25,6 +29,7 @@ p {
   color: #fff;
 }
 /* visual */
+
 #visual {
   width: 100%;
   position: relative;
@@ -43,7 +48,7 @@ p {
       }
     }
   }
-  img {
+  #visual img {
     display: block;
     width: 100%;
     aspect-ratio: 2/1;
