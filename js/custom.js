@@ -1,5 +1,6 @@
 $(function () {
   function res() {
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     let w = $(window).width();
     if (w >= 1200) {
       gsap
@@ -96,9 +97,14 @@ $(function () {
           duration: 1,
         });
     }
+    ScrollTrigger.refresh();
   }
   res();
+
   $(window).on("resize", function () {
-    res();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      res();
+    }, 200);
   });
 });
