@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BIRDWATCH</title>
     <script src="js/jquery-4.0.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+    <!--script-->
     <script src="js/hf.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/con02.js"></script>
     <script src="js/con03.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
-
+    <!-- <script src="js/bird.js"></script> -->
+    <!--font awesome-->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
@@ -19,10 +21,23 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <!--폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <!--css-->
     <link rel="stylesheet" href="css/hf.css" />
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/con02.css" />
     <link rel="stylesheet" href="css/con03.css" />
+    <!-- <link rel="stylesheet" href="css/bird.css" /> -->
+    <!--gsap-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
   </head>
   <body>
     <header>
@@ -104,9 +119,19 @@
             <div class="con01_tree">
               <img src="img/con01_tree.png" art="con01tree" />
             </div>
-            <div class="con01_bird">
-              <img src="img/con01_bird.png" art="con01bird" />
-            </div>
+            <section id="bird_move">
+              <div class="area">
+                <svg id="Layer_1" viewBox="0 0 404.62 399.95">
+                  <path
+                    class="cls-1"
+                    d="m202.18.48s268.36,74,186.36,122S-153.46,188.48,53.54,278.48s295,121,295,121"
+                  />
+                </svg>
+                <div class="circle">
+                  <img src="img/con01_bird.png" art="con01bird" />
+                </div>
+              </div>
+            </section>
           </ul>
         </div>
       </section>

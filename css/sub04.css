@@ -169,9 +169,11 @@ h3 {
   }
   .con02_btn {
     width: 200px;
-    color: red;
+    color: #fff;
     background-color: transparent;
-    border-color: red;
+    border-width: 5px;
+    border-color: #fff;
+    border-radius: 20px;
     padding: 10px;
     margin-top: 50px;
   }
@@ -179,6 +181,10 @@ h3 {
     color: #fff;
     border-color: #fff;
   }
+}
+.font_co:hover {
+  color: #f29985;
+  border-color: #f29985;
 }
 /* con03 */
 .con03_wrap {

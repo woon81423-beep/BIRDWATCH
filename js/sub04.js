@@ -44,14 +44,19 @@ $(function () {
       ease: "bounce.out",
       duration: 2,
     })
-    .to(".con02_bird p", { opacity: 1 }, 2);
+    .to(".con02_bird p", { opacity: 1 }, 2)
+    .to(".con02_btn", { y: -500 });
+
   $(".con02_btn").on("click", () => {
     $(".con02_bird").toggle();
     $(".con02_bg").stop().toggleClass("on");
     $(".con02_btn").stop().toggleClass("on");
     let con02_text = $(".con02_btn").html();
-    if (con02_text === "새들을 구해주셔서<br>감사합니다") {
-      $(".con02_btn").html(`10cm X 4cm 패턴 규칙<br>새들을 구하세요`);
+    console.log(con02_text);
+    if (con02_text === `새를 구해주셔서<br>감사합니다`) {
+      $(".con02_btn").html(
+        `클 릭<br />10cm X 4cm 패턴 규칙<br>새들을 구하세요`,
+      );
     } else {
       $(".con02_btn").html("새를 구해주셔서<br>감사합니다");
     }
