@@ -1,12 +1,19 @@
 $(function () {
   function res() {
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
     let w = $(window).width();
     if (w > 769) {
     }
+    ScrollTrigger.refresh();
   }
   res();
+
   $(window).on("resize", function () {
-    res();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      res();
+    }, 200);
   });
 
   // con01
@@ -17,7 +24,7 @@ $(function () {
       // scrub: 1,
     },
     y: 200,
-    opacity: 0.5,
+    opacity: 0,
     duration: 2,
   });
   setInterval(function () {
@@ -53,18 +60,42 @@ $(function () {
   // con03
   gsap.from(".con03_wrap li", {
     scrollTrigger: {
-      trigger: "#con02",
+      trigger: "#con03",
       start: "-=300 top",
+      scrub: 1,
     },
     y: 200,
     stagger: 0.5,
     ease: "back.out",
-    duration: 2,
+    duration: 1,
+    opacity: 0,
   });
 
   // con04
+  gsap.from(".con04_wrap", {
+    scrollTrigger: {
+      trigger: "#con04",
+      start: "-=300 top",
+      scrub: 1,
+    },
+    y: 200,
+    ease: "back.out",
+    duration: 1,
+    opacity: 0,
+  });
 
   //   con05
+  gsap.from(".con05_wrap", {
+    scrollTrigger: {
+      trigger: "#con05",
+      start: "-=300 top",
+      scrub: 1,
+    },
+    y: 200,
+    ease: "back.out",
+    duration: 1,
+    opacity: 0,
+  });
   let i = 1;
   setInterval(function () {
     if (i == 4) {
