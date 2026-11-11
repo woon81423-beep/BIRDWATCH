@@ -1,32 +1,9 @@
 $(function () {
+  let resizeTimer;
   function res() {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     let w = $(window).width();
     if (w >= 1200) {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: "#visual",
-            start: "top top",
-            scrub: 2,
-            pin: true,
-          },
-        })
-        .from(".visual_bg02", {
-          y: 300,
-          duration: 3,
-          opacity: 0,
-        })
-        .from(".visual_bg03", {
-          y: 300,
-          duration: 4,
-          opacity: 0,
-        })
-        .from(".visual_bg04", {
-          y: 300,
-          duration: 5,
-          opacity: 0,
-        });
       gsap
         .timeline({
           scrollTrigger: {
@@ -97,10 +74,33 @@ $(function () {
           duration: 1,
         });
     }
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: "#visual",
+          start: "top top",
+          scrub: 2,
+          pin: true,
+        },
+      })
+      .from(".visual_bg02", {
+        y: 300,
+        duration: 3,
+        opacity: 0,
+      })
+      .from(".visual_bg03", {
+        y: 300,
+        duration: 4,
+        opacity: 0,
+      })
+      .from(".visual_bg04", {
+        y: 300,
+        duration: 5,
+        opacity: 0,
+      });
     ScrollTrigger.refresh();
   }
   res();
-
   $(window).on("resize", function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
