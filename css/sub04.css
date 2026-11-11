@@ -55,6 +55,7 @@ h3 {
 #container #con03,
 #container #con05 {
   width: 90%;
+  max-width: 1440px;
   margin: 0px auto;
   color: #061221;
 }
@@ -204,6 +205,7 @@ h3 {
 /* con04 */
 .con04_wrap {
   width: 90%;
+  max-width: 1440px;
   margin: 50px auto;
   display: flex;
   gap: 50px;
@@ -301,6 +303,12 @@ h3 {
   h2 {
     font-size: 4rem;
   }
+  .con04_wrap {
+    flex-wrap: wrap;
+    li {
+      width: calc((100% - 50px) / 2);
+    }
+  }
   @media (max-width: 768px) {
     .con_title {
       h3 {
@@ -341,12 +349,6 @@ h3 {
         right: 0px;
         transform: translateX(0);
         transition: none;
-      }
-    }
-    .con04_wrap {
-      flex-wrap: wrap;
-      li {
-        width: calc((100% - 50px) / 2);
       }
     }
     .con05_txt li {
