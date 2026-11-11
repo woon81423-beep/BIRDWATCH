@@ -3,7 +3,6 @@ $(function () {
 
   function res() {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
     let w = $(window).width();
 
     if (w >= 1200) {
