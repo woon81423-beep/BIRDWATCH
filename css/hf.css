@@ -9,40 +9,18 @@ a {
   text-decoration: none;
   cursor: none;
 }
+button {
+  cursor: none;
+}
 ul {
   list-style: none;
 }
 body {
-  height: 6000px;
   color: #fff;
-  background-color: #061221;
   cursor: none;
+  font-family: "IBM Plex Sans KR", sans-serif;
 }
-/* 폰트 */
-h1 {
-  font-size: 1rem;
-}
-h2 {
-  font-size: 9rem;
-}
-h3 {
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  span {
-    font-size: 1.1rem;
-  }
-}
-h4 {
-  font-size: 1.3rem;
-}
-p {
-  color: #aaa;
-}
-/* p태그 날짜 */
-.date {
-  text-align: right;
-  color: #fff;
-}
+
 /* header */
 header {
   width: 90%;
@@ -50,6 +28,14 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  h1 {
+    font-size: 1rem;
+  }
 }
 .logo a {
   display: flex;
@@ -70,7 +56,7 @@ header {
     display: block;
     width: 100%;
     height: 100%;
-    padding: 1rem 2rem 0rem;
+    padding: 1rem;
     font-size: 1.1rem;
     font-weight: bold;
   }
@@ -81,11 +67,24 @@ header {
     margin: 0px auto;
   }
 }
+.header_lnb {
+  font-size: 2rem;
+  padding: 1rem;
+  display: none;
+
+  i {
+    display: none;
+  }
+  .on {
+    display: block;
+  }
+}
 
 /* footer */
 footer {
   background-color: #2a3941;
   width: 100%;
+  margin-top: 200px;
   padding: 2rem 3rem;
   position: relative;
   .footer_txt {
@@ -102,6 +101,9 @@ footer {
   .footer_right {
     display: flex;
     gap: 1rem;
+    i {
+      font-size: 1.5rem;
+    }
   }
   p {
     color: #555;
@@ -120,10 +122,9 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  img {
-    width: 100%;
-  }
+  /* color: #f29985; */
 }
+
 /* 맨위로 */
 .sc_top {
   width: 50px;
@@ -139,14 +140,12 @@ footer {
   display: none;
 }
 /* 폰트호버 */
-
 .font_co:hover {
   color: #f29985;
   p {
     color: #fff;
   }
 }
-
 .menu_font_co:hover {
   color: #f29985;
   div {
@@ -161,5 +160,36 @@ footer {
   }
   .logo2 {
     display: block;
+  }
+}
+
+/* 미디어쿼리 */
+@media (max-width: 999px) {
+  .header_gnb {
+    display: none;
+    text-align: right;
+    color: #fff;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    div {
+      display: none;
+    }
+  }
+  .header_lnb {
+    display: block;
+  }
+  @media (max-width: 768px) {
+    footer {
+      .footer_txt {
+        display: block;
+      }
+      .footer_right {
+        margin-top: 1rem;
+        i {
+          font-size: 1.5rem;
+        }
+      }
+    }
   }
 }

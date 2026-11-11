@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BIRDWATCH</title>
     <script src="js/jquery-4.0.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="js/hf.js"></script>
+    <script src="js/custom.js"></script>
     <script src="js/con02.js"></script>
     <script src="js/con03.js"></script>
     <script src="js/con04.js"></script>
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
@@ -16,10 +20,20 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
     <link rel="stylesheet" href="css/hf.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/con02.css" />
     <link rel="stylesheet" href="css/con03.css" />
     <link rel="stylesheet" href="css/con04.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header>
@@ -36,7 +50,7 @@
           <div></div>
         </li>
         <li class="menu_font_co">
-          <a href="#">새의 여정</a>
+          <a href="sub02.html">새의 여정</a>
           <div></div>
         </li>
         <li class="menu_font_co">
@@ -48,13 +62,68 @@
           <div></div>
         </li>
       </ul>
+      <ul class="header_lnb">
+        <i class="fa-solid fa-bars-staggered on"></i>
+        <i class="fa-solid fa-xmark"></i>
+      </ul>
     </header>
+    <!-- visual -->
+    <div id="visual">
+      <img id="visual_bg01" class="on" src="img/visual_bg01.jpg" alt="bg01" />
+      <img class="visual_bg02" src="img/visual01.png" alt="bg01" />
+      <img class="visual_bg03" src="img/visual02.png" alt="bg01" />
+      <img class="visual_bg04" src="img/visual03.png" alt="bg01" />
+      <div class="visual_txt">
+        <h2>
+          <span>디지털 조류 박물관</span><br />
+          BIRDWATCH
+        </h2>
+      </div>
+    </div>
+    <!-- container -->
     <div id="container">
       <!--con01-->
+      <section id="con01">
+        <h3><span>Project</span><br />'BIRDWATCH'</h3>
+        <div class="con01_wrap">
+          <ul class="con01_txt">
+            <li>
+              <p>
+                디지털 조류 박물관 프로젝트 ‘버드워치’는 다양한 조류의 생태,
+                형태, 서식지, 분포, 행동 특성 등의 정보를 디지털 콘텐츠로
+                수집·정리하고, 누구나 쉽고 흥미롭게 탐색할 수 있도록 구축하는
+                디지털 아카이브 프로젝트입니다.
+              </p>
+            </li>
+            <li>
+              <p>
+                기존의 인쇄 도감이나 오프라인 전시 공간의 한계를 넘어,
+                사진·영상·음성·지도·설명 자료 등을 통합하여 새들의 생태와
+                다양성을 생생하게 전달합니다. 또한 종별 검색, 분류 체계,
+                서식지별 탐색 등 다양한 디지털 기능을 활용해 이용자가 조류에
+                관한 지식을 능동적으로 습득할 수 있도록 지원합니다.
+              </p>
+            </li>
+            <li>
+              <p>
+                본 프로젝트는 단순한 조류 정보 제공을 넘어 생물다양성 보전,
+                생태교육, 디지털 지식 자산화 및 문화·환경 콘텐츠 확산을 목표로
+                합니다. 이를 통해 조류에 대한 대중의 관심을 높이고, 자연과
+                인간이 공존하는 생태적 가치에 대한 이해를 확산하고자 합니다.
+              </p>
+            </li>
+            <div class="con01_tree">
+              <img src="img/con01_tree.png" alt="con01tree" />
+            </div>
+            <div class="con01_bird">
+              <img src="img/con01_bird.png" alt="con01bird" />
+            </div>
+          </ul>
+        </div>
+      </section>
       <!--con02-->
       <div id="con02">
         <h3><span>Overview</span><br />프로젝트 안내</h3>
-
         <ul>
           <li class="font_co">
             <div class="con02_txt wrap01">
@@ -64,7 +133,7 @@
                 <p>새소리 분석 및 청음을 할 수 있는 아카이브를 제작합니다.</p>
               </div>
             </div>
-            <div class="con02_image">
+            <div class="con02_image wrap01">
               <img src="img/con02 (1).jpg" alt="소리를 듣는 귀" />
             </div>
           </li>
@@ -82,13 +151,25 @@
           </li>
           <li class="font_co">
             <div class="con02_txt wrap03">
+              <h4>02</h4>
+              <div>
+                <h5>멸종위기 조류</h5>
+                <p>사라져가는 새들의 이야기와 보호의 필요성을 전합니다.</p>
+              </div>
+            </div>
+            <div class="con02_image wrap03">
+              <img src="img/con02 (4).jpg" alt="멸종위기조류" />
+            </div>
+          </li>
+          <li class="font_co">
+            <div class="con02_txt wrap04">
               <h4>03</h4>
               <div>
                 <h5>조류보호 캠페인</h5>
                 <p>다양한 조류 보호 캠페인을 한눈에 볼 수 있습니다.</p>
               </div>
             </div>
-            <div class="con02_image wrap03">
+            <div class="con02_image wrap04">
               <img src="img/con02 (3).jpg" alt="소리를 듣는 귀" />
             </div>
           </li>
@@ -101,28 +182,34 @@
         </div>
         <ul class="con03-list">
           <li class="reveal">
-            <a href="mountain.html">
-              <h5>산과 들</h5>
-              <p>산과 들에 사는 새 보러가기</p>
-            </a>
+            <h5>산과 들</h5>
+            <p>
+              울창한 숲과 탁 트인 들판에 사는 새들이에요.<br />짧고 둥근 날개로
+              나무 사이를 날쌔게 오가며,<br />맑은 지저귐으로 영역을 알립니다.
+            </p>
           </li>
           <li class="reveal">
-            <a href="river.html">
-              <h5>강과 하천</h5>
-              <p>강에 사는 새 보러가기</p>
-            </a>
+            <h5>강과 하천</h5>
+            <p>
+              물가를 터전 삼은 백로와 왜가리,<br />
+              물총새를 만나보세요.긴 다리와 날카로운 부리로<br />
+              얕은 물속 먹이를 노리는 사냥꾼들이에요.
+            </p>
           </li>
           <li class="reveal">
-            <a href="sea.html">
-              <h5>바다</h5>
-              <p>바다에 사는 새 보러가기</p>
-            </a>
+            <h5>바다</h5>
+            <p>
+              거친 파도와 바닷바람 속에서 살아가는 새들이에요.<br />길고 가는
+              날개로 바람을 타고 먼 거리를 활공하며<br />바다에서 먹이를
+              찾습니다.
+            </p>
           </li>
           <li class="reveal">
-            <a href="city.html">
-              <h5>도심</h5>
-              <p>도심에 사는 새 보러가기</p>
-            </a>
+            <h5>도심</h5>
+            <p>
+              비둘기, 참새, 까치처럼 사람 곁에 적응한 새들이에요.<br />
+              건물과 가로수를 숲처럼 활용하며 도시 속에서 살아갑니다.
+            </p>
           </li>
         </ul>
       </section>
@@ -212,32 +299,29 @@
           <li>주소 : 서울특별시 강서구 화곡동</li>
         </ul>
         <ul class="footer_right">
-          <li>
-            <a href="#"><img src="img/ico_blog.png" alt="" /></a>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
           </li>
-          <li>
-            <a href="#"><img src="img/ico_facebook.png" alt="" /></a>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-instalod"></i></a>
           </li>
-          <li>
-            <a href="#"><img src="img/ico_instagram.png" alt="" /></a>
+          <li class="font_co">
+            <a href="#"><i class="fa-solid fa-hashtag"></i></a>
           </li>
-          <li>
-            <a href="#"><img src="img/ico_twitter.png" alt="" /></a>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
           </li>
-          <li>
-            <a href="#"><img src="img/ico_story.png" alt="" /></a>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-facebook-messenger"></i></a>
           </li>
-          <li>
-            <a href="#"><img src="img/ico_youtube.png" alt="" /></a>
-          </li>
-          <li>
-            <a href="#"><img src="img/ico_happy.png" alt="" /></a>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-kakao-talk"></i></a>
           </li>
         </ul>
       </div>
       <p>Copyright © 한국관광공사. All rights reserved.</p>
     </footer>
-    <div class="cursor"><img src="img/mouse.png" alt="mouseshape" /></div>
-    <a href="#"><i class="fa-solid fa-arrow-up-long sc_top"></i></a>
+    <div class="cursor"><i class="fa-brands fa-twitter"></i></div>
+    <a href="#"><i class="fa-solid fa-arrow-up-long sc_top font_co"></i></a>
   </body>
 </html>

@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BIRDWATCH | FLYWAY</title>
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
+      integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- css -->
+    <link rel="stylesheet" href="css/hf.css" />
+    <link rel="stylesheet" href="css/sub02.css" />
+
+    <!-- js -->
+    <script src="js/jquery-4.0.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="js/hf.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/sub02.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <a href="index.html">
+          <img class="logo1" src="img/logo.png" alt="logo" />
+          <img class="logo2" src="img/logo2.png" alt="logo" />
+          <h1>디지털조류박물관</h1>
+        </a>
+      </div>
+      <ul class="header_gnb">
+        <li class="menu_font_co">
+          <a href="#">한국의 조류</a>
+          <div></div>
+        </li>
+        <li class="menu_font_co">
+          <a href="#">새의 여정</a>
+          <div></div>
+        </li>
+        <li class="menu_font_co">
+          <a href="sub03.html">탐조 가이드</a>
+          <div></div>
+        </li>
+        <li class="menu_font_co">
+          <a href="sub04.html">조류 보호 캠페인</a>
+          <div></div>
+        </li>
+      </ul>
+      <ul class="header_lnb">
+        <i class="fa-solid fa-bars-staggered on"></i>
+        <i class="fa-solid fa-xmark"></i>
+      </ul>
+    </header>
+
+    <!-- visual ~ con06 (한 화면에서 이어지는 장면) -->
+    <div id="fy_visual">
+      <div class="v_inner">
+        <!-- 이미지: 풀스크린 → 왼쪽 세로 사진으로 줄어듦 -->
+        <div class="v_img">
+          <img
+            class="img1"
+            src="img/sub02/fy_visual_1.png"
+            alt="노을 진 갯벌 위를 나는 철새 무리"
+          />
+          <img
+            class="img2"
+            src="img/sub02/fy_visual_2.png"
+            alt="부서지는 파도"
+          />
+          <img
+            class="img3"
+            src="img/sub02/fy_con01.png"
+            alt="노을 진 물 위를 V자로 나는 철새"
+          />
+          <img
+            class="img4"
+            src="img/sub02/fy_con02_01.png"
+            alt="눈 덮인 산이 비치는 호수, 번식지"
+          />
+          <!-- img5: 마지막 카드(월동지)와 같은 사진. 카드가 합쳐질 때 사용 -->
+          <img class="img5" src="img/sub02/fy_con02_03.png" alt="" />
+          <img
+            class="img6"
+            src="img/sub02/fy_con03_01.png"
+            alt="한반도를 중심으로 한 동아시아·대양주 위성 지도"
+          />
+          <!-- img7: 사계절 중 여름 카드와 같은 사진. 여름 카드가 화면 가득 펼쳐질 때 사용 -->
+          <img class="img7" src="img/sub02/fy_con04_02.png" alt="" />
+          <div class="v_shade"></div>
+        </div>
+
+        <!-- 첫 화면 문구 -->
+        <div class="v_hero_txt">
+          <h2>FLYWAY</h2>
+          <p>수천 킬로미터를 건너<br />다시 돌아오는 곳</p>
+        </div>
+
+        <!-- 회전 배지 -->
+        <div class="v_badge">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <path
+                id="badgeCircle"
+                d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"
+              />
+            </defs>
+            <!-- 한 줄로 유지 (줄바꿈하면 글자 간격이 틀어짐) -->
+            <!-- prettier-ignore -->
+            <text><textPath href="#badgeCircle" textLength="480">FOLLOW THE WINGS • OF THE SEASONS •</textPath></text>
+          </svg>
+          <i class="fa-solid fa-dove"></i>
+        </div>
+
+        <div class="v_scroll">SCROLL<span></span></div>
+
+        <!-- 스크롤 후 화면 -->
+        <div class="v_after">
+          <div class="img_target"></div>
+          <div class="v_txt">
+            <p class="fade">
+              계절을 따라<br />다시 이곳을 찾는<br />철새들의 이야기
+            </p>
+            <span class="line"></span>
+            <em class="fade">FLYWAY</em>
+          </div>
+          <div class="v_sign">
+            <svg viewBox="0 0 620 300" role="img" aria-label="Flyway">
+              <text x="20" y="200">Flyway</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- con01 : 새의 여정 (파도 사진이 이 자리로 이동하며 바뀜) -->
+        <section id="fy_con01" class="v_con01">
+          <div class="con01_tit">
+            <div>
+              <span class="en">MIGRATION</span>
+              <h3>새의 여정</h3>
+            </div>
+            <p>철새는 계절을 따라 지구를 이동합니다</p>
+          </div>
+          <div class="con01_body">
+            <div class="img_target2"></div>
+            <div class="con01_time">
+              <span class="time_line"></span>
+              <ol>
+                <li><strong>3월</strong><span>도착</span></li>
+                <li><strong>5월</strong><span>번식지로 출발</span></li>
+                <li><strong>9월</strong><span>남하</span></li>
+                <li><strong>11월</strong><span>월동 시작</span></li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- con03 : 새의 서식지 (con01 사진이 첫 카드가 되고, 나머지 두 장이 뒤에서 뽑혀 나옴) -->
+        <section id="fy_con03" class="v_con03">
+          <div class="con03_tit">
+            <div>
+              <span class="en">HABITAT</span>
+              <h3>새의 서식지</h3>
+            </div>
+            <p>
+              <span class="en">BEYOND THE HORIZON</span>철새가 머무는 곳, 그
+              경계는 끝이 없습니다.
+            </p>
+          </div>
+          <div class="con03_body">
+            <ul class="hab_list">
+              <li class="hab c1">
+                <div class="hab_img img_target3"></div>
+                <p class="hab_cap"><span>BREEDING GROUND</span>번식지</p>
+              </li>
+              <li class="hab c2">
+                <div class="hab_img">
+                  <img
+                    src="img/sub02/fy_con02_02.png"
+                    alt="물길이 갈라지는 갯벌, 중간기착지"
+                  />
+                </div>
+                <p class="hab_cap"><span>STOPOVER SITE</span>중간기착지</p>
+              </li>
+              <li class="hab c3">
+                <div class="hab_img">
+                  <img
+                    src="img/sub02/fy_con02_03.png"
+                    alt="노을빛 갈대밭, 월동지"
+                  />
+                </div>
+                <p class="hab_cap"><span>WINTERING GROUND</span>월동지</p>
+              </li>
+            </ul>
+            <p class="hab_note">철새가 머물다 가는 곳<br />한반도의 서식지</p>
+          </div>
+        </section>
+
+        <!-- con04 : 비행길 지도 (카드가 마지막 카드로 모인 뒤 지도로 펼쳐짐) -->
+        <section id="fy_con04" class="v_con04">
+          <div class="map_fade"></div>
+          <!-- 경로·새·지명은 sub02.js에서 그림 (viewBox = 지도 이미지 비율) -->
+          <svg
+            class="map_svg"
+            viewBox="0 0 1600 900"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          ></svg>
+          <div class="con04_tit">
+            <div>
+              <span class="en">FLYWAY MAP</span>
+              <h3>비행길 지도</h3>
+            </div>
+            <p>나라와 나라를 오가며 계절을 지내는<br />새의 거대한 여정</p>
+          </div>
+        </section>
+
+        <!-- con05 : 한국의 사계절 (지도가 한국으로 확대된 뒤 카드가 아래에서 차례로 올라옴) -->
+        <section id="fy_con05" class="v_con05">
+          <div class="con05_tit">
+            <div>
+              <span class="en">SEASON</span>
+              <h3>한국의 사계절</h3>
+            </div>
+            <p>계절마다 변하는 철새들의 여정</p>
+          </div>
+          <div class="season_wrap">
+            <ol class="season_list">
+              <li class="season">
+                <img
+                  src="img/sub02/fy_con04_01.png"
+                  alt="벚꽃 핀 습지 위로 북쪽으로 날아가는 두루미"
+                />
+                <div class="season_txt">
+                  <h4>봄 <span>SPRING</span></h4>
+                  <p class="month">3~5월</p>
+                  <p>번식지로 이동하는 철새들</p>
+                </div>
+              </li>
+              <li class="season">
+                <img
+                  src="img/sub02/fy_con04_02.png"
+                  alt="초록 습지에 서 있는 백로"
+                />
+                <div class="season_txt">
+                  <h4>여름 <span>SUMMER</span></h4>
+                  <p class="month">6~8월</p>
+                  <p>번식과 새끼 양육의 계절</p>
+                </div>
+              </li>
+              <li class="season">
+                <img
+                  src="img/sub02/fy_con04_03.png"
+                  alt="노을 진 갈대밭 위를 나는 기러기 떼"
+                />
+                <div class="season_txt">
+                  <h4>가을 <span>AUTUMN</span></h4>
+                  <p class="month">9~11월</p>
+                  <p>월동지로 떠나는 철새들</p>
+                </div>
+              </li>
+              <li class="season">
+                <img
+                  src="img/sub02/fy_con04_04.png"
+                  alt="눈 덮인 들판의 두루미 무리"
+                />
+                <div class="season_txt">
+                  <h4>겨울 <span>WINTER</span></h4>
+                  <p class="month">12~2월</p>
+                  <p>한반도에서 겨울을 나는 철새들</p>
+                </div>
+              </li>
+            </ol>
+            <span class="season_line"></span>
+          </div>
+        </section>
+
+        <!-- con06 : 비행길 (새는 제자리에서 날갯짓, 배경이 왼쪽으로 넘어가며 여정이 이어짐) -->
+        <section id="fy_con06" class="v_con06">
+          <div class="fly_track">
+            <div class="fly_bg">
+              <img
+                src="img/sub02/fy_con05_01.png"
+                alt="노을 진 낙동강 하구 갯벌"
+              />
+            </div>
+            <div class="fly_bg">
+              <img
+                src="img/sub02/fy_con05_02.png"
+                alt="노을 진 갈대숲 위를 나는 두루미"
+              />
+            </div>
+            <div class="fly_bg">
+              <img src="img/sub02/fy_con05_03.png" alt="해가 지는 먼 바다" />
+            </div>
+            <div class="fly_bg">
+              <img
+                src="img/sub02/fy_con05_04.png"
+                alt="시베리아 습지의 두루미 가족"
+              />
+            </div>
+            <div class="fly_bg">
+              <img
+                src="img/sub02/fy_con05_05.png"
+                alt="호주 갯벌의 마도요 무리"
+              />
+            </div>
+          </div>
+          <div class="fly_shade"></div>
+
+          <!-- 뒤에서 천천히 흘러가는 새 무리 -->
+          <img class="fly_flock" src="img/sub02/fy_con05_06.png" alt="" />
+
+          <!-- 장면마다 바뀌는 주인공 새 (data-scene: 몇 번째 배경에서 나오는지, 0부터) -->
+          <div class="fly_bird">
+            <!-- 1. 낙동강 하구: 저어새 -->
+            <div class="bird" data-scene="0">
+              <img
+                class="up"
+                src="img/sub02/con05_bird07.png"
+                alt="날개를 편 저어새"
+              />
+              <img class="down" src="img/sub02/con05_bird08.png" alt="" />
+            </div>
+            <!-- 2. 갈대 노을: 청둥오리 -->
+            <div class="bird" data-scene="1">
+              <img
+                class="up"
+                src="img/sub02/con05_bird09.png"
+                alt="날개를 편 청둥오리"
+              />
+              <img class="down" src="img/sub02/con05_bird10.png" alt="" />
+            </div>
+            <!-- 3. 바다: 백로 -->
+            <div class="bird" data-scene="2">
+              <img
+                class="up"
+                src="img/sub02/con05_bird05.png"
+                alt="날개를 편 백로"
+              />
+              <img class="down" src="img/sub02/con05_bird06.png" alt="" />
+            </div>
+            <!-- 4. 시베리아: 두루미 -->
+            <div class="bird" data-scene="3">
+              <img
+                class="up"
+                src="img/sub02/con05_bird03.png"
+                alt="날개를 편 두루미"
+              />
+              <img class="down" src="img/sub02/con05_bird04.png" alt="" />
+            </div>
+            <!-- 5. 호주: 마도요 -->
+            <div class="bird" data-scene="4">
+              <img
+                class="up"
+                src="img/sub02/con05_bird01.png"
+                alt="날개를 편 마도요"
+              />
+              <img class="down" src="img/sub02/con05_bird02.png" alt="" />
+            </div>
+          </div>
+
+          <div class="con06_tit">
+            <div>
+              <span class="en">FLYWAY</span>
+              <h3>비행길</h3>
+            </div>
+            <p>철새와 사람이 함께하는 터전<br />철새들의 비행길</p>
+          </div>
+
+          <!-- 장면별 문구 (배경 순서와 같음) -->
+          <ol class="fly_caps">
+            <li>철새와 사람이 함께하는 생태의 터전, 낙동강 하구</li>
+            <li>갈대숲에서 숨을 고르고 다시 떠날 채비를 합니다</li>
+            <li>쉬지 않고 수천 킬로미터의 바다를 건너</li>
+            <li>북쪽 번식지에서 새 생명을 맞이하고</li>
+            <li>남쪽 끝 갯벌에서 겨울을 보냅니다</li>
+          </ol>
+        </section>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer_wrap"></div>
+      <div class="logo">
+        <a href="index.html">
+          <img class="logo1" src="img/logo.png" alt="logo" />
+          <img class="logo2" src="img/logo2.png" alt="logo" />
+          <h1>디지털조류박물관</h1>
+        </a>
+      </div>
+      <div class="footer_txt">
+        <ul class="footer_left">
+          <li>사단법인 한국조류보호협회</li>
+          <li>대표 이메일 : @해내조.co.kr</li>
+          <li>후원 및 제보 문의 : 02-123-4567</li>
+          <li>주소 : 서울특별시 강서구 화곡동</li>
+        </ul>
+        <ul class="footer_right">
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-instalod"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-solid fa-hashtag"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-facebook-messenger"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-kakao-talk"></i></a>
+          </li>
+        </ul>
+      </div>
+      <p>Copyright © 한국관광공사. All rights reserved.</p>
+    </footer>
+    <div class="cursor"><i class="fa-brands fa-twitter"></i></div>
+    <a href="#"><i class="fa-solid fa-arrow-up-long sc_top font_co"></i></a>
+  </body>
+</html>
