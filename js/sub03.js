@@ -15,4 +15,16 @@ $(function () {
       change.classList.remove("hide");
     }, 350);
   }, 3000);
+
+$(".con03 .card").mouseenter(function () {
+    $(".con03 .card").removeClass("on");
+    $(this).addClass("on");
+  });
+
+  $(".con03 .card").mouseleave(function () {
+    $(this).removeClass("on");
+    $(".card1").addClass("on");
+  });
+
+  
 });
