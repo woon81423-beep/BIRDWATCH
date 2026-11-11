@@ -16,7 +16,7 @@ a {
 
 #con02 {
   width: 90%;
-  margin: 50px auto;
+  margin: 450px auto 0px;
   max-width: 1440px;
 }
 #con02 ul {
@@ -112,6 +112,11 @@ a {
 /*반응형*/
 /* 미디어쿼리 태블릿*/
 @media (max-width: 1120px) and (min-width: 769px) {
+  #con02 {
+    width: 90%;
+    margin: 300px auto 0px;
+    max-width: 1440px;
+  }
   #con02 ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -144,6 +149,11 @@ a {
 
 /* 미디어쿼리 모바일*/
 @media (max-width: 768px) {
+  #con02 {
+    width: 90%;
+    margin: 50px auto 0px;
+    max-width: 1440px;
+  }
   #con02 ul {
     display: flex;
     flex-direction: column;

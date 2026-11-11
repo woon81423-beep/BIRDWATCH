@@ -117,14 +117,35 @@ p {
       max-width: 400px;
     }
   }
-  .con01_bird {
-    width: 200px;
+  #bird_move {
+    width: 100%;
+  }
+  .area {
+    width: 97%;
+    margin: -1300px auto 00px;
+    position: relative;
+    /* background-color: #ccc; */
+  }
+
+  .cls-1 {
+    fill: none;
+    /* stroke: #39b54a; */
+    stroke-miterlimit: 10;
+    stroke-width: 3px;
+  }
+
+  /* 움직이는 새 */
+  .circle {
+    width: 400px;
+    height: 400px;
+    /* background: tomato; */
+    border-radius: 50%;
     position: absolute;
-    top: -300px;
-    left: 200px;
-    img {
-      width: 100%;
-    }
+    top: 0;
+    left: 0;
+  }
+  .circle img {
+    width: 100%;
   }
 }
 /* con04 */
@@ -251,14 +272,16 @@ p {
     .con01_tree {
       margin-top: -50px;
     }
-    .con01_bird {
-      width: 200px;
-      position: absolute;
-      top: -200px;
-      left: 200px;
-      img {
-        width: 100%;
-      }
+    .area {
+      margin: -1100px auto 00px;
+    }
+    .cls-1 {
+      height: 120vh;
+    }
+    /* 움직이는 새 */
+    .circle {
+      width: 300px;
+      height: 300px;
     }
   }
   @media (max-width: 800px) {
@@ -298,14 +321,12 @@ p {
           width: 200px;
         }
       }
-      .con01_bird {
+      .area {
+        margin: -700px auto 00px;
+      }
+      .circle {
         width: 200px;
-        position: absolute;
-        top: -200px;
-        left: 200px;
-        img {
-          width: 100%;
-        }
+        height: 200px;
       }
     }
   }

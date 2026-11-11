@@ -34,77 +34,23 @@ $(function () {
         });
     }
     visualBg();
-    if (w >= 1200) {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: "#con01",
-            start: "top top",
-            scrub: 3,
-            pin: true,
-          },
-        })
-        .from(".con01_txt", {
-          y: 200,
-          duration: 0.5,
-          opacity: 0.5,
-        })
-        .from(".con01_tree", {
-          y: 200,
-          duration: 0.5,
-          opacity: 0.5,
-        })
-        .to(".con01_bird", {
-          x: "300",
-          y: "200",
-          duration: 1,
-        })
-        .to(".con01_bird", {
-          x: "0",
-          y: "500",
-          duration: 1,
-        })
-        .to(".con01_bird", {
-          x: "400",
-          y: "800",
-          duration: 1,
-        });
-    } else if (w < 1200 && w >= 800) {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: "#con01",
-            start: "top top",
-            scrub: 3,
-            pin: true,
-          },
-        })
-        .from(".con01_txt", {
-          y: 200,
-          duration: 0.5,
-          opacity: 0.5,
-        })
-        .from(".con01_tree", {
-          y: 200,
-          duration: 0.5,
-          opacity: 0.5,
-        })
-        .to(".con01_bird", {
-          x: "200",
-          y: "200",
-          duration: 1,
-        })
-        .to(".con01_bird", {
-          x: "0",
-          y: "300",
-          duration: 1,
-        })
-        .to(".con01_bird", {
-          x: "300",
-          y: "600",
-          duration: 1,
-        });
-    }
+    gsap.to(".circle", {
+      ease: "none",
+      motionPath: {
+        path: ".cls-1",
+        align: ".cls-1",
+        alignOrigin: [0.5, 0.5],
+        autoRotate: false,
+      },
+
+      scrollTrigger: {
+        trigger: "#bird_move",
+        start: "top 50%",
+        end: "+=200",
+        scrub: 15,
+        // markers: true,
+      },
+    });
 
     ScrollTrigger.refresh();
   }
@@ -124,7 +70,7 @@ $(function () {
 
   $(window).on("scroll", function () {
     let sc = $(this).scrollTop();
-    let pg04 = $(".con04_wrap").offset().top;
+    let pg04 = $("#con04").offset().top;
     if (sc >= pg04 - 500) {
       $(".con04_wrap").stop().animate({ top: "0px", opacity: "1" }, 1000);
     }
