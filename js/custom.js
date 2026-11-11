@@ -5,6 +5,34 @@ $(function () {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     let w = $(window).width();
 
+    // 비쥬얼 스크롤 이벤트 함수
+    function visualBg() {
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: "#visual",
+            start: "top top",
+            scrub: 2,
+            pin: true,
+          },
+        })
+        .from(".visual_bg02", {
+          y: 300,
+          duration: 3,
+          opacity: 0,
+        })
+        .from(".visual_bg03", {
+          y: 300,
+          duration: 4,
+          opacity: 0,
+        })
+        .from(".visual_bg04", {
+          y: 300,
+          duration: 5,
+          opacity: 0,
+        });
+    }
+    visualBg();
     if (w >= 1200) {
       gsap
         .timeline({
@@ -77,31 +105,6 @@ $(function () {
         });
     }
 
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: "#visual",
-          start: "top top",
-          scrub: 2,
-          pin: true,
-        },
-      })
-      .from(".visual_bg02", {
-        y: 300,
-        duration: 3,
-        opacity: 0,
-      })
-      .from(".visual_bg03", {
-        y: 300,
-        duration: 4,
-        opacity: 0,
-      })
-      .from(".visual_bg04", {
-        y: 300,
-        duration: 5,
-        opacity: 0,
-      });
-
     ScrollTrigger.refresh();
   }
 
@@ -113,6 +116,10 @@ $(function () {
       res();
     }, 200);
   });
+  //   res();
+  // $(window).on("resize", function () {
+  //   res();
+  // });
 
   $(window).on("scroll", function () {
     let sc = $(this).scrollTop();
