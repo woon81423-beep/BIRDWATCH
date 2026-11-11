@@ -3,6 +3,7 @@ $(function () {
 
   function res() {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
     let w = $(window).width();
 
     // 비쥬얼 스크롤 이벤트 함수
