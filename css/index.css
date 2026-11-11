@@ -276,16 +276,24 @@ p {
     }
   }
   @media (max-width: 800px) {
-    #con01 {
-      width: 100%;
-      margin: 0px auto;
+    h2 {
+      font-size: clamp(4rem, 9vw, 14rem);
+      color: #000;
+      span {
+        font-size: clamp(2rem, 3vw, 5rem);
+        color: #fff;
+      }
     }
     .con01_wrap {
+      width: 100%;
       max-width: 700px;
       margin: 50px auto;
       .con01_txt {
         li {
           margin-top: 50px;
+          p {
+            font-size: 0.8rem;
+          }
         }
         li:nth-of-type(2) {
           p {
@@ -299,8 +307,9 @@ p {
         }
       }
       .con01_tree {
-        margin-top: -50px;
-        margin-right: 50px;
+        img {
+          width: 200px;
+        }
       }
       .con01_bird {
         width: 200px;
