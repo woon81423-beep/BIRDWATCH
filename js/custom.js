@@ -96,9 +96,14 @@ $(function () {
           duration: 1,
         });
     }
+    ScrollTrigger.refresh();
   }
   res();
+
   $(window).on("resize", function () {
-    res();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      res();
+    }, 200);
   });
 });
