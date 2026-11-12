@@ -3,12 +3,6 @@ $(function () {
   $(document).on("mousemove", function (e) {
     $(".cursor").css({ left: `${e.clientX}px`, top: `${e.clientY}px` });
   });
-  $(".txt01, .txt03").on("mouseenter", function () {
-    $(".cursor").addClass("on");
-  });
-  $(".txt01, .txt03").on("mouseleave", function () {
-    $(".cursor").removeClass("on");
-  });
   // 맨위로
   $(window).on("scroll", function () {
     let sc = $(this).scrollTop();
@@ -17,5 +11,12 @@ $(function () {
     } else {
       $(".sc_top").hide();
     }
+  });
+  // 서브메뉴
+  $(".header_lnb").on("click", function () {
+    $(".header_lnb i").toggleClass("on");
+    $(".header_gnb").toggle();
+    $("#visual h2").toggle();
+    $("#visual p").toggle();
   });
 });

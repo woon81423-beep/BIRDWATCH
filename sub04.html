@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BIRDWATCH</title>
+    <script src="js/jquery-4.0.0.min.js"></script>
+    <script src="js/hf.js"></script>
+    <script src="js/sub04.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
+      integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!--폰트어썸CDN-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
+      integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/hf.css" />
+    <link rel="stylesheet" href="css/sub04.css" />
+  </head>
+  <body>
+    <!-- header -->
+    <header>
+      <div class="logo">
+        <a href="index.html">
+          <img class="logo1" src="img/logo.png" alt="logo" />
+          <img class="logo2" src="img/logo2.png" alt="logo" />
+          <h1>디지털조류박물관</h1>
+        </a>
+      </div>
+      <ul class="header_gnb">
+        <li class="menu_font_co">
+          <a href="#">한국의 조류</a>
+          <div></div>
+        </li>
+        <li class="menu_font_co">
+          <a href="#">새의 여정</a>
+          <div></div>
+        </li>
+        <li class="menu_font_co">
+          <a href="#">탐조 가이드</a>
+          <div></div>
+        </li>
+        <li class="menu_font_co">
+          <a href="#">조류 보호 캠페인</a>
+          <div></div>
+        </li>
+      </ul>
+      <ul class="header_lnb">
+        <i class="fa-solid fa-bars-staggered on"></i>
+        <i class="fa-solid fa-xmark"></i>
+      </ul>
+    </header>
+    <!-- visual -->
+    <div id="visual">
+      <h2>우리가 지켜야 할 하늘의 길,<br /><span>새들의 미래</span></h2>
+      <p>하늘과 땅을 연결하는 그들의 날갯짓이 멈추지 않도록.</p>
+    </div>
+    <!-- container -->
+    <div id="container">
+      <section id="con01">
+        <div class="con_title">
+          <h3>Fading</h3>
+          <div>|</div>
+          <p>사라지는 한국의 새들</p>
+        </div>
+        <ul class="con01_wrap">
+          <li class="imgBig">
+            <img src="img/sub04/con01_01.jfif" alt="두루미" />
+            <div class="con01_txt">
+              <h4>두루미</h4>
+              <p>월동지 파괴</p>
+            </div>
+          </li>
+          <li class="imgBig">
+            <img src="img/sub04/con01_02.jfif" alt="원앙" />
+            <div class="con01_txt">
+              <h4>원앙</h4>
+              <p>서식지 훼손</p>
+            </div>
+          </li>
+          <li class="imgBig">
+            <img src="img/sub04/con01_03.jfif" alt="까치" />
+            <div class="con01_txt">
+              <h4>까치</h4>
+              <p>도심 생태계 위협</p>
+            </div>
+          </li>
+          <li class="imgBig">
+            <img src="img/sub04/con01_04.jfif" alt="파랑새" />
+            <div class="con01_txt">
+              <h4>파랑새</h4>
+              <p>기후변화</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section id="con02">
+        <div class="con_title">
+          <h3>Birdstrike</h3>
+          <div>|</div>
+          <p>연간 800만 마리의 충돌</p>
+        </div>
+        <div class="con02_wrap">
+          <img
+            class="con02_bg on"
+            src="img/sub04/con02_01.jfif"
+            alt="con02img"
+          />
+          <img class="con02_bg" src="img/sub04/con02_02.jfif" alt="con02img" />
+          <div class="con02_bird">
+            <p>충돌<br /><i class="fa-solid fa-burst"></i></p>
+            <img src="img/sub04/con02_bird.png" alt="con02bird" />
+          </div>
+          <button class="con02_btn font_co">
+            클 릭<br />10cm X 4cm 패턴 규칙<br />새들을 구하세요
+          </button>
+        </div>
+      </section>
+      <section id="con03">
+        <div class="con_title">
+          <h3>Rehabilitation</h3>
+          <div>|</div>
+          <p>구조에서 복원까지</p>
+        </div>
+        <ul class="con03_wrap">
+          <li class="on">
+            <div class="con03_img">
+              <img src="img/sub04/con03_01.jfif" alt="con03이미지" />
+            </div>
+            <div class="con03_txt">
+              <h4>1. 긴급 구조 및 치료</h4>
+            </div>
+          </li>
+          <li>
+            <div class="con03_img">
+              <img src="img/sub04/con03_02.jfif" alt="con03이미지" />
+            </div>
+            <div class="con03_txt">
+              <h4>2. 서식지 모니터링 & 복원</h4>
+            </div>
+          </li>
+          <li>
+            <div class="con03_img">
+              <img src="img/sub04/con03_03.jfif" alt="con03이미지" />
+            </div>
+            <div class="con03_txt">
+              <h4>3. 생태 교육 & 세이버 보급</h4>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section id="con04">
+        <div class="con_title">
+          <h3>Coexistence</h3>
+          <div>|</div>
+          <p>지금 함께 해주세요</p>
+        </div>
+        <ul class="con04_wrap">
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-hand-holding-heart"></i>
+              <h4>버드세이버 신청</h4>
+              <p>바로가기</p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-piggy-bank"></i>
+              <h4>조류 보호 후원</h4>
+              <p>후훤하기</p>
+            </a>
+          </li>
+          <li>
+            <a href="#"
+              ><i class="fa-solid fa-seedling"></i>
+              <h4>일상 수칙 실천</h4>
+              <p>알아보기</p></a
+            >
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-people-line"></i>
+              <h4>자원봉사 참여</h4>
+              <p>함께하기</p>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section id="con05">
+        <div class="con_title">
+          <h3>Dispatches</h3>
+          <div>|</div>
+          <p>현장소식</p>
+        </div>
+        <div class="con05_wrap">
+          <ul class="con05_txt">
+            <li class="on">
+              <a href="#">
+                <div>
+                  <h4>철원 평야 두루미 먹이 나누기</h4>
+                  <p class="date">2026.11.02</p>
+                </div>
+                <p>
+                  천연기념물 두루미의 안전한 월동을 돕기 위해 철원 평야 일대에서
+                  지역 주민, 자원봉사자들과 함께 겨울철 볍씨와 먹이를 나누는
+                  활동을 진행했습니다.
+                </p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div>
+                  <h4>다친 참매 치료 후 방사</h4>
+                  <p class="date">2026.10.28</p>
+                </div>
+                <p>
+                  야생조류 구조센터와 연계하여 부상을 입고 구조되었던 참매의
+                  재활 치료를 무사히 마치고, 원래 서식하던 숲으로 안전하게
+                  돌려보냈습니다.
+                </p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div>
+                  <h4>방음벽 버드세이버 봉사</h4>
+                  <p class="date">2026.10.15</p>
+                </div>
+                <p>
+                  도심 내 투명 방음벽 및 유리창으로 인한 조류 충돌 피해를 막기
+                  위해 시민 자원봉사단과 함께 충돌 방지용 버드세이버 스티커 부착
+                  작업을 실시했습니다
+                </p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <div>
+                  <h4>천수만 철새 탐조 캠프</h4>
+                  <p class="date">2026.09.30</p>
+                </div>
+                <p>
+                  본격적인 가을 철새 이동 철을 맞아 생태습지 일대에서 가족 단위
+                  참가자들과 함께 다채로운 철새들의 생태를 관찰하고 배우는 생태
+                  교육 캠프를 개최했습니다.
+                </p>
+              </a>
+            </li>
+          </ul>
+          <ul class="con05_img">
+            <li class="on">
+              <img src="img/sub04/con05_01.jpg" alt="con05img" />
+            </li>
+            <li><img src="img/sub04/con05_02.jpg" alt="con05img" /></li>
+            <li><img src="img/sub04/con05_03.jpg" alt="con05img" /></li>
+            <li><img src="img/sub04/con05_04.jpg" alt="con05img" /></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <!-- footer -->
+    <footer>
+      <div class="footer_wrap"></div>
+      <div class="logo">
+        <a href="index.html">
+          <img class="logo1" src="img/logo.png" alt="logo" />
+          <img class="logo2" src="img/logo2.png" alt="logo" />
+          <h1>디지털조류박물관</h1>
+        </a>
+      </div>
+      <div class="footer_txt">
+        <ul class="footer_left">
+          <li>사단법인 한국조류보호협회</li>
+          <li>대표 이메일 : @해내조.co.kr</li>
+          <li>후원 및 제보 문의 : 02-123-4567</li>
+          <li>주소 : 서울특별시 강서구 화곡동</li>
+        </ul>
+        <ul class="footer_right">
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-instalod"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-solid fa-hashtag"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-facebook-messenger"></i></a>
+          </li>
+          <li class="font_co">
+            <a href="#"><i class="fa-brands fa-kakao-talk"></i></a>
+          </li>
+        </ul>
+      </div>
+      <p>Copyright © 한국관광공사. All rights reserved.</p>
+    </footer>
+    <div class="cursor"><i class="fa-brands fa-twitter"></i></div>
+    <a href="#"><i class="fa-solid fa-arrow-up-long sc_top font_co"></i></a>
+  </body>
+</html>
