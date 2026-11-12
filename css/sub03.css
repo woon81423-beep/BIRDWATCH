@@ -79,6 +79,7 @@
   width: 90%;
   max-width: 1440px;
   margin: 100px auto;
+  
 }
 .con01_txt {
   padding-top: 100px;
@@ -94,6 +95,7 @@
   gap: 20px;
   max-width: 1100px;
   margin: 0px auto;
+  position: relative;
 }
 .con01 ul {
   width: 90%;
@@ -121,11 +123,54 @@
   object-fit: cover;
   transition: 1s;
 }
-.con01 img:hover {
+.con01 .con01_group ul img:hover {
   transform: scale(1.2);
 }
 .con01_02 {
   transform: translateY(250px);
+}
+/*con01 모달창*/
+.bg {
+  background-color: rgba(32, 25, 25, 0.7);
+  position: absolute;
+  width: 100vw;
+  height: 130vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0px auto;
+  display: none;
+ 
+}
+
+.con01 button {
+  text-align: right;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 5px 8px;
+ 
+}
+
+.con01 .bg.on {
+  display: block; /* .on이 붙으면 표시 */
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background-color: #fff; */
+  padding: 20px;
+  display: none;
+ 
+}
+.modal img{
+  border-radius: 30px;
+}
+.modal.on {
+  display: block;
 }
 /*con02*/
 .con02 {
@@ -136,7 +181,7 @@
 .con02 .bg_width {
   max-width: 1440px;
   width: 90%;
-  margin: 300px auto;
+  margin: 300px auto 100px;
 }
 .con02_txt {
   padding-top: 100px;
@@ -196,7 +241,7 @@
 }
 .con02_all:hover {
   transform: rotateY(180deg);
-} 
+}
 video {
   width: 100%;
   height: 100%;
@@ -212,22 +257,24 @@ video {
 .con03 {
   width: 90%;
   max-width: 1440px;
-  margin: 100px auto;
+  margin: 100px auto 200px;
 }
 .con03_txt {
   padding-top: 100px;
   display: flex;
   gap: 20px;
 }
-.con03_txt div {
+
+.con03_txt .bar {
   width: 1px;
   background-color: #061221;
+  margin: 10px;
 }
 .con03 .card1 {
   background: url(../img/watching/con03_1.jpg);
 }
 .con03 .card2 {
-  background: url(../img/watching/con03_2.jpg);
+  background: url(../img/watching/con03_2.png);
 }
 .con03 .card3 {
   background: url(../img/watching/con03_3.jpg);
@@ -256,15 +303,6 @@ video {
   flex: 3;
 }
 
-/* .card1 {
-  width: 60%;
-}
-.card2 {
-  width: 25%;
-}
-.card3 {
-  width: 15%;
-} */
 .card_txt {
   position: absolute;
   text-align: right;
@@ -291,24 +329,31 @@ video {
   position: relative;
   padding: 50px;
 }
+#con04 h4 {
+  font-size: 2rem;
+}
 #con04 .bg_width {
   max-width: 1440px;
   width: 90%;
   height: 500px;
   margin: 0px auto;
 }
-#con04_txt {
-  padding-top: 100px;
+
+.con04_txt {
+  padding-top: 30px;
   display: flex;
   gap: 20px;
-  z-index: 10;
 }
-#con04_txt div {
+
+.con04_txt .bar {
   width: 1px;
   background-color: #061221;
+  margin: 10px;
 }
+
 #con04 ul {
-  width: 70%;
+  width: 60%;
+  max-width: 1000px;
   margin: 50px auto;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -317,7 +362,7 @@ video {
   z-index: 1;
 }
 #con04 ul li {
-  margin: 1rem auto;
+  margin: 2rem auto;
   font-size: 1.1rem;
 }
 #con04 ul li > div {
@@ -342,4 +387,91 @@ video {
 #con04 img {
   width: 100%;
 }
+#con04 li:first-child p {
+  display: block;
+}
+#con04 ul p {
+  display: none;
+}
+
+#con04 i {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: transform 0.3s;
+}
+
+#con04 i.on {
+  transform: rotate(45deg);
+}
+#con04 i.on {
+  transform: rotate(45deg);
+}
 /*con05*/
+#con05 {
+  width: 90%;
+
+  max-width: 1440px;
+  margin: 100px auto;
+}
+.con05_txt {
+  padding-top: 100px;
+  display: flex;
+  gap: 20px;
+}
+.con05_txt div {
+  width: 1px;
+  background-color: #061221;
+}
+.con05_wrap {
+  width: 90%;
+  margin: 100px auto;
+  display: flex;
+  gap: 30px;
+}
+.con05_wrap .right {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: space-around;
+}
+.con05_wrap .right li {
+  display: flex;
+  gap: 20px;
+  font-size: 1.2rem;
+  align-items: center;
+}
+.con05_wrap .right span {
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+.con05_wrap .right li i {
+  font-size: 3.5rem;
+}
+
+.fade {
+  position: relative;
+  width: 100%;
+  /* height: 500px; */
+}
+.left {
+  aspect-ratio: 1 / 1.5;
+  max-width: 500px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.con05_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+#con05 img {
+  width: 100%;
+  /* max-height: 600px; */
+  object-fit: cover;
+}
