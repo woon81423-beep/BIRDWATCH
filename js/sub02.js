@@ -120,7 +120,7 @@ $(function () {
   const BIRD_ANGLE = 0; // 이미지 속 새 머리 방향: 오른쪽 0, 위 90, 왼쪽 180, 아래 -90
   const BIRD_STOP = 0.5; // 첫 번째 새가 멈춰 남는 위치 (0.5 = 경로 한가운데)
   const ARRIVE_STOP = 0.92; // 두 번째 새가 도착해서 멈추는 위치 (1에 가까울수록 목적지 점에 가까움)
-  const HUB = { x: 820, y: 400, ko: "부산", en: "Busan" };
+  const HUB = { x: 800, y: 400, ko: "부산", en: "Busan" };
   const ROUTES = [
     // ko, en: 지명 / x, y: 도착 좌표 / bend: 곡선 휘는 정도(+,- 방향)
     // lx, ly, anchor: 지명 글자 위치 / at: 시작 시점 / dur: 그려지는 시간 / from: 출발지(없으면 부산)
@@ -215,16 +215,55 @@ $(function () {
   const ZOOM_AT = { x: 775, y: 375 };
   const ZOOM_SCALE = 5;
 
-  // 지도 좌표(viewBox) → 화면 좌표(v_inner 기준). slice 맞춤 계산
-  const mapToScreen = (pt) => {
+  // 세로 화면(휴대폰)에서는 지도를 화면 높이에 꽉 채우면 양옆 경로가 잘리므로,
+  // MAP_FOCUS 가로 범위가 화면 너비에 딱 들어오게 맞춤 (위아래는 네이비 여백)
+  const MAP_FOCUS = { x1: 400, x2: 1080 }; // 휴대폰에서 꼭 보여야 할 지도 가로 범위 (viewBox 좌표)
+
+  const mapBox = () => {
     const W = inner.clientWidth;
     const H = inner.clientHeight;
     const vbox = mapSvg.viewBox.baseVal;
-    const sc = Math.max(W / vbox.width, H / vbox.height);
+    if (W >= H) {
+      // 가로 화면: 기존처럼 화면 가득
+      const sc = Math.max(W / vbox.width, H / vbox.height);
+      return {
+        fit: false,
+        sc,
+        x: (W - vbox.width * sc) / 2,
+        y: (H - vbox.height * sc) / 2,
+        w: vbox.width * sc,
+        h: vbox.height * sc,
+      };
+    }
+    // 세로 화면: 경로 범위가 가로에 들어오게
+    const sc = W / (MAP_FOCUS.x2 - MAP_FOCUS.x1);
+    const cx = (MAP_FOCUS.x1 + MAP_FOCUS.x2) / 2;
     return {
-      x: (W - vbox.width * sc) / 2 + pt.x * sc,
-      y: (H - vbox.height * sc) / 2 + pt.y * sc,
+      fit: true,
+      sc,
+      x: W / 2 - cx * sc,
+      y: (H - vbox.height * sc) / 2,
+      w: vbox.width * sc,
+      h: vbox.height * sc,
     };
+  };
+
+  // CSS(.map_fit)에 지도 위치·크기 전달
+  const applyMapBox = () => {
+    const b = mapBox();
+    inner.classList.toggle("map_fit", b.fit);
+    inner.style.setProperty("--map-x", `${b.x}px`);
+    inner.style.setProperty("--map-y", `${b.y}px`);
+    inner.style.setProperty("--map-w", `${b.w}px`);
+    inner.style.setProperty("--map-h", `${b.h}px`);
+  };
+  applyMapBox();
+  window.addEventListener("resize", applyMapBox);
+
+  // 지도 좌표(viewBox) → 화면 좌표(v_inner 기준)
+  const mapToScreen = (pt) => {
+    const b = mapBox();
+    return { x: b.x + pt.x * b.sc, y: b.y + pt.y * b.sc };
   };
   const zoomOrigin = () => {
     const z = mapToScreen(ZOOM_AT);
@@ -596,7 +635,7 @@ $(function () {
     )
     .to(mapSvg, { autoAlpha: 0, duration: 0.5 }, 12.6)
     .to(
-      [vImg, mapSvg],
+      [vImg, "#fy_visual .v_con04"], // 지도 사진과 경로 레이어를 같은 기준으로 확대
       {
         scale: ZOOM_SCALE,
         transformOrigin: zoomOrigin,
