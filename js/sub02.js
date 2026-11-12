@@ -401,21 +401,75 @@ $(function () {
     });
   }
 
+  // =========================================
+  //  스크롤 길이 · 구역 단락
+  // =========================================
+  const SCROLL_PER_SEC = 45; // 타임라인 1초당 스크롤 길이(화면 높이의 %). 줄이면 전체가 짧아짐
+  const HOLD = 0.6; // 구역이 완성된 뒤 다음 구역으로 넘어가기 전 '걸리는' 길이
+  const END_HOLD = 1.0; // 마지막 장면에서 푸터가 나오기 전까지 머무는 길이
+
+  // 단락을 넣을 지점 (구역이 끝나고 다음 구역이 시작되는 시점, 단락 넣기 전 기준)
+  // con06 장면 사이는 아래에서 자동으로 추가
+  const HOLDS = [2.8, 4.6, 7.2, 12.5, 16.1];
+
+  // 서식지(con03)부터는 애니메이션이 많아 빠르게 느껴지므로 천천히 + 자유롭게
+  const SLOW_FROM = 4.6; // 새의 여정 → 서식지로 넘어가는 시점부터
+  const SLOW = 1.5; // 그 뒤 구간을 몇 배 천천히 (스크롤을 더 많이 해야 진행)
+  const SNAP_NEAR = 0.45; // 자유 구간에서는 구역 완성 화면 근처(이 범위 안)에 멈췄을 때만 붙음
+
+  // 원래 시간 → 천천히 만든 뒤 시간
+  const slowT = (t) =>
+    t <= SLOW_FROM ? t : SLOW_FROM + (t - SLOW_FROM) * SLOW;
+  // 원래 시간 → 천천히 + 단락까지 넣은 뒤 시간
+  const shiftT = (t) => slowT(t) + HOLDS.filter((h) => h <= t).length * HOLD;
+
+  // 타임라인 길이 · 스냅 위치(0~1). 타임라인을 다 만든 뒤 채움
+  let tlDuration = 1;
+  let STOPS = [0, 1];
+  let FREE_FROM = 1; // 이 진행도 이후는 자유 구간 (타임라인을 다 만든 뒤 채움)
+  const snapToStop = (v) => {
+    const eps = 0.001;
+
+    // 자유 구간(서식지부터): 완성 화면 가까이에서 멈췄을 때만 살짝 붙고, 아니면 그 자리에 둠
+    if (v > FREE_FROM + eps) {
+      const near = STOPS.reduce((a, b) =>
+        Math.abs(b - v) < Math.abs(a - v) ? b : a
+      );
+      return Math.abs(near - v) * tlDuration <= SNAP_NEAR ? near : v;
+    }
+
+    // 앞 구간(비주얼 ~ 새의 여정): 조금만 내려도 다음 구역 완성 화면으로
+    const dir = tl.scrollTrigger ? tl.scrollTrigger.direction : 1;
+    if (dir > 0) return STOPS.find((p) => p >= v - eps) ?? 1;
+    for (let i = STOPS.length - 1; i >= 0; i--)
+      if (STOPS[i] <= v + eps) return STOPS[i];
+    return 0;
+  };
+
   const tl = gsap.timeline({
     defaults: { ease: "none" },
     scrollTrigger: {
       trigger: "#fy_visual",
       start: "top top",
-      end: "+=2450%", // 스크롤 길이 (늘리면 더 천천히)
+      // 스크롤 길이 = 타임라인 길이 × SCROLL_PER_SEC (구역을 추가해도 자동으로 맞춰짐)
+      end: () => `+=${Math.round(tlDuration * SCROLL_PER_SEC)}%`,
       pin: true,
       scrub: 1,
       invalidateOnRefresh: true,
+      // 스크롤을 멈추면 가까운 구역(STOPS)으로 붙음 → 구역마다 '걸리는' 느낌
+      snap: {
+        snapTo: (v) => snapToStop(v),
+        duration: { min: 0.3, max: 0.9 },
+        delay: 0.12,
+        ease: "power1.inOut",
+        inertia: false,
+      },
     },
     onUpdate: () => {
       const t = tl.time();
       document.body.classList.toggle(
         "fy_light",
-        LIGHT.some(([a, b]) => t > a && t < b)
+        LIGHT.some(([a, b]) => t > shiftT(a) && t < shiftT(b))
       );
     },
   });
@@ -804,8 +858,9 @@ $(function () {
         tl.to(bird, { autoAlpha: 0, duration: 0.25 }, S + SLIDE_AT + 0.05);
     }
 
-    // 다음 배경으로 넘어감
+    // 다음 배경으로 넘어감 (넘어가기 직전에 단락)
     if (!isLast) {
+      HOLDS.push(S + SLIDE_AT);
       tl.to(
         flyTrack,
         {
@@ -818,8 +873,8 @@ $(function () {
     }
   }
 
-  // 마지막 장면 잠시 유지
-  tl.to({}, { duration: 0.4 }, lastEnd);
+  // 마지막 장면에 머무는 구간 (조금 내려도 바로 푸터가 나오지 않게)
+  tl.to({}, { duration: END_HOLD }, lastEnd);
 
   // 24. 부산에서 각 지역으로 점선이 그려지고 새가 따라 날아감
   routes.forEach((r) => {
@@ -830,6 +885,34 @@ $(function () {
       r.at
     );
   });
+
+  // ===== 서식지부터 천천히 =====
+  // SLOW_FROM 이후에 시작하는 애니메이션의 시작 시점과 길이를 SLOW 배로 늘림
+  tl.getChildren(false, true, true).forEach((child) => {
+    const st = child.startTime();
+    if (st >= SLOW_FROM) {
+      child.startTime(slowT(st));
+      child.timeScale(child.timeScale() / SLOW);
+    }
+  });
+
+  // ===== 구역 단락 넣기 =====
+  // 뒤쪽 지점부터 차례로, 그 시점 이후의 애니메이션을 HOLD 만큼 뒤로 밀어 빈 구간을 만듦
+  HOLDS.sort((a, b) => a - b);
+  [...HOLDS].reverse().forEach((h) => tl.shiftChildren(HOLD, true, slowT(h)));
+
+  // 스냅 위치: 각 단락의 한가운데(구역이 완성된 상태) + 마지막 장면
+  const total = tl.duration();
+  tlDuration = total;
+  STOPS = [
+    0,
+    ...HOLDS.map((h) => (shiftT(h) - HOLD / 2) / total),
+    (shiftT(lastEnd) + (END_HOLD * SLOW) / 2) / total,
+    1,
+  ];
+  // 새의 여정 완성 화면 이후부터 자유 구간
+  FREE_FROM = (shiftT(SLOW_FROM) - HOLD / 2) / total;
+  ScrollTrigger.refresh(); // 늘어난 길이로 스크롤 다시 계산
 
   // ---------- 맨 위로 버튼 ----------
   // 스크롤 애니메이션이 거꾸로 재생되지 않고 바로 첫 화면으로 이동
