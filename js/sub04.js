@@ -45,7 +45,7 @@ $(function () {
       duration: 2,
     })
     .to(".con02_bird p", { opacity: 1 }, 2)
-    .to(".con02_btn", { y: -500 });
+    .to(".con02_btn", { y: -400 });
 
   $(".con02_btn").on("click", () => {
     $(".con02_bird").toggle();
@@ -67,13 +67,22 @@ $(function () {
     scrollTrigger: {
       trigger: "#con03",
       start: "-=300 top",
-      scrub: 1,
     },
     y: 200,
-    stagger: 0.5,
     ease: "back.out",
     duration: 1,
     opacity: 0,
+  });
+  $(".con03_wrap li").on("mouseenter", function () {
+    $(".con03_wrap li").stop().removeClass("on");
+    $(this).stop().addClass("on");
+    $(this)
+      .find(".con03_txt")
+      .stop()
+      .animate({ top: "50%", opacity: "1" }, 1500);
+  });
+  $(".con03_wrap li").on("mouseleave", function () {
+    $(".con03_txt").stop().css({ top: "100%", opacity: "0" });
   });
 
   // con04
