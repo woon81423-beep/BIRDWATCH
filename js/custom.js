@@ -90,6 +90,17 @@ $(function () {
     $(".con04_img li").eq(3).prependTo(".con04_img");
     con04Ctr();
   });
+  $(".con04_pp i").on("click", function () {
+    i = $(this).index();
+    console.log(i);
+    if (i == 0) {
+      clearInterval(con04_stop);
+    } else {
+      con04Ctr();
+    }
+
+    $(".con04_pp i").toggleClass("on");
+  });
   $(".con04_next").on("click", function () {
     clearInterval(con04_stop);
     $(".con04_txt li").eq(0).appendTo(".con04_txt");
