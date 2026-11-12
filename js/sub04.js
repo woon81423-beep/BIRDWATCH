@@ -15,6 +15,26 @@ $(function () {
       res();
     }, 200);
   });
+  // 비쥬얼
+  gsap.from("#visual h2", {
+    x: "-100%",
+    y: "-100%",
+    opacity: 0,
+    duration: 2,
+  });
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: "#visual",
+        start: "top top",
+      },
+    })
+    .from("#visual p", {
+      y: 300,
+      duration: 2,
+      opacity: 0,
+    })
+    .from("#visual img", { y: 300, duration: 1, opacity: 0 });
 
   // con01
   gsap.from(".con01_wrap", {
