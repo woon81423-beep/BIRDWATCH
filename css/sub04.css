@@ -11,7 +11,6 @@ h2 {
   }
 }
 h3 {
-  width: calc(100% / 3);
   font-size: 2rem;
 }
 #visual {
@@ -24,7 +23,7 @@ h3 {
   margin: 0px auto;
   text-align: center;
   padding: 50px 0px;
-
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
   p {
     font-size: 2rem;
     margin-top: 2rem;
@@ -40,13 +39,12 @@ h3 {
 .con_title {
   padding: 10px 0px;
   display: flex;
+  gap: 30px;
   align-items: center;
   div {
-    width: calc(100% / 3);
     font-size: 2.5rem;
   }
   p {
-    width: calc(100% / 3);
     color: #061221;
   }
 }
@@ -90,6 +88,7 @@ h3 {
     }
   }
   li:nth-of-type(1) {
+    box-shadow: 5px 5px 10px 5px #061221;
     position: relative;
     img {
       filter: brightness(1);
@@ -183,27 +182,46 @@ h3 {
   }
 }
 .font_co:hover {
-  color: #f29985;
-  border-color: #f29985;
+  color: #061221;
+  border-color: #061221;
 }
 /* con03 */
 .con03_wrap {
   margin: 50px 0px;
   display: flex;
+  gap: 10px;
   text-align: center;
   li {
-    width: calc(100% / 3);
+    width: 20%;
+    position: relative;
+    transition: 1s;
     .con03_img {
-      width: 70%;
-      aspect-ratio: 1/1;
-      border-radius: 50%;
+      width: 100%;
+      height: 300px;
+      border-radius: 20px;
       margin: 50px auto;
       overflow: hidden;
-      border: 0px solid #f29985;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+    }
+    .con03_txt {
+      color: #fff;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+  }
+  .on {
+    width: 60%;
+    .con03_img {
+      box-shadow: 5px 5px 10px 5px #061221;
+      img {
+        transform: scale(1.5);
       }
     }
   }
@@ -269,7 +287,7 @@ h3 {
     }
     .on {
       a {
-        box-shadow: 5px 5px 10px 5px #f29985;
+        box-shadow: 5px 5px 10px 5px #061221;
       }
     }
   }
@@ -279,7 +297,7 @@ h3 {
     li {
       width: 100%;
       border-radius: 20px;
-      box-shadow: 5px 5px 10px 5px #f29985;
+      box-shadow: 5px 5px 10px 5px #061221;
       overflow: hidden;
       position: absolute;
       top: 50%;
@@ -295,13 +313,6 @@ h3 {
     .on {
       display: block;
     }
-  }
-}
-/* 이미지 호버 */
-.imgBig:hover {
-  box-shadow: 5px 5px 10px 5px #f29985;
-  img {
-    transform: scale(1.5);
   }
 }
 /* 미디어쿼리 */
