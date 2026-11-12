@@ -112,3 +112,156 @@
   opacity: 1;
   transform: translateY(0);
 }
+/* =========================================
+   반응형
+   ========================================= */
+
+/* 큰 화면: 높이를 화면 크기에 맞춰 조금씩 줄어들게 */
+@media (max-width: 1440px) {
+  .con03-list {
+    height: clamp(380px, 32vw, 460px);
+  }
+  .con03-list li {
+    height: clamp(330px, 28vw, 400px);
+  }
+}
+
+/* 태블릿: 2 x 2 격자 */
+@media (max-width: 1024px) {
+  .con03-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    height: auto;
+  }
+  .con03-list li {
+    height: 320px;
+    padding: 0 20px 28px;
+  }
+  /* 지그재그 높이 차이 없애기 */
+  .con03-list li:nth-child(even) {
+    margin-top: 0;
+  }
+  /* 칸이 좁아지니 글자가 줄바꿈되도록 */
+  .con03-list h5,
+  .con03-list p {
+    white-space: normal;
+  }
+  .con03-list p br {
+    display: none;
+  }
+  .con03-list li:hover h5 {
+    font-size: 24px;
+  }
+  .con03-list li:hover p {
+    font-size: 14px;
+  }
+}
+
+/* 모바일: 옆으로 넘기는 카드 */
+@media (max-width: 600px) {
+  .con03-list {
+    display: flex;
+    width: 100%;
+    gap: 12px;
+    padding: 0 5% 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .con03-list::-webkit-scrollbar {
+    display: none;
+  }
+  .con03-list li {
+    flex: 0 0 78%;
+    height: 360px;
+    scroll-snap-align: center;
+  }
+  .con03-list li:hover {
+    flex: 0 0 78%;
+  }
+  .con03-list h5 {
+    font-size: 22px;
+  }
+  .con03-list p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+}
+
+/* 터치 기기: 넓히기 효과 끄고 설명글 항상 보이게 */
+@media (hover: none) {
+  .con03-list li:hover {
+    flex: 1;
+  }
+  .con03-list:hover li:not(:hover) p,
+  .con03-list li p {
+    opacity: 0.85;
+  }
+  .con03-list li:hover h5 {
+    font-size: inherit;
+    margin-bottom: 14px;
+  }
+}
+
+/* 슬라이드 점 (PC에서는 숨김) */
+.con03-dots {
+  display: none;
+}
+
+/* 모바일: 카드 한 장씩 넘기기 */
+@media (max-width: 600px) {
+  .con03 {
+    overflow: hidden; /* 옆 카드는 화면 밖에 숨김 */
+  }
+  .con03-list {
+    display: flex;
+    width: 80%;
+    gap: 14vw; /* 화면 여백보다 넓게 → 옆 카드가 안 보임 */
+    height: auto;
+    padding: 0;
+    touch-action: pan-y; /* 세로 스크롤은 그대로 */
+    transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .con03-list.is-dragging {
+    transition: none; /* 끄는 동안은 손가락을 바로 따라오게 */
+  }
+  .con03-list li,
+  .con03-list li:hover {
+    flex: 0 0 100%;
+    height: 380px;
+    margin-top: 0;
+  }
+  .con03-list h5,
+  .con03-list li:hover h5 {
+    font-size: 22px;
+  }
+  .con03-list p,
+  .con03-list li:hover p {
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: normal;
+  }
+
+  .con03-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .con03-dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    transition:
+      width 0.3s,
+      background 0.3s;
+  }
+  .con03-dots button.on {
+    width: 22px;
+    background: #333;
+  }
+}
