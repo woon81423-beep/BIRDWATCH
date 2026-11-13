@@ -1,9 +1,12 @@
 /* 폰트 */
+body {
+  overflow-x: hidden;
+}
 .cursor {
   color: #f29985;
 }
 h2 {
-  font-size: 5rem;
+  font-size: 4rem;
   color: #fff;
   margin-top: 100px;
   font-family: "IBM Plex Sans KR", sans-serif;
@@ -15,23 +18,40 @@ body img {
   filter: contrast(1.2);
 }
 #visual {
-  background-image: url(../img//sub04/bg01.jpg);
+  /* background-image: url(../img//sub04/bg01.jpg);
   background-repeat: no-repeat;
   background-position: bottom;
-  background-size: cover;
+  background-size: cover; */
   width: 100%;
   height: 800px;
   margin: 0px auto;
   text-align: center;
-  padding: 50px 0px;
   mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  position: relative;
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .visual_txt {
+    width: 100%;
+    text-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+  }
   p {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-top: 2rem;
-    color: #fff;
+    /* color: #fff; */
+    color: #061221;
   }
   img {
-    transform: translateY(-100px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -236,12 +256,17 @@ body img {
   }
 }
 /* con04 */
+#con04 {
+  position: relative;
+  .on {
+    display: block;
+  }
+}
 .con04_wrap {
   margin: 50px auto;
   display: flex;
   align-items: center;
   gap: 30px;
-
   li {
     width: calc(100% / 6);
     flex-shrink: 0;
@@ -258,6 +283,45 @@ body img {
     border-radius: 30px;
   }
 }
+.con04_modalBg {
+  background-color: rgba(32, 25, 25, 0.7);
+  position: absolute;
+  width: 100vw;
+  height: 130vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0px auto;
+  display: none;
+  .con04_modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    button {
+      text-align: right;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      padding: 5px 8px;
+      cursor: none;
+    }
+    .con04_video {
+      li {
+        display: none;
+      }
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 30px;
+      }
+    }
+  }
+}
+
 /* con05 */
 .con05_wrap {
   margin: 50px 0px;
@@ -344,6 +408,9 @@ body img {
       box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
     }
   }
+}
+footer {
+  margin-top: 0px;
 }
 /* 미디어쿼리 */
 @media (max-width: 999px) {
