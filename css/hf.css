@@ -18,7 +18,7 @@ ul {
 body {
   color: #fff;
   cursor: none;
-  /* font-family: "IBM Plex Sans KR", sans-serif; */
+  font-family: "IBM Plex Sans KR", sans-serif;
 }
 
 /* header */
@@ -124,7 +124,6 @@ footer {
   align-items: center;
   /* color: #f29985; */
 }
-
 
 /* 맨위로 */
 .sc_top {
