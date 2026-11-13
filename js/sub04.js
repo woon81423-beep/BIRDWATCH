@@ -26,9 +26,11 @@ $(function () {
   var k = 0;
   function vt() {
     if (k < visualText.length) {
-      $("#visual h2 span").append(visualText.charAt(k));
+      $("#visual h2 span").eq(0).append(visualText.charAt(k));
       k++;
       setTimeout(vt, 200);
+    } else if (k == visualText.length) {
+      $("#visual h2 span").eq(1).html("");
     }
   }
   vt();
@@ -120,6 +122,7 @@ $(function () {
   function con04Rolling() {
     con04Timer = setInterval(function () {
       $(".con04_wrap li").eq(0).appendTo(".con04_wrap");
+      $(".con04_video li").eq(0).appendTo(".con04_video");
     }, 1500);
   }
 
