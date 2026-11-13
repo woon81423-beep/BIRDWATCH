@@ -24,6 +24,9 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
       rel="stylesheet"
     />
+    <!--gasp-->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MotionPathPlugin.min.js"></script>
   </head>
   <body>
     <!--header-->
@@ -60,10 +63,20 @@
     </header>
     <!--visual-->
     <section id="visual">
-      <div class="bird">
-        <div class="cross"></div>
-        <img src="img/watching/visual (3).jpg" alt="원안에 들어가는 새" />
-      </div>
+      <video src="https://res.cloudinary.com/cikjqr0w/video/upload/v1794541522/redpandacompress_visual_v_3.mp4" autoplay loop muted></video>
+      <section id="bird_move">
+        <div class="area">
+          <svg id="Layer_1" viewBox="0 0 404.62 399.95">
+            <path
+              class="cls-1"
+              d="m.5,96.95S3.5,45.95,43.5,31.95s29,93,76,113S176.5-55.05,208.5,13.95s44.28,125,62.64,123,94.36-50,61.36-78-113-26-124,32,83,116.89,139,78.94,26-59.94,57-99.94,65-56,65-56"
+            />
+          </svg>
+          <div class="circle">
+            <img src="img/watching/visual_s.gif" art="con01bird" />
+          </div>
+        </div>
+      </section>
 
       <div class="txt">
         <h2><span>Quite </span><span class="change">Watching</span>:Birds</h2>
