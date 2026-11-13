@@ -116,17 +116,20 @@ $(function () {
   });
 
   // con04
-  gsap.from(".con04_wrap", {
-    scrollTrigger: {
-      trigger: "#con04",
-      start: "-=300 top",
-      scrub: 1,
-    },
-    y: 200,
-    ease: "back.out",
-    duration: 1,
-    opacity: 0,
-  });
+  setInterval(function () {
+    $(".con04_wrap li").eq(0).appendTo(".con04_wrap");
+  }, 1500);
+  // gsap.from(".con04_wrap", {
+  //   scrollTrigger: {
+  //     trigger: "#con04",
+  //     start: "-=300 top",
+  //     scrub: 1,
+  //   },
+  //   y: 200,
+  //   ease: "back.out",
+  //   duration: 1,
+  //   opacity: 0,
+  // });
 
   //   con05
   gsap.from(".con05_wrap", {
@@ -151,4 +154,16 @@ $(function () {
     $(".con05_txt li").eq(i).addClass("on");
     i++;
   }, 1500);
+  // con06
+  gsap.from(".con06_wrap", {
+    scrollTrigger: {
+      trigger: "#con06",
+      start: "-=300 top",
+      scrub: 1,
+    },
+    y: 200,
+    ease: "back.out",
+    duration: 1,
+    opacity: 0,
+  });
 });

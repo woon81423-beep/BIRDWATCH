@@ -6,9 +6,13 @@ h2 {
   font-size: 5rem;
   color: #fff;
   margin-top: 100px;
+  font-family: "IBM Plex Sans KR", sans-serif;
 }
 h3 {
   font-size: 2rem;
+}
+body img {
+  filter: contrast(1.2);
 }
 #visual {
   background-image: url(../img//sub04/bg01.jpg);
@@ -21,7 +25,6 @@ h3 {
   text-align: center;
   padding: 50px 0px;
   mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
-
   p {
     font-size: 2rem;
     margin-top: 2rem;
@@ -124,10 +127,12 @@ h3 {
 }
 /* con02 */
 #container #con02,
-#container #con04 {
+#container #con04,
+#container #con06 {
   background-color: #061221;
   .con_title {
     width: 90%;
+    max-width: 1440px;
     margin: 0px auto;
     div {
       color: #fff;
@@ -232,35 +237,27 @@ h3 {
 }
 /* con04 */
 .con04_wrap {
-  width: 90%;
-  max-width: 1440px;
   margin: 50px auto;
   display: flex;
-  gap: 50px;
-  text-align: center;
+  align-items: center;
+  gap: 30px;
+
   li {
-    width: calc(100% / 4);
-    position: relative;
-    top: 0px;
-    transition: 1s;
-    a {
-      width: 100%;
-      display: block;
-      border: 1px solid #fff;
-      border-radius: 20px;
-      padding: 50px;
-    }
+    width: calc(100% / 6);
+    flex-shrink: 0;
   }
-  li:hover {
-    top: -30px;
-    a {
-      color: rgba(50, 150, 250, 1);
-      border-color: rgba(50, 150, 250, 1);
+  li:nth-of-type(3) {
+    width: calc(100% / 4);
+    img {
       box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
     }
   }
+  img {
+    display: block;
+    width: 100%;
+    border-radius: 30px;
+  }
 }
-
 /* con05 */
 .con05_wrap {
   margin: 50px 0px;
@@ -319,12 +316,41 @@ h3 {
     }
   }
 }
+.con06_wrap {
+  width: 90%;
+  max-width: 1440px;
+  margin: 50px auto;
+  display: flex;
+  gap: 50px;
+  text-align: center;
+  li {
+    width: calc(100% / 4);
+    position: relative;
+    top: 0px;
+    transition: 1s;
+    a {
+      width: 100%;
+      display: block;
+      border: 1px solid #fff;
+      border-radius: 20px;
+      padding: 50px;
+    }
+  }
+  li:hover {
+    top: -30px;
+    a {
+      color: rgba(50, 150, 250, 1);
+      border-color: rgba(50, 150, 250, 1);
+      box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+    }
+  }
+}
 /* 미디어쿼리 */
 @media (max-width: 999px) {
   h2 {
     font-size: 4rem;
   }
-  .con04_wrap {
+  .con06_wrap {
     flex-wrap: wrap;
     li {
       width: calc((100% - 50px) / 2);
@@ -412,7 +438,7 @@ h3 {
           }
         }
       }
-      .con04_wrap {
+      .con06_wrap {
         li {
           width: 100%;
         }
