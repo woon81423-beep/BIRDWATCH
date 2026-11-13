@@ -16,12 +16,22 @@ $(function () {
     }, 200);
   });
   // 비쥬얼
-  gsap.from("#visual h2", {
-    x: "-100%",
-    y: "-100%",
-    opacity: 0,
-    duration: 2,
-  });
+  // gsap.from("#visual h2", {
+  //   x: "-100%",
+  //   y: "-100%",
+  //   opacity: 0,
+  //   duration: 2,
+  // });
+  let visualText = "우리가 지켜야 할 하늘의 길,";
+  var k = 0;
+  function vt() {
+    if (k < visualText.length) {
+      $("#visual h2 span").append(visualText.charAt(k));
+      k++;
+      setTimeout(vt, 200);
+    }
+  }
+  vt();
   gsap
     .timeline({
       scrollTrigger: {
