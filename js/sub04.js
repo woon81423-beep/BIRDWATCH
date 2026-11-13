@@ -116,21 +116,25 @@ $(function () {
   });
 
   // con04
-  setInterval(function () {
-    $(".con04_wrap li").eq(0).appendTo(".con04_wrap");
-  }, 1500);
-  // gsap.from(".con04_wrap", {
-  //   scrollTrigger: {
-  //     trigger: "#con04",
-  //     start: "-=300 top",
-  //     scrub: 1,
-  //   },
-  //   y: 200,
-  //   ease: "back.out",
-  //   duration: 1,
-  //   opacity: 0,
-  // });
+  let con04Timer;
+  function con04Rolling() {
+    con04Timer = setInterval(function () {
+      $(".con04_wrap li").eq(0).appendTo(".con04_wrap");
+    }, 1500);
+  }
 
+  con04Rolling();
+  $(".con04_wrap li").on("click", function () {
+    clearInterval(con04Timer);
+    let j = $(this).index();
+    $(".con04_modalBg").addClass("on");
+    $(".con04_video li").removeClass("on");
+    $(".con04_video li").eq(j).addClass("on");
+  });
+  $(".con04_modal button").on("click", function () {
+    $(".con04_modalBg").removeClass("on");
+    con04Rolling();
+  });
   //   con05
   gsap.from(".con05_wrap", {
     scrollTrigger: {
