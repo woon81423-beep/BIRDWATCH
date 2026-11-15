@@ -217,11 +217,15 @@
   .con03-list {
     display: flex;
     width: 80%;
-    gap: 14vw; /* 화면 여백보다 넓게 → 옆 카드가 안 보임 */
+    gap: 14vw;
     height: auto;
     padding: 0;
-    touch-action: pan-y; /* 세로 스크롤은 그대로 */
+    touch-action: pan-y;
+    overflow: visible; /* 추가: 위 블록의 overflow-x:auto 덮어쓰기 */
+    scroll-snap-type: none; /* 추가: 위 블록의 scroll-snap 끄기 */
     transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+    user-select: none;
+    -webkit-user-select: none;
   }
   .con03-list.is-dragging {
     transition: none; /* 끄는 동안은 손가락을 바로 따라오게 */
