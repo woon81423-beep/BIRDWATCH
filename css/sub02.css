@@ -27,6 +27,13 @@
   --sec-pad: clamp(100px, 14vh, 180px); /* 섹션 위아래 여백 */
   --title-en: clamp(14px, 1.2vw, 20px);
   --title-ko: clamp(30px, 3vw, 52px);
+  --bar: 0px; /* 휴대폰 주소창·도구바 높이 (아래에서 계산) */
+}
+@supports (height: 100lvh) {
+  #fy_visual,
+  .fy_main {
+    --bar: calc(100lvh - 100svh);
+  }
 }
 
 /* 커서가 고정(pin)된 비주얼보다 항상 위에 */
@@ -140,6 +147,7 @@ body.fy_light header .header_lnb i {
   position: relative;
   isolation: isolate; /* 안쪽 z-index가 헤더·커서와 섞이지 않게 */
   height: 100vh;
+  height: 100lvh; /* 휴대폰 주소창·도구바가 사라졌을 때 기준 → 아래 빈 공간 안 생김 */
   overflow: hidden;
   background: var(--navy);
 }
@@ -236,7 +244,7 @@ body.fy_light header .header_lnb i {
 #fy_visual .v_scroll {
   position: absolute;
   left: 50%;
-  bottom: 40px;
+  bottom: calc(40px + var(--bar));
   z-index: 3;
   transform: translateX(-50%);
   color: #fff;
@@ -607,6 +615,7 @@ body.fy_light header .header_lnb i {
    ========================================================= */
 #fy_con06.fy_full {
   height: 100vh;
+  height: 100lvh; /* 휴대폰 주소창·도구바가 사라졌을 때 기준 → 아래 빈 공간 안 생김 */
   padding: 0;
   overflow: hidden;
 }
@@ -724,7 +733,7 @@ body.fy_light header .header_lnb i {
   position: absolute;
   left: var(--side);
   right: var(--side);
-  bottom: 9vh;
+  bottom: calc(9vh + var(--bar));
   font-size: clamp(15px, 1.3vw, 22px);
   text-align: center;
   opacity: 0;
@@ -796,7 +805,7 @@ footer {
   }
   #fy_visual .v_badge {
     top: auto;
-    bottom: 110px;
+    bottom: calc(110px + var(--bar));
   }
   #fy_visual .v_after {
     flex-direction: column;
@@ -860,12 +869,12 @@ footer {
     width: 110vw;
   }
   #fy_con06 .fly_caps li {
-    bottom: 12vh;
+    bottom: calc(10vh + var(--bar));
     line-height: 1.5;
   }
   #fy_con06 .fly_count {
     top: auto;
-    bottom: calc(12vh + 70px);
+    bottom: calc(10vh + var(--bar) + 70px);
     left: var(--side);
     right: auto;
   }
@@ -933,7 +942,7 @@ footer {
     display: none;
   }
   #fy_con06 .fly_caps li {
-    bottom: 5vh;
+    bottom: calc(5vh + var(--bar));
   }
   #fy_con06 .fly_count {
     display: none;
