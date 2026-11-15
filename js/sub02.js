@@ -1,129 +1,110 @@
 // =========================================
 //  sub02 : FLYWAY
+//  - 비주얼(#fy_visual)과 비행길(#fy_con06)만 풀스크린 고정(pin)
+//  - 나머지 섹션은 일반 스크롤 + 화면에 들어올 때 효과
+//
+//  ※ 창 크기 대응
+//    gsap.matchMedia()로 PC(769px 이상) / 모바일(768px 이하) 두 가지로 나눠 만듦.
+//    두 크기를 넘나들면 GSAP이 모든 효과·고정(pin)을 깨끗하게 지우고 처음부터 다시 만듦
+//    → 컴퓨터 크기 ↔ 휴대폰 크기로 바꿔도 고장 나지 않음
 // =========================================
 
 // 새로고침 시 브라우저가 이전 스크롤 위치를 복원하지 않게 함
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
 $(function () {
-  window.scrollTo(0, 0);
-
-  const inner = document.querySelector("#fy_visual .v_inner");
-  const target1 = document.querySelector("#fy_visual .img_target"); // 파도 자리
-  const target2 = document.querySelector("#fy_visual .img_target2"); // con01 사진 자리
-  const target3 = document.querySelector("#fy_visual .img_target3"); // con03 첫 카드 자리
-  const card2 = document.querySelector("#fy_visual .c2 .hab_img"); // 뽑혀 나올 카드
-  const card3 = document.querySelector("#fy_visual .c3 .hab_img");
-  const mapSvg = document.querySelector("#fy_visual .map_svg"); // con04 경로를 그릴 SVG
-  const vImg = document.querySelector("#fy_visual .v_img"); // 장면마다 이동하는 사진
-  const seasons = gsap.utils.toArray("#fy_visual .season"); // 봄, 여름, 가을, 겨울
-  const con06 = document.querySelector("#fy_visual .v_con06");
-  const flyTrack = document.querySelector("#fy_visual .fly_track");
-  const flyBirds = gsap.utils.toArray("#fy_visual .fly_bird .bird");
-  const flyCaps = gsap.utils.toArray("#fy_visual .fly_caps li");
-
-  // 이 비주얼이 없는 페이지이거나 GSAP이 안 불러와졌으면 실행하지 않음
-  if (
-    !inner ||
-    !target1 ||
-    !target2 ||
-    !target3 ||
-    !card2 ||
-    !card3 ||
-    !mapSvg ||
-    !vImg ||
-    seasons.length < 4 ||
-    !con06 ||
-    !flyTrack ||
-    typeof gsap === "undefined"
-  )
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined")
     return;
 
   gsap.registerPlugin(ScrollTrigger);
+  // 휴대폰 주소창이 나타났다 사라질 때마다 전체를 다시 계산하지 않게 함
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
-  // 사진이 들어갈 자리의 위치·크기 (v_inner 기준)
-  const rect = (el) => {
-    const c = inner.getBoundingClientRect();
-    const t = el.getBoundingClientRect();
-    return {
-      top: t.top - c.top,
-      left: t.left - c.left,
-      width: t.width,
-      height: t.height,
-    };
-  };
+  window.scrollTo(0, 0);
 
-  // transform(이동·회전)의 영향을 받지 않는 실제 배치 위치 (v_inner 기준)
-  const pos = (el) => {
-    let x = 0,
-      y = 0,
-      n = el;
-    while (n && n !== inner) {
-      x += n.offsetLeft;
-      y += n.offsetTop;
-      n = n.offsetParent;
-    }
-    return { x, y, w: el.offsetWidth, h: el.offsetHeight };
-  };
-  // 카드가 첫 카드 뒤(중심)에서 출발하도록 하는 거리
-  const fromCard1 = (el) => {
-    const a = pos(target3);
-    const b = pos(el);
-    return {
-      x: a.x + a.w / 2 - (b.x + b.w / 2),
-      y: a.y + a.h / 2 - (b.y + b.h / 2),
-    };
-  };
-
-  // el이 target 중심으로 가는 거리 (사계절 카드 모으기)
-  const toCenter = (el, target) => {
-    const a = pos(target);
-    const b = pos(el);
-    return {
-      x: a.x + a.w / 2 - (b.x + b.w / 2),
-      y: a.y + a.h / 2 - (b.y + b.h / 2),
-    };
-  };
-
-  // 카드가 마지막 카드(월동지) 중심으로 모이는 거리
-  const toCard3 = (el) => {
-    const a = pos(card3);
-    const b = pos(el);
-    return {
-      x: a.x + a.w / 2 - (b.x + b.w / 2),
-      y: a.y + a.h / 2 - (b.y + b.h / 2),
-    };
-  };
-
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const NAVY = "#0b1530";
   const PAPER = "#f5f6f8";
+  const NO_IR = { immediateRender: false }; // 만들 때 미리 적용하지 않음 (CSS 처음 상태 그대로)
 
-  // 밝은 배경 구간 (타임라인 시간 기준) → 헤더·커서 네이비
-  const LIGHT = [
-    [0.35, 3.1], // 파도 장면
-    [4.85, 8.15], // 서식지 장면
-    [13.6, 17.4], // 사계절 장면
-  ];
+  // 화면에 들어오면 재생 / 위로 스크롤해서 요소가 화면 아래로 완전히 내려가면 처음 상태로 되돌림
+  // → 다시 내려올 때 또 아래에서 올라오며 등장
+  const PLAY_AT = "top 82%"; // 재생 시점: 요소 윗부분이 화면 위에서 82% 지점에 닿을 때
+  const RESET_AT = "top bottom"; // 초기화 시점: 요소 윗부분이 화면 맨 아래보다 내려갈 때 (안 보일 때라 티가 안 남)
+  const replay = (anim, trigger, start = PLAY_AT) => {
+    ScrollTrigger.create({ trigger, start, onEnter: () => anim.play() });
+    ScrollTrigger.create({
+      trigger,
+      start: RESET_AT,
+      onLeaveBack: () => anim.pause(0),
+    });
+    return anim;
+  };
 
   // =========================================
-  //  CON04 지도 경로 데이터
+  //  요소
+  // =========================================
+  const visual = document.querySelector("#fy_visual");
+  const inner = document.querySelector("#fy_visual .v_inner");
+  const vImg = document.querySelector("#fy_visual .v_img");
+  const target = document.querySelector("#fy_visual .img_target");
+
+  const mapSvg = document.querySelector("#fy_con04 .map_svg");
+
+  const con06 = document.querySelector("#fy_con06");
+  const flyTrack = document.querySelector("#fy_con06 .fly_track");
+  const flyBirdWrap = document.querySelector("#fy_con06 .fly_bird");
+  const flyBirds = gsap.utils.toArray("#fy_con06 .fly_bird .bird");
+  const flyCaps = gsap.utils.toArray("#fy_con06 .fly_caps li");
+  const flyNum = document.querySelector("#fy_con06 .fly_count b");
+
+  let vtl = null; // 비주얼 타임라인 (헤더 색 계산에 사용)
+
+  // =========================================
+  //  헤더·커서 색
+  //  헤더 바로 아래에 있는 구역의 배경이 밝으면 body.fy_light
+  // =========================================
+  const themed = gsap.utils.toArray("#fy_visual, .fy_main .fy_sec");
+  const HEADER_LINE = 60; // 화면 위에서 이 높이에 걸친 구역 기준
+
+  const updateTheme = () => {
+    let light = false;
+    for (const sec of themed) {
+      const r = sec.getBoundingClientRect();
+      if (r.top <= HEADER_LINE && r.bottom > HEADER_LINE) {
+        light =
+          sec === visual
+            ? !!vtl && vtl.progress() > 0.15 // 비주얼: 배경이 밝아진 뒤부터
+            : sec.dataset.theme === "light";
+        break;
+      }
+    }
+    document.body.classList.toggle("fy_light", light);
+  };
+  ScrollTrigger.addEventListener("refresh", updateTheme);
+
+  // =========================================
+  //  CON04 지도 : 경로·새·지명 SVG 만들기 (한 번만)
   //  좌표는 지도 이미지 기준 (viewBox 1600 x 900)
   //  → 지도 이미지가 바뀌면 MAP_DEBUG = true 로 두고 지도를 클릭해서
   //    콘솔에 찍히는 좌표로 아래 x, y 를 고치면 됨
   // =========================================
   const MAP_DEBUG = false;
+  const MAP_W = 1600;
+  const MAP_H = 900;
+  // 휴대폰에서는 경로가 있는 부분만 잘라서 보여줌 (viewBox 좌표)
+  const MAP_FOCUS = { x: 400, y: 120, w: 680, h: 720 };
 
-  // 경로를 따라 나는 새 이미지
-  const BIRD_SRC = "img/sub02/fy_con03_02.png";
+  const BIRD_SRC = "img/sub02/fy_con03_02.png"; // 경로를 따라 나는 새 이미지
   const BIRD_W = 46; // 크기 (viewBox 단위)
   const BIRD_H = 46;
   const BIRD_ANGLE = 0; // 이미지 속 새 머리 방향: 오른쪽 0, 위 90, 왼쪽 180, 아래 -90
   const BIRD_STOP = 0.5; // 첫 번째 새가 멈춰 남는 위치 (0.5 = 경로 한가운데)
-  const ARRIVE_STOP = 0.92; // 두 번째 새가 도착해서 멈추는 위치 (1에 가까울수록 목적지 점에 가까움)
+  const ARRIVE_STOP = 0.92; // 두 번째 새가 도착해서 멈추는 위치
   const HUB = { x: 800, y: 400, ko: "부산", en: "Busan" };
   const ROUTES = [
     // ko, en: 지명 / x, y: 도착 좌표 / bend: 곡선 휘는 정도(+,- 방향)
-    // lx, ly, anchor: 지명 글자 위치 / at: 시작 시점 / dur: 그려지는 시간 / from: 출발지(없으면 부산)
+    // lx, ly, anchor: 지명 글자 위치 / at: 시작 시점(초) / dur: 그려지는 시간 / from: 출발지(없으면 부산)
     {
       ko: "시베리아",
       en: "Siberia",
@@ -133,7 +114,7 @@ $(function () {
       lx: -14,
       ly: -26,
       anchor: "end",
-      at: 9.6,
+      at: 0.0,
       dur: 0.9,
     },
     {
@@ -145,7 +126,7 @@ $(function () {
       lx: 14,
       ly: -26,
       anchor: "start",
-      at: 9.8,
+      at: 0.2,
       dur: 0.9,
     },
     {
@@ -157,7 +138,7 @@ $(function () {
       lx: -14,
       ly: 6,
       anchor: "end",
-      at: 10.0,
+      at: 0.4,
       dur: 0.9,
     },
     {
@@ -169,7 +150,7 @@ $(function () {
       lx: -14,
       ly: 6,
       anchor: "end",
-      at: 10.2,
+      at: 0.6,
       dur: 0.9,
     },
     {
@@ -181,7 +162,7 @@ $(function () {
       lx: 14,
       ly: -2,
       anchor: "start",
-      at: 10.4,
+      at: 0.8,
       dur: 0.8,
     },
     {
@@ -193,7 +174,7 @@ $(function () {
       lx: -16,
       ly: 14,
       anchor: "end",
-      at: 10.5,
+      at: 0.9,
       dur: 0.7,
     },
     {
@@ -205,70 +186,14 @@ $(function () {
       lx: -14,
       ly: -24,
       anchor: "end",
-      at: 11.2,
+      at: 1.6,
       dur: 0.8,
       from: { x: 858, y: 516 },
     },
   ];
 
-  // con05로 넘어갈 때 확대할 지도 위 지점 (한반도 남쪽 가운데) / 확대 배율
-  const ZOOM_AT = { x: 775, y: 375 };
-  const ZOOM_SCALE = 5;
-
-  // 세로 화면(휴대폰)에서는 지도를 화면 높이에 꽉 채우면 양옆 경로가 잘리므로,
-  // MAP_FOCUS 가로 범위가 화면 너비에 딱 들어오게 맞춤 (위아래는 네이비 여백)
-  const MAP_FOCUS = { x1: 400, x2: 1080 }; // 휴대폰에서 꼭 보여야 할 지도 가로 범위 (viewBox 좌표)
-
-  const mapBox = () => {
-    const W = inner.clientWidth;
-    const H = inner.clientHeight;
-    const vbox = mapSvg.viewBox.baseVal;
-    if (W >= H) {
-      // 가로 화면: 기존처럼 화면 가득
-      const sc = Math.max(W / vbox.width, H / vbox.height);
-      return {
-        fit: false,
-        sc,
-        x: (W - vbox.width * sc) / 2,
-        y: (H - vbox.height * sc) / 2,
-        w: vbox.width * sc,
-        h: vbox.height * sc,
-      };
-    }
-    // 세로 화면: 경로 범위가 가로에 들어오게
-    const sc = W / (MAP_FOCUS.x2 - MAP_FOCUS.x1);
-    const cx = (MAP_FOCUS.x1 + MAP_FOCUS.x2) / 2;
-    return {
-      fit: true,
-      sc,
-      x: W / 2 - cx * sc,
-      y: (H - vbox.height * sc) / 2,
-      w: vbox.width * sc,
-      h: vbox.height * sc,
-    };
-  };
-
-  // CSS(.map_fit)에 지도 위치·크기 전달
-  const applyMapBox = () => {
-    const b = mapBox();
-    inner.classList.toggle("map_fit", b.fit);
-    inner.style.setProperty("--map-x", `${b.x}px`);
-    inner.style.setProperty("--map-y", `${b.y}px`);
-    inner.style.setProperty("--map-w", `${b.w}px`);
-    inner.style.setProperty("--map-h", `${b.h}px`);
-  };
-  applyMapBox();
-  window.addEventListener("resize", applyMapBox);
-
-  // 지도 좌표(viewBox) → 화면 좌표(v_inner 기준)
-  const mapToScreen = (pt) => {
-    const b = mapBox();
-    return { x: b.x + pt.x * b.sc, y: b.y + pt.y * b.sc };
-  };
-  const zoomOrigin = () => {
-    const z = mapToScreen(ZOOM_AT);
-    return `${z.x}px ${z.y}px`;
-  };
+  let routes = [];
+  let hub = null;
 
   const NS = "http://www.w3.org/2000/svg";
   const mk = (tag, attrs, parent) => {
@@ -281,87 +206,12 @@ $(function () {
     const t = mk(
       "text",
       { x, y, "text-anchor": anchor, class: "map_label" },
-      parent
+      parent,
     );
     mk("tspan", { x, class: "ko" }, t).textContent = ko;
-    mk("tspan", { x, dy: 17, class: "en" }, t).textContent = en;
+    mk("tspan", { x, dy: "1.1em", class: "en" }, t).textContent = en;
     return t;
   };
-
-  const vb = mapSvg.viewBox.baseVal;
-  const defs = mk("defs", {}, mapSvg);
-  const routeLayer = mk("g", { class: "map_routes" }, mapSvg);
-
-  const routes = ROUTES.map((r, i) => {
-    const f = r.from || HUB;
-    const dx = r.x - f.x;
-    const dy = r.y - f.y;
-    const L = Math.hypot(dx, dy);
-    const cx = (f.x + r.x) / 2 + (-dy / L) * r.bend;
-    const cy = (f.y + r.y) / 2 + (dx / L) * r.bend;
-    const d = `M${f.x} ${f.y} Q${cx} ${cy} ${r.x} ${r.y}`;
-
-    // 점선을 앞에서부터 드러내는 마스크
-    const mask = mk(
-      "mask",
-      {
-        id: `fyRoute${i}`,
-        maskUnits: "userSpaceOnUse",
-        x: 0,
-        y: 0,
-        width: vb.width,
-        height: vb.height,
-      },
-      defs
-    );
-    const maskPath = mk("path", { d, class: "route_mask" }, mask);
-    const path = mk(
-      "path",
-      { d, class: "route", mask: `url(#fyRoute${i})` },
-      routeLayer
-    );
-    const len = path.getTotalLength();
-    maskPath.style.strokeDasharray = `${len} ${len}`;
-
-    const dot = mk(
-      "circle",
-      { cx: r.x, cy: r.y, r: 5, class: "route_dot" },
-      routeLayer
-    );
-    const label = addLabel(
-      routeLayer,
-      r.x + r.lx,
-      r.y + r.ly,
-      r.ko,
-      r.en,
-      r.anchor
-    );
-    const addBird = () => {
-      const g = mk("g", { class: "route_bird" }, routeLayer);
-      mk(
-        "image",
-        {
-          href: BIRD_SRC,
-          x: -BIRD_W / 2,
-          y: -BIRD_H / 2,
-          width: BIRD_W,
-          height: BIRD_H,
-        },
-        g
-      );
-      return g;
-    };
-    const bird = addBird(); // 중간에 남는 새
-    const bird2 = addBird(); // 목적지까지 날아가는 새
-
-    return { ...r, path, maskPath, len, dot, label, bird, bird2 };
-  });
-
-  // 부산(출발지)
-  const hub = mk("g", { class: "map_hub" }, mapSvg);
-  mk("circle", { cx: HUB.x, cy: HUB.y, r: 6, class: "hub_ring" }, hub);
-  mk("circle", { cx: HUB.x, cy: HUB.y, r: 6, class: "hub_dot" }, hub);
-  addLabel(hub, HUB.x + 14, HUB.y + 24, HUB.ko, HUB.en, "start");
 
   // 새를 경로의 t(0~1) 지점에 진행 방향으로 놓기
   const placeBird = (r, el, t) => {
@@ -371,13 +221,11 @@ $(function () {
     const ang = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
     el.setAttribute(
       "transform",
-      `translate(${a.x} ${a.y}) rotate(${ang + BIRD_ANGLE})`
+      `translate(${a.x} ${a.y}) rotate(${ang + BIRD_ANGLE})`,
     );
   };
 
   // p: 0 ~ 1 (경로가 그려진 정도)
-  // 새 한 마리가 선의 앞을 따라가다 중간(BIRD_STOP)에 남고,
-  // 그 자리에서 다른 한 마리가 이어서 날아가 목적지(ARRIVE_STOP)에 도착
   const drawRoute = (r, p) => {
     r.maskPath.style.strokeDashoffset = r.len * (1 - p);
     placeBird(r, r.bird, Math.min(p, BIRD_STOP));
@@ -388,548 +236,560 @@ $(function () {
     r.dot.style.opacity = arrive;
     r.label.style.opacity = arrive;
   };
-  routes.forEach((r) => drawRoute(r, 0));
 
-  if (MAP_DEBUG) {
-    mapSvg.style.pointerEvents = "auto";
-    mapSvg.addEventListener("click", (e) => {
-      const pt = mapSvg.createSVGPoint();
-      pt.x = e.clientX;
-      pt.y = e.clientY;
-      const p = pt.matrixTransform(mapSvg.getScreenCTM().inverse());
-      console.log(`x: ${Math.round(p.x)}, y: ${Math.round(p.y)}`);
+  if (mapSvg) {
+    const defs = mk("defs", {}, mapSvg);
+    const routeLayer = mk("g", { class: "map_routes" }, mapSvg);
+
+    routes = ROUTES.map((r, i) => {
+      const f = r.from || HUB;
+      const dx = r.x - f.x;
+      const dy = r.y - f.y;
+      const L = Math.hypot(dx, dy);
+      const cx = (f.x + r.x) / 2 + (-dy / L) * r.bend;
+      const cy = (f.y + r.y) / 2 + (dx / L) * r.bend;
+      const d = `M${f.x} ${f.y} Q${cx} ${cy} ${r.x} ${r.y}`;
+
+      // 점선을 앞에서부터 드러내는 마스크
+      const mask = mk(
+        "mask",
+        {
+          id: `fyRoute${i}`,
+          maskUnits: "userSpaceOnUse",
+          x: 0,
+          y: 0,
+          width: MAP_W,
+          height: MAP_H,
+        },
+        defs,
+      );
+      const maskPath = mk("path", { d, class: "route_mask" }, mask);
+      const path = mk(
+        "path",
+        { d, class: "route", mask: `url(#fyRoute${i})` },
+        routeLayer,
+      );
+      const len = path.getTotalLength();
+      maskPath.style.strokeDasharray = `${len} ${len}`;
+
+      const dot = mk(
+        "circle",
+        { cx: r.x, cy: r.y, r: 5, class: "route_dot" },
+        routeLayer,
+      );
+      const label = addLabel(
+        routeLayer,
+        r.x + r.lx,
+        r.y + r.ly,
+        r.ko,
+        r.en,
+        r.anchor,
+      );
+      const addBird = () => {
+        const g = mk("g", { class: "route_bird" }, routeLayer);
+        mk(
+          "image",
+          {
+            href: BIRD_SRC,
+            x: -BIRD_W / 2,
+            y: -BIRD_H / 2,
+            width: BIRD_W,
+            height: BIRD_H,
+          },
+          g,
+        );
+        return g;
+      };
+      const bird = addBird(); // 중간에 남는 새
+      const bird2 = addBird(); // 목적지까지 날아가는 새
+
+      return { ...r, path, maskPath, len, dot, label, bird, bird2 };
     });
+
+    // 부산(출발지)
+    hub = mk("g", { class: "map_hub" }, mapSvg);
+    mk("circle", { cx: HUB.x, cy: HUB.y, r: 6, class: "hub_ring" }, hub);
+    mk("circle", { cx: HUB.x, cy: HUB.y, r: 6, class: "hub_dot" }, hub);
+    addLabel(hub, HUB.x + 14, HUB.y + 24, HUB.ko, HUB.en, "start");
+
+    routes.forEach((r) => drawRoute(r, 0));
+
+    if (MAP_DEBUG) {
+      mapSvg.addEventListener("click", (e) => {
+        const pt = mapSvg.createSVGPoint();
+        pt.x = e.clientX;
+        pt.y = e.clientY;
+        const p = pt.matrixTransform(mapSvg.getScreenCTM().inverse());
+        console.log(`x: ${Math.round(p.x)}, y: ${Math.round(p.y)}`);
+      });
+    }
   }
 
   // =========================================
-  //  스크롤 길이 · 구역 단락
+  //  01. VISUAL : 풀스크린 고정 구역
   // =========================================
-  const SCROLL_PER_SEC = 45; // 타임라인 1초당 스크롤 길이(화면 높이의 %). 줄이면 전체가 짧아짐
-  const HOLD = 0.6; // 구역이 완성된 뒤 다음 구역으로 넘어가기 전 '걸리는' 길이
-  const END_HOLD = 1.0; // 마지막 장면에서 푸터가 나오기 전까지 머무는 길이
+  const initVisual = () => {
+    if (!visual || !inner || !vImg || !target) return;
 
-  // 단락을 넣을 지점 (구역이 끝나고 다음 구역이 시작되는 시점, 단락 넣기 전 기준)
-  // con06 장면 사이는 아래에서 자동으로 추가
-  const HOLDS = [2.8, 4.6, 7.2, 12.5, 16.1];
+    // 사진이 들어갈 자리의 위치·크기 (v_inner 기준)
+    const rect = (el) => {
+      const c = inner.getBoundingClientRect();
+      const t = el.getBoundingClientRect();
+      return {
+        top: t.top - c.top,
+        left: t.left - c.left,
+        width: t.width,
+        height: t.height,
+      };
+    };
 
-  // 서식지(con03)부터는 애니메이션이 많아 빠르게 느껴지므로 천천히 + 자유롭게
-  const SLOW_FROM = 4.6; // 새의 여정 → 서식지로 넘어가는 시점부터
-  const SLOW = 1.5; // 그 뒤 구간을 몇 배 천천히 (스크롤을 더 많이 해야 진행)
-  const SNAP_NEAR = 0.45; // 자유 구간에서는 구역 완성 화면 근처(이 범위 안)에 멈췄을 때만 붙음
-
-  // 원래 시간 → 천천히 만든 뒤 시간
-  const slowT = (t) =>
-    t <= SLOW_FROM ? t : SLOW_FROM + (t - SLOW_FROM) * SLOW;
-  // 원래 시간 → 천천히 + 단락까지 넣은 뒤 시간
-  const shiftT = (t) => slowT(t) + HOLDS.filter((h) => h <= t).length * HOLD;
-
-  // 타임라인 길이 · 스냅 위치(0~1). 타임라인을 다 만든 뒤 채움
-  let tlDuration = 1;
-  let STOPS = [0, 1];
-  let FREE_FROM = 1; // 이 진행도 이후는 자유 구간 (타임라인을 다 만든 뒤 채움)
-  const snapToStop = (v) => {
-    const eps = 0.001;
-
-    // 자유 구간(서식지부터): 완성 화면 가까이에서 멈췄을 때만 살짝 붙고, 아니면 그 자리에 둠
-    if (v > FREE_FROM + eps) {
-      const near = STOPS.reduce((a, b) =>
-        Math.abs(b - v) < Math.abs(a - v) ? b : a
-      );
-      return Math.abs(near - v) * tlDuration <= SNAP_NEAR ? near : v;
-    }
-
-    // 앞 구간(비주얼 ~ 새의 여정): 조금만 내려도 다음 구역 완성 화면으로
-    const dir = tl.scrollTrigger ? tl.scrollTrigger.direction : 1;
-    if (dir > 0) return STOPS.find((p) => p >= v - eps) ?? 1;
-    for (let i = STOPS.length - 1; i >= 0; i--)
-      if (STOPS[i] <= v + eps) return STOPS[i];
-    return 0;
-  };
-
-  const tl = gsap.timeline({
-    defaults: { ease: "none" },
-    scrollTrigger: {
-      trigger: "#fy_visual",
-      start: "top top",
-      // 스크롤 길이 = 타임라인 길이 × SCROLL_PER_SEC (구역을 추가해도 자동으로 맞춰짐)
-      end: () => `+=${Math.round(tlDuration * SCROLL_PER_SEC)}%`,
-      pin: true,
-      scrub: 1,
-      invalidateOnRefresh: true,
-      // 스크롤을 멈추면 가까운 구역(STOPS)으로 붙음 → 구역마다 '걸리는' 느낌
-      snap: {
-        snapTo: (v) => snapToStop(v),
-        duration: { min: 0.3, max: 0.9 },
-        delay: 0.12,
-        ease: "power1.inOut",
-        inertia: false,
+    vtl = gsap.timeline({
+      defaults: { ease: "none" },
+      onUpdate: updateTheme, // scrub 지연 중에도 헤더 색 맞춤
+      scrollTrigger: {
+        trigger: visual,
+        start: "top top",
+        end: "+=180%", // 고정 구간 길이 (화면 높이의 1.8배)
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true, // 창 크기가 바뀌면 사진 자리를 다시 계산
+        // 중간에 멈추면 첫 화면 / 완성 화면 중 스크롤 방향 쪽으로 붙음
+        snap: {
+          snapTo: [0, 1],
+          directional: true,
+          duration: { min: 0.3, max: 0.8 },
+          delay: 0.12,
+          ease: "power1.inOut",
+        },
       },
-    },
-    onUpdate: () => {
-      const t = tl.time();
-      document.body.classList.toggle(
-        "fy_light",
-        LIGHT.some(([a, b]) => t > shiftT(a) && t < shiftT(b))
-      );
-    },
-  });
+    });
 
-  tl
-    // ===== VISUAL → 파도 =====
-    // 1. 첫 화면 문구·배지·SCROLL 사라짐
-    .to("#fy_visual .v_hero_txt, #fy_visual .v_badge, #fy_visual .v_scroll", {
-      autoAlpha: 0,
-      y: -40,
-      duration: 0.3,
-      stagger: 0.05,
-    })
-    // 2. 배경 네이비 → 밝은 색, 그라데이션 걷힘
-    .to(inner, { backgroundColor: PAPER, duration: 1 }, 0.1)
-    .to("#fy_visual .v_shade", { autoAlpha: 0, duration: 0.5 }, 0.1)
-    // 3. 사진이 줄어들며 파도 자리로
-    .to(
-      "#fy_visual .v_img",
-      {
-        top: () => rect(target1).top,
-        left: () => rect(target1).left,
-        width: () => rect(target1).width,
-        height: () => rect(target1).height,
-        duration: 1,
-        ease: "power2.inOut",
-      },
-      0.1
-    )
-    // 4. 줄어드는 도중 파도 사진으로 교체
-    .to("#fy_visual .v_img .img2", { opacity: 1, duration: 0.5 }, 0.45)
-    // 5. 오른쪽 문구 등장
-    .to(
-      "#fy_visual .v_txt .fade",
-      { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.15 },
-      1.05
-    )
-    .to("#fy_visual .v_txt .line", { scaleX: 1, duration: 0.4 }, 1.2)
-    // 6. 사인 로고: 선 그리기 → 채우기
-    .to("#fy_visual .v_sign text", { strokeDashoffset: 0, duration: 1.2 }, 1.2)
-    .to(
-      "#fy_visual .v_sign text",
-      { fillOpacity: 1, strokeOpacity: 0, duration: 0.4 },
-      2.2
-    )
-
-    // ===== 파도 → CON01 새의 여정 =====
-    // 7. 파도 장면 문구·사인 사라짐
-    .to(
-      "#fy_visual .v_txt, #fy_visual .v_sign",
-      { autoAlpha: 0, y: -30, duration: 0.4, stagger: 0.08 },
-      2.8
-    )
-    // 8. 배경 다시 네이비로
-    .to(inner, { backgroundColor: NAVY, duration: 0.6 }, 2.9)
-    // 9. 사진이 con01 자리로 이동하며 커짐
-    .to(
-      "#fy_visual .v_img",
-      {
-        top: () => rect(target2).top,
-        left: () => rect(target2).left,
-        width: () => rect(target2).width,
-        height: () => rect(target2).height,
-        duration: 1,
-        ease: "power2.inOut",
-      },
-      2.9
-    )
-    // 10. 이동 도중 con01 사진으로 교체
-    .to("#fy_visual .v_img .img3", { opacity: 1, duration: 0.5 }, 3.15)
-    // 11. 제목 등장
-    .to(
-      "#fy_visual .con01_tit > *",
-      { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.12 },
-      3.4
-    )
-    // 12. 타임라인 선 → 월별 항목
-    .to("#fy_visual .time_line", { scaleX: 1, duration: 0.8 }, 3.7)
-    .to(
-      "#fy_visual .con01_time li",
-      { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.15 },
-      3.85
-    )
-
-    // ===== CON01 → CON03 새의 서식지 =====
-    // 13. con01 제목·타임라인 사라짐
-    .to(
-      "#fy_visual .con01_tit, #fy_visual .con01_time",
-      { autoAlpha: 0, y: -30, duration: 0.4, stagger: 0.08 },
-      4.6
-    )
-    // 14. 배경 밝은 색으로
-    .to(inner, { backgroundColor: PAPER, duration: 0.6 }, 4.7)
-    // 15. 사진이 첫 카드 자리로 이동하며 모서리가 둥글어짐
-    .to(
-      "#fy_visual .v_img",
-      {
-        top: () => rect(target3).top,
-        left: () => rect(target3).left,
-        width: () => rect(target3).width,
-        height: () => rect(target3).height,
-        borderRadius: 14,
-        duration: 1,
-        ease: "power2.inOut",
-      },
-      4.7
-    )
-    // 16. 이동 도중 번식지 사진으로 교체
-    .to("#fy_visual .v_img .img4", { opacity: 1, duration: 0.5 }, 4.95)
-    // 17. 제목 등장
-    .to(
-      "#fy_visual .con03_tit > *",
-      { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.12 },
-      5.3
-    )
-    // 18. 나머지 두 카드가 첫 카드 뒤에서 뽑혀 나옴
-    .set([card2, card3], { autoAlpha: 1 }, 5.6)
-    .fromTo(
-      card2,
-      {
-        x: () => fromCard1(card2).x,
-        y: () => fromCard1(card2).y,
-        rotation: -6,
-        scale: 0.9,
-      },
-      { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.7, ease: "power3.out" },
-      5.6
-    )
-    .fromTo(
-      card3,
-      {
-        x: () => fromCard1(card3).x,
-        y: () => fromCard1(card3).y,
-        rotation: -10,
-        scale: 0.85,
-      },
-      { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.8, ease: "power3.out" },
-      5.8
-    )
-    // 19. 카드 설명·오른쪽 문구 등장
-    .to(
-      "#fy_visual .hab_cap",
-      { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.12 },
-      6.3
-    )
-    .to("#fy_visual .hab_note", { autoAlpha: 1, y: 0, duration: 0.4 }, 6.6)
-
-    // ===== CON03 → CON04 비행길 지도 =====
-    // 20. 서식지 제목·설명 사라짐
-    .to(
-      "#fy_visual .con03_tit, #fy_visual .hab_cap, #fy_visual .hab_note",
-      { autoAlpha: 0, y: -20, duration: 0.4, stagger: 0.04 },
-      7.2
-    )
-    // 21. 카드들이 마지막 카드(월동지)로 다시 모임
-    .to(
-      card2,
-      {
-        x: () => toCard3(card2).x,
-        y: () => toCard3(card2).y,
-        rotation: 6,
-        scale: 0.92,
-        duration: 0.6,
-        ease: "power2.in",
-      },
-      7.4
-    )
-    .to(
-      "#fy_visual .v_img",
-      {
-        top: () => pos(card3).y,
-        left: () => pos(card3).x,
-        width: () => pos(card3).w,
-        height: () => pos(card3).h,
-        duration: 0.7,
-        ease: "power2.inOut",
-      },
-      7.4
-    )
-    // 첫 카드가 마지막 카드에 겹쳐지며 같은 사진으로
-    .to("#fy_visual .v_img .img5", { opacity: 1, duration: 0.3 }, 7.75)
-    .set([card2, card3], { autoAlpha: 0 }, 8.1)
-    // 22. 배경 네이비, 모인 카드가 화면 가득 지도로 펼쳐짐
-    .to(inner, { backgroundColor: NAVY, duration: 0.5 }, 8.1)
-    .to(
-      "#fy_visual .v_img",
-      {
-        top: 0,
-        left: 0,
-        width: () => inner.clientWidth,
-        height: () => inner.clientHeight,
-        borderRadius: 0,
-        duration: 1,
-        ease: "power2.inOut",
-      },
-      8.1
-    )
-    .to("#fy_visual .v_img .img6", { opacity: 1, duration: 0.5 }, 8.35)
-    .to("#fy_visual .map_fade", { opacity: 1, duration: 0.5 }, 8.8)
-    // 23. 제목, 출발지(부산) 등장
-    .to(
-      "#fy_visual .con04_tit > *",
-      { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.12 },
-      9.2
-    )
-    .to(hub, { autoAlpha: 1, duration: 0.3 }, 9.4)
-
-    // 경로가 다 그려진 지도 잠시 유지
-    .to({}, { duration: 0.5 }, 12.0)
-
-    // ===== CON04 → CON05 한국의 사계절 =====
-    // 25. 지도 제목·경로 사라지며 한국으로 확대
-    .to(
-      "#fy_visual .con04_tit, #fy_visual .map_fade",
-      { autoAlpha: 0, duration: 0.4 },
-      12.5
-    )
-    .to(mapSvg, { autoAlpha: 0, duration: 0.5 }, 12.6)
-    .to(
-      [vImg, "#fy_visual .v_con04"], // 지도 사진과 경로 레이어를 같은 기준으로 확대
-      {
-        scale: ZOOM_SCALE,
-        transformOrigin: zoomOrigin,
-        duration: 1.3,
-        ease: "power2.in",
-      },
-      12.5
-    )
-    // 26. 확대가 끝날 즈음 밝은 배경으로 전환
-    .to(inner, { backgroundColor: PAPER, duration: 0.3 }, 13.3)
-    .to(vImg, { autoAlpha: 0, duration: 0.5 }, 13.4)
-    // 27. 제목 등장
-    .to(
-      "#fy_visual .con05_tit > *",
-      { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.12 },
-      13.9
-    )
-    // 28. 사계절 카드가 아래에서 차례로 올라옴
-    .fromTo(
-      "#fy_visual .season",
-      { autoAlpha: 0, y: () => inner.clientHeight * 0.6 },
-      { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.3, ease: "power3.out" },
-      14.1
-    )
-    // 29. 아래 진행선이 봄 → 겨울 방향으로 그어짐
-    .to(
-      "#fy_visual .season_line",
-      { scaleX: 1, duration: 1.2, ease: "power1.inOut" },
-      14.3
-    )
-
-    // 사계절 화면 잠시 유지
-    .to({}, { duration: 0.5 }, 15.6)
-
-    // ===== CON05 → CON06 비행길 =====
-    // 30. 제목·진행선 사라짐
-    .to(
-      "#fy_visual .con05_tit, #fy_visual .season_line",
-      { autoAlpha: 0, duration: 0.4 },
-      16.1
-    )
-    // 31. 겨울이 가을 뒤로 들어가 사라짐
-    .to(
-      seasons[3],
-      {
-        x: () => toCenter(seasons[3], seasons[2]).x,
-        scale: 0.9,
-        duration: 0.5,
-        ease: "power2.in",
-      },
-      16.2
-    )
-    .set(seasons[3], { autoAlpha: 0 }, 16.7)
-    // 32. 봄과 가을이 여름 뒤로 모임
-    .to(
-      seasons[0],
-      {
-        x: () => toCenter(seasons[0], seasons[1]).x,
-        scale: 0.9,
-        duration: 0.6,
-        ease: "power2.in",
-      },
-      16.7
-    )
-    .to(
-      seasons[2],
-      {
-        x: () => toCenter(seasons[2], seasons[1]).x,
-        scale: 0.9,
-        duration: 0.6,
-        ease: "power2.in",
-      },
-      16.7
-    )
-    .set([seasons[0], seasons[2]], { autoAlpha: 0 }, 17.3)
-    // 33. 여름 카드를 움직이는 사진(v_img)이 이어받음
-    .set(
-      vImg,
-      {
-        scale: 1,
-        transformOrigin: "50% 50%",
-        top: () => pos(seasons[1]).y,
-        left: () => pos(seasons[1]).x,
-        width: () => pos(seasons[1]).w,
-        height: () => pos(seasons[1]).h,
-        borderRadius: 6,
-        autoAlpha: 1,
-      },
-      17.3
-    )
-    .set("#fy_visual .v_img .img7", { opacity: 1 }, 17.3)
-    .set(seasons[1], { autoAlpha: 0 }, 17.3)
-    // 34. 세로 카드가 가로로 펼쳐지며 화면 가득
-    .to(inner, { backgroundColor: NAVY, duration: 0.4 }, 17.4)
-    .to(
-      vImg,
-      {
-        top: 0,
-        left: 0,
-        width: () => inner.clientWidth,
-        height: () => inner.clientHeight,
-        borderRadius: 0,
-        duration: 1,
-        ease: "power2.inOut",
-      },
-      17.4
-    )
-    // 35. 더 커지며 사라지고 비행길 첫 장면 등장
-    .to(
-      vImg,
-      { scale: 1.15, autoAlpha: 0, duration: 0.6, ease: "power1.in" },
-      18.3
-    )
-    .to(con06, { autoAlpha: 1, duration: 0.6 }, 18.3)
-    .fromTo(
-      "#fy_visual .con06_tit > *",
-      { autoAlpha: 0, y: 24 },
-      { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.12 },
-      18.6
-    );
-
-  // ===== CON06 장면 진행 =====
-  // 새는 제자리에서 날개 올림 → 내림 한 번, 그다음 배경이 왼쪽으로 넘어감
-  const SCENE_START = 18.8; // 첫 장면 시작 시점
-  const SCENE_LEN = 1.6; // 장면 하나의 길이
-  const SCENE_COUNT = flyCaps.length; // 배경 수 (5)
-  const FLAP_AT = 0.5; // 장면 시작 후 날개를 내리는 시점
-  const SLIDE_AT = 1.0; // 장면 시작 후 배경이 넘어가는 시점
-  const lastEnd = SCENE_START + SCENE_COUNT * SCENE_LEN;
-
-  gsap.set("#fy_visual .fly_bird", { xPercent: -50, yPercent: -50 });
-
-  // 뒤 새 무리는 비행길 내내 천천히 흘러감
-  tl.fromTo(
-    "#fy_visual .fly_flock",
-    { xPercent: 15 },
-    { xPercent: -70, duration: lastEnd - 18.3 },
-    18.3
-  );
-
-  for (let i = 0; i < SCENE_COUNT; i++) {
-    const S = SCENE_START + i * SCENE_LEN;
-    const isLast = i === SCENE_COUNT - 1;
-
-    // 장면 문구
-    tl.to(flyCaps[i], { autoAlpha: 1, y: 0, duration: 0.4 }, S);
-    if (!isLast)
-      tl.to(flyCaps[i], { autoAlpha: 0, y: -10, duration: 0.3 }, S + SLIDE_AT);
-
-    // 이 장면의 주인공 새
-    const bird = flyBirds.find((b) => Number(b.dataset.scene) === i);
-    if (bird) {
-      const appear = i === 0 ? 18.5 : S - 0.45; // 앞 장면에서 넘어올 때 겹치듯 교체
-      tl.to(bird, { autoAlpha: 1, duration: 0.3 }, appear);
-      // 날갯짓에 맞춰 살짝 떠오름
-      tl.fromTo(
-        bird,
-        { y: 8 },
-        { y: -10, duration: SLIDE_AT + 0.2, ease: "sine.inOut" },
-        S
-      );
-      // 날개 올림 → 내림
-      tl.set(bird.querySelector(".up"), { opacity: 0 }, S + FLAP_AT);
-      tl.set(bird.querySelector(".down"), { opacity: 1 }, S + FLAP_AT);
-      if (!isLast)
-        tl.to(bird, { autoAlpha: 0, duration: 0.25 }, S + SLIDE_AT + 0.05);
-    }
-
-    // 다음 배경으로 넘어감 (넘어가기 직전에 단락)
-    if (!isLast) {
-      HOLDS.push(S + SLIDE_AT);
-      tl.to(
-        flyTrack,
+    // ※ 모든 애니메이션의 시작값을 직접 적어 둠 (fromTo)
+    //   .to()만 쓰면 창 크기가 바뀔 때 '지금 화면 상태'를 시작값으로 다시 기록해서
+    //   거꾸로 스크롤해도 처음 상태로 돌아가지 않음
+    vtl
+      // 1. 첫 화면 문구·배지·SCROLL 사라짐
+      .fromTo(
+        "#fy_visual .v_hero_txt, #fy_visual .v_badge, #fy_visual .v_scroll",
+        { autoAlpha: 1, y: 0 },
+        { autoAlpha: 0, y: -40, duration: 0.3, stagger: 0.05, ...NO_IR },
+        0,
+      )
+      // 2. 배경 네이비 → 밝은 색, 그라데이션 걷힘
+      .fromTo(
+        inner,
+        { backgroundColor: NAVY },
+        { backgroundColor: PAPER, duration: 1, ...NO_IR },
+        0.1,
+      )
+      .fromTo(
+        "#fy_visual .v_shade",
+        { autoAlpha: 1 },
+        { autoAlpha: 0, duration: 0.5, ...NO_IR },
+        0.1,
+      )
+      // 3. 사진이 줄어들며 파도 자리로 (위치는 함수 → 창 크기가 바뀌면 다시 계산)
+      .fromTo(
+        vImg,
         {
-          xPercent: -(100 / SCENE_COUNT) * (i + 1),
-          duration: 0.7,
+          top: 0,
+          left: 0,
+          width: () => inner.clientWidth,
+          height: () => inner.clientHeight,
+        },
+        {
+          top: () => rect(target).top,
+          left: () => rect(target).left,
+          width: () => rect(target).width,
+          height: () => rect(target).height,
+          duration: 1,
           ease: "power2.inOut",
         },
-        S + SLIDE_AT
-      );
-    }
-  }
+        0.1,
+      )
+      // 4. 줄어드는 도중 파도 사진으로 교체
+      .fromTo(
+        "#fy_visual .v_img .img2",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ...NO_IR },
+        0.45,
+      )
+      // 5. 오른쪽 문구 등장
+      .fromTo(
+        "#fy_visual .v_txt .fade",
+        { autoAlpha: 0, y: 30 },
+        { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.15, ...NO_IR },
+        1.05,
+      )
+      .fromTo(
+        "#fy_visual .v_txt .line",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.4, ...NO_IR },
+        1.2,
+      )
+      // 6. 사인 로고: 선 그리기 → 채우기
+      .fromTo(
+        "#fy_visual .v_sign text",
+        { strokeDashoffset: 2200 },
+        { strokeDashoffset: 0, duration: 1.2, ...NO_IR },
+        1.2,
+      )
+      .fromTo(
+        "#fy_visual .v_sign text",
+        { fillOpacity: 0, strokeOpacity: 1 },
+        { fillOpacity: 1, strokeOpacity: 0, duration: 0.4, ...NO_IR },
+        2.2,
+      )
+      // 완성 화면 잠시 유지
+      .to({}, { duration: 0.4 });
+  };
 
-  // 마지막 장면에 머무는 구간 (조금 내려도 바로 푸터가 나오지 않게)
-  tl.to({}, { duration: END_HOLD }, lastEnd);
-
-  // 24. 부산에서 각 지역으로 점선이 그려지고 새가 따라 날아감
-  routes.forEach((r) => {
-    const prog = { p: 0 };
-    tl.to(
-      prog,
-      { p: 1, duration: r.dur, onUpdate: () => drawRoute(r, prog.p) },
-      r.at
+  // =========================================
+  //  02 ~ 05. 일반 섹션 : 화면에 들어올 때 효과
+  // =========================================
+  // 아래에서 떠오름
+  const rise = (targets, trigger, vars = {}) =>
+    replay(
+      gsap.from(targets, {
+        autoAlpha: 0,
+        y: 40,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: 0.12,
+        ...vars,
+        paused: true,
+      }),
+      trigger,
     );
-  });
 
-  // ===== 서식지부터 천천히 =====
-  // SLOW_FROM 이후에 시작하는 애니메이션의 시작 시점과 길이를 SLOW 배로 늘림
-  tl.getChildren(false, true, true).forEach((child) => {
-    const st = child.startTime();
-    if (st >= SLOW_FROM) {
-      child.startTime(slowT(st));
-      child.timeScale(child.timeScale() / SLOW);
+  // 사진 틀이 열리며 등장
+  const openFig = (fig) =>
+    replay(
+      gsap.fromTo(
+        fig,
+        { clipPath: "inset(100% 0% 0% 0%)" },
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 1.3,
+          ease: "power3.inOut",
+          paused: true,
+        },
+      ),
+      fig,
+      "top 80%",
+    );
+
+  // 스크롤에 따라 사진이 틀 안에서 천천히 움직임
+  const parallax = (fig) => {
+    const img = fig.querySelector(".p_img");
+    if (!img) return;
+    gsap.fromTo(
+      img,
+      { yPercent: -6 },
+      {
+        yPercent: 6,
+        ease: "none",
+        scrollTrigger: {
+          trigger: fig,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      },
+    );
+  };
+
+  const initSections = () => {
+    if (reduce) return;
+
+    // 섹션 제목 (고정되는 con06 제목은 제외)
+    gsap.utils
+      .toArray(".fy_main .fy_sec:not(.fy_full) .sec_tit")
+      .forEach((tit) => {
+        rise(tit.querySelectorAll(":scope > *"), tit);
+      });
+
+    gsap.utils
+      .toArray(".fy_main .fy_sec:not(.fy_full) .fy_parallax")
+      .forEach(parallax);
+
+    // ----- CON01 새의 여정 -----
+    const con01Img = document.querySelector("#fy_con01 .con01_img");
+    if (con01Img) openFig(con01Img);
+
+    const time = document.querySelector("#fy_con01 .con01_time");
+    if (time) {
+      const tl01 = gsap
+        .timeline({ paused: true })
+        .from(time.querySelector(".time_line"), {
+          scaleX: 0,
+          duration: 1,
+          ease: "power2.inOut",
+        })
+        .from(
+          time.querySelectorAll("li"),
+          { autoAlpha: 0, y: 24, duration: 0.5, stagger: 0.15 },
+          0.3,
+        );
+      replay(tl01, time, "top 80%");
     }
-  });
 
-  // ===== 구역 단락 넣기 =====
-  // 뒤쪽 지점부터 차례로, 그 시점 이후의 애니메이션을 HOLD 만큼 뒤로 밀어 빈 구간을 만듦
-  HOLDS.sort((a, b) => a - b);
-  [...HOLDS].reverse().forEach((h) => tl.shiftChildren(HOLD, true, slowT(h)));
+    // ----- CON03 서식지 -----
+    const habs = gsap.utils.toArray("#fy_con03 .hab");
+    if (habs.length) {
+      rise(habs, "#fy_con03 .hab_list", {
+        y: 80,
+        duration: 1.1,
+        stagger: 0.18,
+      });
+      rise("#fy_con03 .hab_note", "#fy_con03 .hab_note");
+    }
 
-  // 스냅 위치: 각 단락의 한가운데(구역이 완성된 상태) + 마지막 장면
-  const total = tl.duration();
-  tlDuration = total;
-  STOPS = [
-    0,
-    ...HOLDS.map((h) => (shiftT(h) - HOLD / 2) / total),
-    (shiftT(lastEnd) + (END_HOLD * SLOW) / 2) / total,
-    1,
-  ];
-  // 새의 여정 완성 화면 이후부터 자유 구간
-  FREE_FROM = (shiftT(SLOW_FROM) - HOLD / 2) / total;
-  ScrollTrigger.refresh(); // 늘어난 길이로 스크롤 다시 계산
+    // ----- CON04 지도 틀 -----
+    const mapBoxEl = document.querySelector("#fy_con04 .map_box");
+    if (mapBoxEl) openFig(mapBoxEl);
 
-  // ---------- 맨 위로 버튼 ----------
-  // 스크롤 애니메이션이 거꾸로 재생되지 않고 바로 첫 화면으로 이동
-  $(".sc_top").off("click");
-  $(".sc_top")
-    .closest("a")
-    .off("click")
-    .on("click", function (e) {
-      e.preventDefault();
-      $("html, body").stop(true); // 다른 스크립트의 스크롤 애니메이션 중지
-      window.scrollTo({ top: 0, behavior: "instant" });
-      ScrollTrigger.update();
-      const scrub = tl.scrollTrigger && tl.scrollTrigger.getTween();
-      if (scrub) scrub.progress(1); // scrub 지연 없이 바로 첫 장면
+    // ----- CON05 사계절 -----
+    const seasonList = document.querySelector("#fy_con05 .season_list");
+    if (seasonList) {
+      const tl05 = gsap
+        .timeline({ paused: true })
+        .from(seasonList.children, {
+          autoAlpha: 0,
+          y: 70,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.15,
+        })
+        .from(
+          "#fy_con05 .season_line",
+          { scaleX: 0, duration: 1.2, ease: "power1.inOut" },
+          0.3,
+        );
+      replay(tl05, seasonList, "top 80%");
+    }
+  };
+
+  // =========================================
+  //  04. CON04 지도 : 크기별 보기 + 경로 그리기
+  // =========================================
+  const initMap = (isMobile) => {
+    if (!mapSvg) return;
+
+    mapSvg.setAttribute(
+      "viewBox",
+      isMobile
+        ? `${MAP_FOCUS.x} ${MAP_FOCUS.y} ${MAP_FOCUS.w} ${MAP_FOCUS.h}`
+        : `0 0 ${MAP_W} ${MAP_H}`,
+    );
+    mapSvg.classList.toggle("is_narrow", isMobile);
+
+    const mapTl = gsap.timeline({ paused: true });
+    mapTl.fromTo(hub, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4 }, 0);
+    routes.forEach((r) => {
+      const prog = { p: 0 };
+      mapTl.to(
+        prog,
+        {
+          p: 1,
+          duration: r.dur * 1.3,
+          ease: "power1.inOut",
+          onUpdate: () => drawRoute(r, prog.p),
+        },
+        0.5 + r.at * 1.3,
+      );
     });
 
-  // 이미지·폰트 로드 후 위치 재계산
+    // 움직임 줄이기 설정이면 다 그려진 상태로
+    if (reduce) {
+      mapTl.progress(1);
+      routes.forEach((r) => drawRoute(r, 1));
+      return;
+    }
+    routes.forEach((r) => drawRoute(r, 0));
+    // 화면에 들어오면 경로를 그리고, 위로 올라가 지도가 안 보이게 되면 지워 둠 → 다시 내려오면 또 그려짐
+    replay(mapTl, mapSvg, "top 65%");
+  };
+
+  // =========================================
+  //  06. CON06 비행길 : 풀스크린 고정
+  //  스크롤하면 배경이 왼쪽으로 넘어가며 주인공 새와 문구가 다음 장면으로 바뀜
+  //  날갯짓은 스크롤할 때만 (멈추면 날개를 편 채로 활공)
+  // =========================================
+  const initCon06 = () => {
+    if (!con06 || !flyTrack || !flyBirdWrap || flyCaps.length < 2)
+      return () => {};
+
+    const N = flyCaps.length; // 장면 수 (5)
+    const SCENE = 1.5; // 장면 하나 길이 (넘어가기 + 머무르기)
+    const MOVE = 0.9; // 배경이 넘어가는 시간
+    const SCROLL_PER_SCENE = 100; // 장면 하나당 스크롤 길이 (화면 높이의 %)
+
+    // 날갯짓 설정
+    const FLAP_PX = 120; // 스크롤 몇 px마다 날개를 올렸다 내리는지 (클수록 느긋하게)
+    const BOB_PX = 5; // 날갯짓할 때 위아래로 움직이는 정도 (px)
+    const GLIDE_DELAY = 180; // 스크롤이 멈추고 이 시간(ms) 뒤 날개를 편 상태로 돌아감
+
+    const step = 100 / N;
+
+    // 새 위치: 가운데 정렬은 GSAP이 맡음 (위아래 움직임과 겹치지 않게)
+    gsap.set(flyBirdWrap, { xPercent: -50, yPercent: -50, y: 0 });
+    gsap.set(flyTrack, { xPercent: 0 });
+
+    let glideTimer = null;
+    let lastScroll = null;
+    const flap = (scrollY) => {
+      // 처음 한 번은 기준점만 잡음 (페이지가 다시 만들어질 때 혼자 퍼덕이지 않게)
+      if (lastScroll === null || Math.abs(scrollY - lastScroll) < 1) {
+        lastScroll = scrollY;
+        return;
+      }
+      lastScroll = scrollY;
+      const phase = scrollY / FLAP_PX;
+      flyBirdWrap.classList.toggle("flap", Math.floor(phase) % 2 === 1);
+      gsap.set(flyBirdWrap, {
+        y: Math.sin(phase * Math.PI) * -BOB_PX,
+        overwrite: true,
+      });
+      clearTimeout(glideTimer);
+      glideTimer = setTimeout(() => {
+        flyBirdWrap.classList.remove("flap");
+        gsap.to(flyBirdWrap, { y: 0, duration: 0.5, ease: "power2.out" });
+      }, GLIDE_DELAY);
+    };
+
+    const ftl = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: con06,
+        start: "top top",
+        end: () => `+=${(N - 1) * SCROLL_PER_SCENE + 60}%`,
+        pin: true,
+        scrub: 1,
+        // 중간에 멈추면 스크롤 방향 쪽 장면으로 붙음
+        snap: {
+          snapTo: "labelsDirectional",
+          duration: { min: 0.3, max: 0.8 },
+          delay: 0.12,
+          ease: "power1.inOut",
+        },
+        onUpdate: (self) => {
+          // 장면 번호 (01 / 05)
+          if (flyNum) {
+            const n = Math.min(N, Math.round(self.progress * (N - 1)) + 1);
+            flyNum.textContent = String(n).padStart(2, "0");
+          }
+          // 스크롤할 때만 날갯짓
+          flap(self.scroll());
+        },
+      },
+    });
+
+    ftl.addLabel("s0", 0);
+    for (let i = 0; i < N - 1; i++) {
+      const T = 0.3 + i * SCENE; // 이 장면에서 다음 장면으로 넘어가기 시작하는 시점
+
+      // 지금 문구·새 사라짐
+      ftl.fromTo(
+        flyCaps[i],
+        { autoAlpha: 1, y: 0 },
+        { autoAlpha: 0, y: -10, duration: 0.3, ...NO_IR },
+        T,
+      );
+      if (flyBirds[i])
+        ftl.fromTo(
+          flyBirds[i],
+          { autoAlpha: 1, x: 0 },
+          { autoAlpha: 0, x: 60, duration: 0.3, ...NO_IR },
+          T,
+        );
+
+      // 배경이 왼쪽으로 한 장 넘어감
+      ftl.fromTo(
+        flyTrack,
+        { xPercent: -step * i },
+        {
+          xPercent: -step * (i + 1),
+          duration: MOVE,
+          ease: "power2.inOut",
+          ...NO_IR,
+        },
+        T,
+      );
+
+      // 다음 새·문구 등장
+      if (flyBirds[i + 1])
+        ftl.fromTo(
+          flyBirds[i + 1],
+          { autoAlpha: 0, x: -60 },
+          { autoAlpha: 1, x: 0, duration: 0.4, ease: "power2.out", ...NO_IR },
+          T + 0.55,
+        );
+      ftl.fromTo(
+        flyCaps[i + 1],
+        { autoAlpha: 0, y: 16 },
+        { autoAlpha: 1, y: 0, duration: 0.4, ...NO_IR },
+        T + 0.65,
+      );
+
+      ftl.addLabel(`s${i + 1}`, T + 1.2);
+    }
+    // 마지막 장면에서 조금 머문 뒤 푸터로
+    ftl.to({}, { duration: 0.4 });
+
+    // 뒤 새 무리는 비행길 내내 천천히 흘러감
+    const flock = document.querySelector("#fy_con06 .fly_flock");
+    if (flock)
+      ftl.fromTo(
+        flock,
+        { xPercent: 15 },
+        { xPercent: -70, duration: ftl.duration() },
+        0,
+      );
+
+    // 크기가 바뀌어 다시 만들 때 정리
+    return () => {
+      clearTimeout(glideTimer);
+      flyBirdWrap.classList.remove("flap");
+      if (flyNum) flyNum.textContent = "01";
+    };
+  };
+
+  // =========================================
+  //  만들기 : PC / 모바일 기준으로 나눠서
+  //  768px 경계를 넘으면 전부 지우고 다시 만듦 (위에서 아래 순서로 만들어야 위치 계산이 맞음)
+  // =========================================
+  const mm = gsap.matchMedia();
+  mm.add(
+    { isMobile: "(max-width: 768px)", isDesktop: "(min-width: 769px)" },
+    (ctx) => {
+      const { isMobile } = ctx.conditions;
+
+      initVisual();
+      initSections();
+      initMap(isMobile);
+      const cleanCon06 = initCon06();
+
+      // 헤더 색은 스크롤할 때마다 확인
+      ScrollTrigger.create({ start: 0, end: "max", onUpdate: updateTheme });
+      updateTheme();
+
+      return () => {
+        cleanCon06();
+        vtl = null;
+        document.body.classList.remove("fy_light");
+      };
+    },
+  );
+
+  // =========================================
+  //  위치 다시 계산
+  // =========================================
+  // 이미지·폰트가 늦게 들어와 높이가 바뀌는 경우
   $(window).on("load", () => ScrollTrigger.refresh());
   if (document.fonts) document.fonts.ready.then(() => ScrollTrigger.refresh());
+  // 다른 페이지에 갔다가 '뒤로 가기'로 돌아온 경우 (브라우저가 페이지를 저장해 두었다가 그대로 꺼냄)
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) ScrollTrigger.refresh();
+  });
 });

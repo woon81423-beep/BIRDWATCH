@@ -1,13 +1,13 @@
 /* =========================================================
    sub02 : FLYWAY
    ---------------------------------------------------------
-   00. 공통 (커서·헤더 색 전환, 변수)
-   01. VISUAL      첫 화면 + 파도 장면
+   00. 공통 (변수, 커서·헤더 색 전환, 섹션 틀, 제목)
+   01. VISUAL      풀스크린 고정 구역 (첫 화면 + 파도 장면)
    02. CON01       새의 여정
    03. CON03       새의 서식지
    04. CON04       비행길 지도
    05. CON05       한국의 사계절
-   06. CON06       비행길 (날갯짓 장면)
+   06. CON06       비행길
    07. FOOTER
    08. RESPONSIVE  1024 / 768 / 480 / 가로로 눕힌 휴대폰
    09. 움직임 줄이기 설정
@@ -16,15 +16,17 @@
 /* =========================================================
    00. 공통
    ========================================================= */
-#fy_visual {
+#fy_visual,
+.fy_main {
   --navy: #0b1530;
   --ink: #1b2a4a;
   --paper: #f5f6f8;
-  --head: 110px; /* 헤더 높이만큼 위 여백 */
+  --head: 110px; /* 헤더 높이 */
   --side: 6vw; /* 좌우 여백 */
-  --title-en: clamp(16px, 1.4vw, 24px);
-  --title-ko: clamp(32px, 3.2vw, 56px);
-  position: relative;
+  --wrap: min(1400px, 88vw); /* 본문 최대 너비 */
+  --sec-pad: clamp(100px, 14vh, 180px); /* 섹션 위아래 여백 */
+  --title-en: clamp(14px, 1.2vw, 20px);
+  --title-ko: clamp(30px, 3vw, 52px);
 }
 
 /* 커서가 고정(pin)된 비주얼보다 항상 위에 */
@@ -57,66 +59,92 @@ body.fy_light header .header_lnb i {
   color: #1b2a4a;
 }
 
-/* 섹션 제목 공통 (영문 + 한글 + 세로선 설명) */
-#fy_visual .con01_tit,
-#fy_visual .con03_tit,
-#fy_visual .con04_tit,
-#fy_visual .con05_tit,
-#fy_visual .con06_tit {
+/* 섹션 틀 */
+.fy_sec {
+  position: relative;
+  padding: var(--sec-pad) 0;
+  overflow: hidden;
+}
+.fy_sec.dark {
+  background: var(--navy);
+  color: #fff;
+}
+.fy_sec.light {
+  background: var(--paper);
+  color: var(--ink);
+}
+.fy_wrap {
+  position: relative;
+  width: var(--wrap);
+  margin: 0 auto;
+}
+
+/* 섹션 제목 (영문 + 한글 + 세로선 설명) */
+.sec_tit {
   display: flex;
   align-items: flex-end;
   gap: 24px;
+  margin-bottom: clamp(40px, 7vh, 80px);
 }
-#fy_visual .con01_tit .en,
-#fy_visual .con03_tit .en,
-#fy_visual .con04_tit .en,
-#fy_visual .con05_tit .en,
-#fy_visual .con06_tit .en {
+.sec_tit .en {
   display: block;
   margin-bottom: 6px;
   font-family: "Playfair Display", serif;
   font-size: var(--title-en);
   letter-spacing: 0.06em;
 }
-#fy_visual .con01_tit h3,
-#fy_visual .con03_tit h3,
-#fy_visual .con04_tit h3,
-#fy_visual .con05_tit h3,
-#fy_visual .con06_tit h3 {
+.sec_tit h3 {
   font-size: var(--title-ko);
   font-weight: 400;
   line-height: 1.1;
 }
-#fy_visual .con01_tit p,
-#fy_visual .con03_tit p,
-#fy_visual .con04_tit p,
-#fy_visual .con05_tit p,
-#fy_visual .con06_tit p {
+.sec_tit p {
   margin-bottom: 0.35em;
   padding-left: 24px;
   border-left: 1px solid rgba(255, 255, 255, 0.6);
-  font-size: clamp(13px, 1vw, 17px);
+  font-size: clamp(14px, 1.05vw, 18px);
   line-height: 1.5;
 }
-/* 밝은 배경 장면은 세로선도 네이비 */
-#fy_visual .con03_tit p,
-#fy_visual .con05_tit p {
+.fy_sec.light .sec_tit p {
   border-left-color: rgba(27, 42, 74, 0.6);
+}
+.sec_tit p .en {
+  margin-bottom: 2px;
+  font-size: clamp(13px, 1vw, 17px);
+}
+
+/* 사진 틀 (화면에 들어올 때 열리는 효과는 sub02.js) */
+.fy_fig {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.fy_fig img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* 스크롤에 따라 사진이 천천히 움직임 → 위아래 여유분을 줌 */
+.fy_parallax .p_img {
+  position: absolute;
+  left: 0;
+  top: -8%;
+  height: 116%;
 }
 
 /* =========================================================
-   01. VISUAL
+   01. VISUAL (풀스크린 고정 구역)
    ========================================================= */
 #fy_visual .v_inner {
   position: relative;
   isolation: isolate; /* 안쪽 z-index가 헤더·커서와 섞이지 않게 */
   height: 100vh;
-  height: 100svh; /* 휴대폰 주소창 높이 변화 대응 */
   overflow: hidden;
   background: var(--navy);
 }
 
-/* 장면마다 이동하는 사진 (GSAP이 top/left/width/height 를 움직임) */
+/* 첫 화면 사진 → 파도 자리로 줄어듦 (GSAP이 top/left/width/height 를 움직임) */
 #fy_visual .v_img {
   position: absolute;
   top: 0;
@@ -133,12 +161,7 @@ body.fy_light header .header_lnb i {
   height: 100%;
   object-fit: cover;
 }
-#fy_visual .v_img .img2,
-#fy_visual .v_img .img3,
-#fy_visual .v_img .img4,
-#fy_visual .v_img .img5,
-#fy_visual .v_img .img6,
-#fy_visual .v_img .img7 {
+#fy_visual .v_img .img2 {
   opacity: 0;
 }
 #fy_visual .v_shade {
@@ -314,65 +337,38 @@ body.fy_light header .header_lnb i {
 /* =========================================================
    02. CON01 : 새의 여정
    ========================================================= */
-#fy_visual .v_con01 {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 화면 높이 안에서 세로 가운데 */
-  padding: var(--head) var(--side) 8vh;
-  color: #fff;
-}
-#fy_visual .con01_tit {
-  margin-left: 4vw;
-}
-#fy_visual .con01_tit p {
-  font-size: clamp(15px, 1.25vw, 21px);
-  line-height: 1.3;
-}
-
-/* 사진 자리 + 타임라인 */
-#fy_visual .con01_body {
-  display: flex;
+#fy_con01 .con01_body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   align-items: center;
-  gap: 3vw;
-  margin-top: 6vh;
+  gap: 6vw;
 }
-#fy_visual .img_target2 {
-  flex-shrink: 0;
-  width: clamp(
-    200px,
-    min(24vw, 44vh),
-    460px
-  ); /* 화면이 낮으면 높이에 맞춰 줄어듦 */
+#fy_con01 .con01_img {
   aspect-ratio: 9 / 10;
 }
-#fy_visual .con01_time {
+#fy_con01 .con01_time {
   position: relative;
-  flex: 1;
 }
-#fy_visual .time_line {
+#fy_con01 .time_line {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 1px;
   background: rgba(255, 255, 255, 0.55);
-  transform: scaleX(0);
   transform-origin: left center;
 }
-#fy_visual .con01_time ol {
+#fy_con01 .con01_time ol {
   display: flex;
   justify-content: space-around;
   list-style: none;
 }
-#fy_visual .con01_time li {
+#fy_con01 .con01_time li {
   position: relative;
   padding-top: 28px;
   text-align: center;
 }
-#fy_visual .con01_time li::before {
+#fy_con01 .con01_time li::before {
   content: "";
   position: absolute;
   top: -4px;
@@ -383,169 +379,91 @@ body.fy_light header .header_lnb i {
   border-radius: 50%;
   background: #fff;
 }
-#fy_visual .con01_time strong {
+#fy_con01 .con01_time strong {
   display: block;
   font-size: clamp(18px, 1.6vw, 28px);
   font-weight: 400;
 }
-#fy_visual .con01_time li span {
+#fy_con01 .con01_time li span {
   display: block;
   margin-top: 4px;
   font-size: clamp(13px, 0.95vw, 16px);
   opacity: 0.8;
 }
 
-/* 처음엔 숨김 */
-#fy_visual .con01_tit > *,
-#fy_visual .con01_time li {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(24px);
-}
-
 /* =========================================================
    03. CON03 : 새의 서식지
    ========================================================= */
-#fy_visual .v_con03 {
-  --cw: clamp(160px, min(19vw, 34vh), 360px); /* 첫 카드 너비 */
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--head) var(--side) 8vh;
-  color: var(--ink);
-}
-#fy_visual .con03_tit p .en {
-  margin-bottom: 2px;
-  font-size: clamp(14px, 1.1vw, 19px);
-}
-
-/* 카드 */
-#fy_visual .con03_body {
-  display: flex;
-  align-items: flex-end;
-  gap: 3vw;
-  margin-top: 5vh;
-}
-#fy_visual .hab_list {
-  display: flex;
-  align-items: flex-end;
-  gap: 1.6vw;
+#fy_con03 .hab_list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2vw;
   list-style: none;
 }
-#fy_visual .hab_img {
-  position: relative;
-  overflow: hidden;
-  border-radius: 14px;
-}
-#fy_visual .hab_img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-/* 앞쪽일수록 크게, 뒤로 갈수록 작게 (시안 비율) */
-#fy_visual .c1 .hab_img {
-  width: var(--cw);
+#fy_con03 .hab_img {
   aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(11, 21, 48, 0.12);
 }
-#fy_visual .c2 .hab_img {
-  width: calc(var(--cw) * 0.95);
-  aspect-ratio: 10 / 13;
-  box-shadow: 0 18px 40px rgba(11, 21, 48, 0.18);
+#fy_con03 .hab_img img {
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-#fy_visual .c3 .hab_img {
-  width: calc(var(--cw) * 0.9);
-  aspect-ratio: 5 / 6;
-  box-shadow: 0 18px 40px rgba(11, 21, 48, 0.18);
+#fy_con03 .hab:hover .hab_img img {
+  transform: scale(1.05);
 }
-
-/* 카드 설명 */
-#fy_visual .hab_cap {
-  margin-top: 14px;
+#fy_con03 .hab_cap {
+  margin-top: 16px;
   padding-left: 12px;
   border-left: 1px solid var(--ink);
-  font-size: clamp(12px, 0.85vw, 15px);
+  font-size: clamp(13px, 0.95vw, 16px);
   line-height: 1.45;
 }
-#fy_visual .hab_cap span {
+#fy_con03 .hab_cap span {
   display: block;
   font-family: "Playfair Display", serif;
   letter-spacing: 0.04em;
 }
-#fy_visual .hab_note {
-  margin-bottom: 4px;
+#fy_con03 .hab_note {
+  margin-top: clamp(32px, 5vh, 56px);
   font-size: clamp(15px, 1.2vw, 20px);
   line-height: 1.5;
-}
-
-/* 처음엔 숨김 */
-#fy_visual .con03_tit > *,
-#fy_visual .hab_cap,
-#fy_visual .hab_note {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(24px);
-}
-#fy_visual .c2 .hab_img,
-#fy_visual .c3 .hab_img {
-  visibility: hidden;
+  text-align: right;
 }
 
 /* =========================================================
    04. CON04 : 비행길 지도
    ========================================================= */
-#fy_visual .v_con04 {
-  position: absolute;
-  inset: 0;
-  z-index: 3; /* 펼쳐진 지도 사진 위 */
-  color: #fff;
-  pointer-events: none;
+#fy_con04 .map_box {
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0e1a38;
 }
-/* 제목이 잘 읽히도록 위쪽만 살짝 어둡게 */
-#fy_visual .map_fade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(11, 21, 48, 0.75) 0%,
-    rgba(11, 21, 48, 0) 32%
-  );
-  opacity: 0;
-}
-#fy_visual .map_svg {
-  position: absolute;
-  inset: 0;
+#fy_con04 .map_svg {
+  display: block;
   width: 100%;
-  height: 100%;
-}
-#fy_visual .con04_tit {
-  position: absolute;
-  top: var(--head);
-  left: var(--side);
+  height: auto;
 }
 
 /* 지도 위 경로 (단위는 viewBox 기준) */
-#fy_visual .map_svg .route {
+#fy_con04 .map_svg .route {
   fill: none;
   stroke: #fff;
   stroke-width: 2.2;
   stroke-dasharray: 1 9; /* 점선 */
   stroke-linecap: round;
 }
-#fy_visual .map_svg .route_mask {
+#fy_con04 .map_svg .route_mask {
   fill: none;
   stroke: #fff;
   stroke-width: 12;
   stroke-linecap: round;
 }
-#fy_visual .map_svg .route_dot,
-#fy_visual .map_svg .hub_dot,
-#fy_visual .map_svg .route_bird {
+#fy_con04 .map_svg .route_dot,
+#fy_con04 .map_svg .hub_dot,
+#fy_con04 .map_svg .route_bird {
   fill: #fff;
 }
-#fy_visual .map_svg .hub_ring {
+#fy_con04 .map_svg .hub_ring {
   fill: none;
   stroke: #fff;
   stroke-width: 1.5;
@@ -563,133 +481,95 @@ body.fy_light header .header_lnb i {
     opacity: 0;
   }
 }
-#fy_visual .map_svg .map_label {
+#fy_con04 .map_svg .map_label {
   fill: #fff;
   paint-order: stroke;
   stroke: rgba(11, 21, 48, 0.55);
   stroke-width: 3px;
   stroke-linejoin: round;
 }
-#fy_visual .map_svg .map_label .ko {
+#fy_con04 .map_svg .map_label .ko {
   font-family: "IBM Plex Sans KR", sans-serif;
   font-size: 17px;
 }
-#fy_visual .map_svg .map_label .en {
+#fy_con04 .map_svg .map_label .en {
   font-family: "Playfair Display", serif;
   font-size: 13px;
   letter-spacing: 0.04em;
 }
-
-/* 세로 화면용 지도 맞춤 (sub02.js가 .map_fit 과 위치 변수를 넣어줌)
-   → 지도가 화면 높이에 꽉 차지 않고, 경로 전체가 가로에 들어오게 */
-#fy_visual .v_inner.map_fit .v_img .img6,
-#fy_visual .v_inner.map_fit .map_svg {
-  inset: auto;
-  left: var(--map-x);
-  top: var(--map-y);
-  width: var(--map-w);
-  height: var(--map-h);
+/* 휴대폰: 지도를 경로 부분만 잘라 보여주므로 글자를 키움 (sub02.js가 .is_narrow 토글) */
+#fy_con04 .map_svg.is_narrow .map_label .ko {
+  font-size: 26px;
 }
-#fy_visual .v_inner.map_fit .v_img .img6 {
-  object-fit: fill;
-  box-shadow: 0 0 0 100vmax var(--navy); /* 지도 위아래 남는 곳은 네이비 */
+#fy_con04 .map_svg.is_narrow .map_label .en {
+  font-size: 19px;
 }
-#fy_visual .v_inner.map_fit .map_svg .map_label .ko {
-  font-size: 23px;
-}
-#fy_visual .v_inner.map_fit .map_svg .map_label .en {
-  font-size: 16px;
-}
-
-/* 처음엔 숨김 */
-#fy_visual .con04_tit > *,
-#fy_visual .map_svg .map_hub {
+#fy_con04 .map_svg .map_hub {
   opacity: 0;
   visibility: hidden;
-}
-#fy_visual .con04_tit > * {
-  transform: translateY(24px);
 }
 
 /* =========================================================
    05. CON05 : 한국의 사계절
    ========================================================= */
-#fy_visual .v_con05 {
-  --sw: clamp(150px, min(19vw, 30vh), 340px); /* 카드 한 장 너비 */
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--head) var(--side) 8vh;
-  color: var(--ink);
-  pointer-events: none;
-}
-#fy_visual .con05_tit p {
-  font-size: clamp(14px, 1.1vw, 19px);
-}
-
-/* 카드 */
-#fy_visual .season_wrap {
-  align-self: flex-start;
-  margin-top: 5vh;
-}
-#fy_visual .season_list {
-  display: flex;
-  gap: 1vw;
+#fy_con05 .season_list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.4vw;
   list-style: none;
 }
-#fy_visual .season {
+#fy_con05 .season {
   position: relative;
-  width: var(--sw);
   aspect-ratio: 2 / 3;
 }
-#fy_visual .season img {
+#fy_con05 .season img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 6px;
 }
 /* 하늘 쪽 글자가 잘 읽히도록 위만 살짝 어둡게 */
-#fy_visual .season::before {
+#fy_con05 .season::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   border-radius: 6px;
   background: linear-gradient(
     to bottom,
-    rgba(11, 21, 48, 0.35) 0%,
+    rgba(11, 21, 48, 0.4) 0%,
     rgba(11, 21, 48, 0) 40%
   );
 }
-#fy_visual .season_txt {
+#fy_con05 .season_txt {
   position: absolute;
   top: 7%;
   left: 0;
   right: 0;
+  z-index: 2;
   color: #fff;
   text-align: center;
 }
-#fy_visual .season_txt h4 {
-  font-size: clamp(15px, 1.2vw, 20px);
+#fy_con05 .season_txt h4 {
+  font-size: clamp(15px, 1.25vw, 22px);
   font-weight: 400;
 }
-#fy_visual .season_txt h4 span {
+#fy_con05 .season_txt h4 span {
   margin-left: 6px;
   font-family: "Playfair Display", serif;
   font-size: 0.7em;
   letter-spacing: 0.06em;
 }
-#fy_visual .season_txt p {
-  font-size: clamp(11px, 0.8vw, 14px);
+#fy_con05 .season_txt p {
+  font-size: clamp(11px, 0.85vw, 15px);
   line-height: 1.5;
 }
-#fy_visual .season_txt .month {
+#fy_con05 .season_txt .month {
   margin: 2px 0 4px;
 }
 /* 카드 아래 점 (선 위에 놓임) */
-#fy_visual .season::after {
+#fy_con05 .season::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -700,19 +580,17 @@ body.fy_light header .header_lnb i {
   border-radius: 50%;
   background: var(--ink);
 }
-
 /* 아래 진행선 + 화살표 */
-#fy_visual .season_line {
+#fy_con05 .season_line {
   position: relative;
   display: block;
-  width: calc(100% + 30px);
+  width: 100%;
   height: 1px;
   margin-top: 30px;
   background: var(--ink);
-  transform: scaleX(0);
   transform-origin: left center;
 }
-#fy_visual .season_line::after {
+#fy_con05 .season_line::after {
   content: "";
   position: absolute;
   right: 0;
@@ -724,44 +602,17 @@ body.fy_light header .header_lnb i {
   transform: rotate(45deg);
 }
 
-/* 카드가 모일 때 겹치는 순서: 여름이 맨 앞 */
-#fy_visual .season:nth-child(2) {
-  z-index: 3;
-}
-#fy_visual .season:nth-child(1),
-#fy_visual .season:nth-child(3) {
-  z-index: 2;
-}
-#fy_visual .season:nth-child(4) {
-  z-index: 1;
-}
-
-/* 처음엔 숨김 */
-#fy_visual .con05_tit > *,
-#fy_visual .season {
-  opacity: 0;
-  visibility: hidden;
-}
-#fy_visual .con05_tit > * {
-  transform: translateY(24px);
-}
-
 /* =========================================================
-   06. CON06 : 비행길
+   06. CON06 : 비행길 (풀스크린 고정)
    ========================================================= */
-#fy_visual .v_con06 {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
+#fy_con06.fy_full {
+  height: 100vh;
+  padding: 0;
   overflow: hidden;
-  color: #fff;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
 }
 
-/* 배경 5장을 가로로 이어 붙인 띠 */
-#fy_visual .fly_track {
+/* 배경 5장을 가로로 이어 붙인 띠 (sub02.js가 왼쪽으로 넘김) */
+#fy_con06 .fly_track {
   position: absolute;
   top: 0;
   left: 0;
@@ -769,18 +620,19 @@ body.fy_light header .header_lnb i {
   width: 500%;
   height: 100%;
 }
-#fy_visual .fly_bg {
+#fy_con06 .fly_bg {
   flex-shrink: 0;
   width: 20%;
   height: 100%;
 }
-#fy_visual .fly_bg img {
+#fy_con06 .fly_bg img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 /* 위아래 글자가 잘 읽히도록 */
-#fy_visual .fly_shade {
+#fy_con06 .fly_shade {
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -790,19 +642,23 @@ body.fy_light header .header_lnb i {
     rgba(11, 21, 48, 0) 62%,
     rgba(11, 21, 48, 0.7) 100%
   );
+  pointer-events: none;
 }
 
 /* 뒤 새 무리 */
-#fy_visual .fly_flock {
+#fy_con06 .fly_flock {
   position: absolute;
   top: 14%;
   left: 25%;
   width: min(62vw, 1100px);
   opacity: 0.85;
+  pointer-events: none;
 }
 
-/* 주인공 새 (화면 같은 자리에 고정) */
-#fy_visual .fly_bird {
+/* 주인공 새 (화면 가운데 고정)
+   날갯짓은 스크롤할 때만: sub02.js가 스크롤 양에 따라 .flap 을 켰다 껐다 함
+   (.flap 없음 = 날개 올림/편 상태, .flap = 날개 내림) */
+#fy_con06 .fly_bird {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -810,34 +666,61 @@ body.fy_light header .header_lnb i {
   aspect-ratio: 2 / 1;
   filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.3));
 }
-#fy_visual .fly_bird .bird {
+#fy_con06 .fly_bird .bird {
   position: absolute;
   inset: 0;
   opacity: 0;
   visibility: hidden;
 }
-#fy_visual .fly_bird img {
+#fy_con06 .fly_bird .bird:first-child {
+  opacity: 1;
+  visibility: visible;
+}
+#fy_con06 .fly_bird img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-#fy_visual .fly_bird .down {
+#fy_con06 .fly_bird .down {
   opacity: 0;
 }
+#fy_con06 .fly_bird.flap .up {
+  opacity: 0;
+}
+#fy_con06 .fly_bird.flap .down {
+  opacity: 1;
+}
 
-#fy_visual .con06_tit {
+/* 제목 */
+#fy_con06 .con06_tit {
   position: absolute;
   top: var(--head);
   left: var(--side);
+  margin-bottom: 0;
 }
 
-/* 장면별 문구 */
-#fy_visual .fly_caps {
+/* 장면 번호 */
+#fy_con06 .fly_count {
+  position: absolute;
+  top: var(--head);
+  right: var(--side);
+  font-family: "Playfair Display", serif;
+  font-size: clamp(14px, 1.1vw, 18px);
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+#fy_con06 .fly_count b {
+  font-weight: 400;
+  font-size: 1.6em;
+}
+
+/* 장면별 문구 (첫 문구만 처음부터 보임) */
+#fy_con06 .fly_caps {
   list-style: none;
 }
-#fy_visual .fly_caps li {
+#fy_con06 .fly_caps li {
   position: absolute;
   left: var(--side);
   right: var(--side);
@@ -846,7 +729,10 @@ body.fy_light header .header_lnb i {
   text-align: center;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(16px);
+}
+#fy_con06 .fly_caps li:first-child {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* =========================================================
@@ -862,12 +748,13 @@ footer {
 
 /* ---------- 태블릿 (1024px 이하) ---------- */
 @media (max-width: 1024px) {
-  #fy_visual {
+  #fy_visual,
+  .fy_main {
     --head: 100px;
     --side: 5vw;
+    --wrap: 90vw;
   }
 
-  /* 비주얼 */
   #fy_visual .v_badge {
     right: 6vw;
   }
@@ -875,51 +762,30 @@ footer {
     gap: 4vw;
   }
 
-  /* 새의 여정 */
-  #fy_visual .con01_tit {
-    margin-left: 0;
-  }
-  #fy_visual .img_target2 {
-    width: clamp(200px, min(30vw, 40vh), 420px);
+  #fy_con01 .con01_body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
-  /* 서식지 */
-  #fy_visual .v_con03 {
-    --cw: clamp(150px, min(23vw, 32vh), 320px);
-  }
-
-  /* 사계절 */
-  #fy_visual .v_con05 {
-    --sw: clamp(130px, min(21vw, 30vh), 300px);
-  }
-
-  /* 비행길 */
-  #fy_visual .fly_bird {
+  #fy_con06 .fly_bird {
     width: clamp(220px, 40vw, 420px);
   }
 }
 
 /* ---------- 모바일 (768px 이하) ---------- */
 @media (max-width: 768px) {
-  #fy_visual {
+  #fy_visual,
+  .fy_main {
     --head: 90px;
+    --sec-pad: 90px;
   }
 
-  /* 제목: 한 줄 → 위아래로 쌓기, 세로선 없애기 */
-  #fy_visual .con01_tit,
-  #fy_visual .con03_tit,
-  #fy_visual .con04_tit,
-  #fy_visual .con05_tit,
-  #fy_visual .con06_tit {
+  /* 제목: 위아래로 쌓기, 세로선 없애기 */
+  .sec_tit {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  #fy_visual .con01_tit p,
-  #fy_visual .con03_tit p,
-  #fy_visual .con04_tit p,
-  #fy_visual .con05_tit p,
-  #fy_visual .con06_tit p {
+  .sec_tit p {
     padding-left: 0;
     border-left: 0;
   }
@@ -932,8 +798,6 @@ footer {
     top: auto;
     bottom: 110px;
   }
-
-  /* 파도 장면: 사진 · 문구 · 사인을 세로로 */
   #fy_visual .v_after {
     flex-direction: column;
     gap: 24px;
@@ -953,59 +817,64 @@ footer {
   }
 
   /* 새의 여정: 사진 아래 타임라인 */
-  #fy_visual .con01_body {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 40px;
-    margin-top: 4vh;
+  #fy_con01 .con01_body {
+    grid-template-columns: 1fr;
+    gap: 48px;
   }
-  #fy_visual .img_target2 {
-    width: min(62vw, 36vh);
+  #fy_con01 .con01_img {
+    aspect-ratio: 4 / 3;
   }
 
-  /* 서식지: 카드 아래로 문구 */
-  #fy_visual .v_con03 {
-    --cw: 28vw;
+  /* 서식지 */
+  #fy_con03 .hab_list {
+    gap: 3vw;
   }
-  #fy_visual .con03_body {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-  #fy_visual .hab_list {
-    gap: 2.5vw;
-  }
-  #fy_visual .hab_cap {
+  #fy_con03 .hab_cap {
     padding-left: 8px;
-    font-size: 11px;
+    font-size: 12px;
+  }
+  #fy_con03 .hab_note {
+    text-align: left;
   }
 
-  /* 사계절 */
-  #fy_visual .v_con05 {
-    --sw: 21vw;
+  /* 사계절: 2 x 2, 아래 점·진행선은 숨김 */
+  #fy_con05 .season_list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
-  #fy_visual .season_txt h4 span {
+  #fy_con05 .season::after,
+  #fy_con05 .season_line {
+    display: none;
+  }
+  #fy_con05 .season_txt h4 span {
     display: block;
     margin-left: 0;
   }
 
   /* 비행길 */
-  #fy_visual .fly_bird {
+  #fy_con06 .fly_bird {
     width: 64vw;
   }
-  #fy_visual .fly_flock {
+  #fy_con06 .fly_flock {
     left: 10%;
     width: 110vw;
   }
-  #fy_visual .fly_caps li {
+  #fy_con06 .fly_caps li {
     bottom: 12vh;
     line-height: 1.5;
+  }
+  #fy_con06 .fly_count {
+    top: auto;
+    bottom: calc(12vh + 70px);
+    left: var(--side);
+    right: auto;
   }
 }
 
 /* ---------- 작은 휴대폰 (480px 이하) ---------- */
 @media (max-width: 480px) {
-  #fy_visual {
+  #fy_visual,
+  .fy_main {
     --title-ko: 28px;
     --title-en: 14px;
   }
@@ -1017,37 +886,42 @@ footer {
     width: 92px;
   }
 
-  /* 새의 여정: 타임라인 글자 줄이기 */
-  #fy_visual .con01_time strong {
+  #fy_con01 .con01_time strong {
     font-size: 16px;
   }
-  #fy_visual .con01_time li span {
+  #fy_con01 .con01_time li span {
     font-size: 11px;
   }
 
-  /* 서식지: 영문 설명은 숨기고 한글만 */
-  #fy_visual .hab_cap span {
-    display: none;
+  /* 서식지: 한 줄에 한 장씩 */
+  #fy_con03 .hab_list {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  #fy_con03 .hab_img {
+    aspect-ratio: 4 / 3;
   }
 
-  /* 사계절: 카드가 좁아서 긴 설명은 숨기고 계절·기간만 */
-  #fy_visual .season_txt p:not(.month) {
+  /* 사계절: 긴 설명은 숨기고 계절·기간만 */
+  #fy_con05 .season_txt p:not(.month) {
     display: none;
   }
-  #fy_visual .season_txt h4 {
-    font-size: 13px;
+  #fy_con05 .season_txt h4 {
+    font-size: 14px;
   }
-  #fy_visual .season_txt .month {
-    font-size: 10px;
+  #fy_con05 .season_txt .month {
+    font-size: 11px;
   }
 }
 
 /* ---------- 가로로 눕힌 휴대폰 (높이가 낮은 화면) ---------- */
 @media (max-height: 520px) and (orientation: landscape) {
-  #fy_visual {
+  #fy_visual,
+  .fy_main {
     --head: 64px;
     --title-ko: 24px;
     --title-en: 13px;
+    --sec-pad: 70px;
   }
   #fy_visual .v_hero_txt {
     top: 30%;
@@ -1058,13 +932,11 @@ footer {
   #fy_visual .v_scroll {
     display: none;
   }
-  #fy_visual .con01_body,
-  #fy_visual .con03_body,
-  #fy_visual .season_wrap {
-    margin-top: 3vh;
-  }
-  #fy_visual .fly_caps li {
+  #fy_con06 .fly_caps li {
     bottom: 5vh;
+  }
+  #fy_con06 .fly_count {
+    display: none;
   }
 }
 
@@ -1074,7 +946,7 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   #fy_visual .v_badge svg,
   #fy_visual .v_scroll span::after,
-  #fy_visual .map_svg .hub_ring {
+  #fy_con04 .map_svg .hub_ring {
     animation: none;
   }
 }
