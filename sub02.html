@@ -29,7 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
     <script src="js/hf.js"></script>
-    <script src="js/custom.js"></script>
+    <!-- <script src="js/custom.js"></script> -->
     <script src="js/sub02.js"></script>
   </head>
   <body>
@@ -65,10 +65,12 @@
       </ul>
     </header>
 
-    <!-- visual ~ con06 (한 화면에서 이어지는 장면) -->
+    <!-- =====================================================
+         VISUAL : 이 구역만 풀스크린 고정(pin)
+         첫 화면 → 사진이 줄어들며 파도 장면으로
+         ===================================================== -->
     <div id="fy_visual">
       <div class="v_inner">
-        <!-- 이미지: 풀스크린 → 왼쪽 세로 사진으로 줄어듦 -->
         <div class="v_img">
           <img
             class="img1"
@@ -80,25 +82,6 @@
             src="img/sub02/fy_visual_2.png"
             alt="부서지는 파도"
           />
-          <img
-            class="img3"
-            src="img/sub02/fy_con01.png"
-            alt="노을 진 물 위를 V자로 나는 철새"
-          />
-          <img
-            class="img4"
-            src="img/sub02/fy_con02_01.png"
-            alt="눈 덮인 산이 비치는 호수, 번식지"
-          />
-          <!-- img5: 마지막 카드(월동지)와 같은 사진. 카드가 합쳐질 때 사용 -->
-          <img class="img5" src="img/sub02/fy_con02_03.png" alt="" />
-          <img
-            class="img6"
-            src="img/sub02/fy_con03_01.png"
-            alt="한반도를 중심으로 한 동아시아·대양주 위성 지도"
-          />
-          <!-- img7: 사계절 중 여름 카드와 같은 사진. 여름 카드가 화면 가득 펼쳐질 때 사용 -->
-          <img class="img7" src="img/sub02/fy_con04_02.png" alt="" />
           <div class="v_shade"></div>
         </div>
 
@@ -142,10 +125,18 @@
             </svg>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- con01 : 새의 여정 (파도 사진이 이 자리로 이동하며 바뀜) -->
-        <section id="fy_con01" class="v_con01">
-          <div class="con01_tit">
+    <!-- =====================================================
+         아래부터는 일반 스크롤 + 화면에 들어올 때 효과
+         data-theme : 헤더·커서 색 (dark 배경이면 흰색, light 배경이면 네이비)
+         ===================================================== -->
+    <main class="fy_main">
+      <!-- con01 : 새의 여정 -->
+      <section id="fy_con01" class="fy_sec dark" data-theme="dark">
+        <div class="fy_wrap">
+          <div class="sec_tit">
             <div>
               <span class="en">MIGRATION</span>
               <h3>새의 여정</h3>
@@ -153,7 +144,13 @@
             <p>철새는 계절을 따라 지구를 이동합니다</p>
           </div>
           <div class="con01_body">
-            <div class="img_target2"></div>
+            <figure class="fy_fig fy_parallax con01_img">
+              <img
+                class="p_img"
+                src="img/sub02/fy_con01.png"
+                alt="노을 진 물 위를 V자로 나는 철새"
+              />
+            </figure>
             <div class="con01_time">
               <span class="time_line"></span>
               <ol>
@@ -164,11 +161,13 @@
               </ol>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- con03 : 새의 서식지 (con01 사진이 첫 카드가 되고, 나머지 두 장이 뒤에서 뽑혀 나옴) -->
-        <section id="fy_con03" class="v_con03">
-          <div class="con03_tit">
+      <!-- con03 : 새의 서식지 -->
+      <section id="fy_con03" class="fy_sec light" data-theme="light">
+        <div class="fy_wrap">
+          <div class="sec_tit">
             <div>
               <span class="en">HABITAT</span>
               <h3>새의 서식지</h3>
@@ -178,57 +177,74 @@
               경계는 끝이 없습니다.
             </p>
           </div>
-          <div class="con03_body">
-            <ul class="hab_list">
-              <li class="hab c1">
-                <div class="hab_img img_target3"></div>
-                <p class="hab_cap"><span>BREEDING GROUND</span>번식지</p>
-              </li>
-              <li class="hab c2">
-                <div class="hab_img">
-                  <img
-                    src="img/sub02/fy_con02_02.png"
-                    alt="물길이 갈라지는 갯벌, 중간기착지"
-                  />
-                </div>
-                <p class="hab_cap"><span>STOPOVER SITE</span>중간기착지</p>
-              </li>
-              <li class="hab c3">
-                <div class="hab_img">
-                  <img
-                    src="img/sub02/fy_con02_03.png"
-                    alt="노을빛 갈대밭, 월동지"
-                  />
-                </div>
-                <p class="hab_cap"><span>WINTERING GROUND</span>월동지</p>
-              </li>
-            </ul>
-            <p class="hab_note">철새가 머물다 가는 곳<br />한반도의 서식지</p>
-          </div>
-        </section>
+          <ul class="hab_list">
+            <li class="hab">
+              <figure class="fy_fig hab_img">
+                <img
+                  src="img/sub02/fy_con02_01.png"
+                  alt="눈 덮인 산이 비치는 호수, 번식지"
+                />
+              </figure>
+              <p class="hab_cap"><span>BREEDING GROUND</span>번식지</p>
+            </li>
+            <li class="hab">
+              <figure class="fy_fig hab_img">
+                <img
+                  src="img/sub02/fy_con02_02.png"
+                  alt="물길이 갈라지는 갯벌, 중간기착지"
+                />
+              </figure>
+              <p class="hab_cap"><span>STOPOVER SITE</span>중간기착지</p>
+            </li>
+            <li class="hab">
+              <figure class="fy_fig hab_img">
+                <img
+                  src="img/sub02/fy_con02_03.png"
+                  alt="노을빛 갈대밭, 월동지"
+                />
+              </figure>
+              <p class="hab_cap"><span>WINTERING GROUND</span>월동지</p>
+            </li>
+          </ul>
+          <p class="hab_note">철새가 머물다 가는 곳<br />한반도의 서식지</p>
+        </div>
+      </section>
 
-        <!-- con04 : 비행길 지도 (카드가 마지막 카드로 모인 뒤 지도로 펼쳐짐) -->
-        <section id="fy_con04" class="v_con04">
-          <div class="map_fade"></div>
-          <!-- 경로·새·지명은 sub02.js에서 그림 (viewBox = 지도 이미지 비율) -->
-          <svg
-            class="map_svg"
-            viewBox="0 0 1600 900"
-            preserveAspectRatio="xMidYMid slice"
-            aria-hidden="true"
-          ></svg>
-          <div class="con04_tit">
+      <!-- con04 : 비행길 지도 (경로·새·지명은 sub02.js에서 그림) -->
+      <section id="fy_con04" class="fy_sec dark" data-theme="dark">
+        <div class="fy_wrap">
+          <div class="sec_tit">
             <div>
               <span class="en">FLYWAY MAP</span>
               <h3>비행길 지도</h3>
             </div>
             <p>나라와 나라를 오가며 계절을 지내는<br />새의 거대한 여정</p>
           </div>
-        </section>
+          <div class="map_box">
+            <!-- 지도 사진을 SVG 안에 넣어서 경로 좌표가 화면 크기와 상관없이 항상 맞음 -->
+            <svg
+              class="map_svg"
+              viewBox="0 0 1600 900"
+              role="img"
+              aria-label="부산을 중심으로 시베리아, 캄차카, 몽골, 중국 남부, 일본, 필리핀, 호주를 잇는 철새 이동 경로"
+            >
+              <image
+                href="img/sub02/fy_con03_01.png"
+                x="0"
+                y="0"
+                width="1600"
+                height="900"
+                preserveAspectRatio="xMidYMid slice"
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
 
-        <!-- con05 : 한국의 사계절 (지도가 한국으로 확대된 뒤 카드가 아래에서 차례로 올라옴) -->
-        <section id="fy_con05" class="v_con05">
-          <div class="con05_tit">
+      <!-- con05 : 한국의 사계절 -->
+      <section id="fy_con05" class="fy_sec light" data-theme="light">
+        <div class="fy_wrap">
+          <div class="sec_tit">
             <div>
               <span class="en">SEASON</span>
               <h3>한국의 사계절</h3>
@@ -284,112 +300,116 @@
             </ol>
             <span class="season_line"></span>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- con06 : 비행길 (새는 제자리에서 날갯짓, 배경이 왼쪽으로 넘어가며 여정이 이어짐) -->
-        <section id="fy_con06" class="v_con06">
-          <div class="fly_track">
-            <div class="fly_bg">
-              <img
-                src="img/sub02/fy_con05_01.png"
-                alt="노을 진 낙동강 하구 갯벌"
-              />
-            </div>
-            <div class="fly_bg">
-              <img
-                src="img/sub02/fy_con05_02.png"
-                alt="노을 진 갈대숲 위를 나는 두루미"
-              />
-            </div>
-            <div class="fly_bg">
-              <img src="img/sub02/fy_con05_03.png" alt="해가 지는 먼 바다" />
-            </div>
-            <div class="fly_bg">
-              <img
-                src="img/sub02/fy_con05_04.png"
-                alt="시베리아 습지의 두루미 가족"
-              />
-            </div>
-            <div class="fly_bg">
-              <img
-                src="img/sub02/fy_con05_05.png"
-                alt="호주 갯벌의 마도요 무리"
-              />
-            </div>
+      <!-- con06 : 비행길 (풀스크린 고정)
+           새는 화면 가운데에서 날갯짓, 스크롤하면 배경이 왼쪽으로 넘어가며 장면이 바뀜 -->
+      <section id="fy_con06" class="fy_sec fy_full dark" data-theme="dark">
+        <div class="fly_track">
+          <div class="fly_bg">
+            <img
+              src="img/sub02/fy_con05_01.png"
+              alt="노을 진 낙동강 하구 갯벌"
+            />
           </div>
-          <div class="fly_shade"></div>
-
-          <!-- 뒤에서 천천히 흘러가는 새 무리 -->
-          <img class="fly_flock" src="img/sub02/fy_con05_06.png" alt="" />
-
-          <!-- 장면마다 바뀌는 주인공 새 (data-scene: 몇 번째 배경에서 나오는지, 0부터) -->
-          <div class="fly_bird">
-            <!-- 1. 낙동강 하구: 저어새 -->
-            <div class="bird" data-scene="0">
-              <img
-                class="up"
-                src="img/sub02/con05_bird07.png"
-                alt="날개를 편 저어새"
-              />
-              <img class="down" src="img/sub02/con05_bird08.png" alt="" />
-            </div>
-            <!-- 2. 갈대 노을: 청둥오리 -->
-            <div class="bird" data-scene="1">
-              <img
-                class="up"
-                src="img/sub02/con05_bird09.png"
-                alt="날개를 편 청둥오리"
-              />
-              <img class="down" src="img/sub02/con05_bird10.png" alt="" />
-            </div>
-            <!-- 3. 바다: 백로 -->
-            <div class="bird" data-scene="2">
-              <img
-                class="up"
-                src="img/sub02/con05_bird05.png"
-                alt="날개를 편 백로"
-              />
-              <img class="down" src="img/sub02/con05_bird06.png" alt="" />
-            </div>
-            <!-- 4. 시베리아: 두루미 -->
-            <div class="bird" data-scene="3">
-              <img
-                class="up"
-                src="img/sub02/con05_bird03.png"
-                alt="날개를 편 두루미"
-              />
-              <img class="down" src="img/sub02/con05_bird04.png" alt="" />
-            </div>
-            <!-- 5. 호주: 마도요 -->
-            <div class="bird" data-scene="4">
-              <img
-                class="up"
-                src="img/sub02/con05_bird01.png"
-                alt="날개를 편 마도요"
-              />
-              <img class="down" src="img/sub02/con05_bird02.png" alt="" />
-            </div>
+          <div class="fly_bg">
+            <img
+              src="img/sub02/fy_con05_02.png"
+              alt="노을 진 갈대숲 위를 나는 두루미"
+            />
           </div>
-
-          <div class="con06_tit">
-            <div>
-              <span class="en">FLYWAY</span>
-              <h3>비행길</h3>
-            </div>
-            <p>철새와 사람이 함께하는 터전<br />철새들의 비행길</p>
+          <div class="fly_bg">
+            <img src="img/sub02/fy_con05_03.png" alt="해가 지는 먼 바다" />
           </div>
+          <div class="fly_bg">
+            <img
+              src="img/sub02/fy_con05_04.png"
+              alt="시베리아 습지의 두루미 가족"
+            />
+          </div>
+          <div class="fly_bg">
+            <img
+              src="img/sub02/fy_con05_05.png"
+              alt="호주 갯벌의 마도요 무리"
+            />
+          </div>
+        </div>
+        <div class="fly_shade"></div>
 
-          <!-- 장면별 문구 (배경 순서와 같음) -->
-          <ol class="fly_caps">
-            <li>철새와 사람이 함께하는 생태의 터전, 낙동강 하구</li>
-            <li>갈대숲에서 숨을 고르고 다시 떠날 채비를 합니다</li>
-            <li>쉬지 않고 수천 킬로미터의 바다를 건너</li>
-            <li>북쪽 번식지에서 새 생명을 맞이하고</li>
-            <li>남쪽 끝 갯벌에서 겨울을 보냅니다</li>
-          </ol>
-        </section>
-      </div>
-    </div>
+        <!-- 뒤에서 천천히 흘러가는 새 무리 -->
+        <img class="fly_flock" src="img/sub02/fy_con05_06.png" alt="" />
+
+        <!-- 장면마다 바뀌는 주인공 새 (배경 순서와 같음) -->
+        <div class="fly_bird">
+          <!-- 1. 낙동강 하구: 저어새 -->
+          <div class="bird">
+            <img
+              class="up"
+              src="img/sub02/con05_bird07.png"
+              alt="날개를 편 저어새"
+            />
+            <img class="down" src="img/sub02/con05_bird08.png" alt="" />
+          </div>
+          <!-- 2. 갈대 노을: 청둥오리 -->
+          <div class="bird">
+            <img
+              class="up"
+              src="img/sub02/con05_bird09.png"
+              alt="날개를 편 청둥오리"
+            />
+            <img class="down" src="img/sub02/con05_bird10.png" alt="" />
+          </div>
+          <!-- 3. 바다: 백로 -->
+          <div class="bird">
+            <img
+              class="up"
+              src="img/sub02/con05_bird05.png"
+              alt="날개를 편 백로"
+            />
+            <img class="down" src="img/sub02/con05_bird06.png" alt="" />
+          </div>
+          <!-- 4. 시베리아: 두루미 -->
+          <div class="bird">
+            <img
+              class="up"
+              src="img/sub02/con05_bird03.png"
+              alt="날개를 편 두루미"
+            />
+            <img class="down" src="img/sub02/con05_bird04.png" alt="" />
+          </div>
+          <!-- 5. 호주: 마도요 -->
+          <div class="bird">
+            <img
+              class="up"
+              src="img/sub02/con05_bird01.png"
+              alt="날개를 편 마도요"
+            />
+            <img class="down" src="img/sub02/con05_bird02.png" alt="" />
+          </div>
+        </div>
+
+        <div class="con06_tit sec_tit">
+          <div>
+            <span class="en">FLYWAY</span>
+            <h3>비행길</h3>
+          </div>
+          <p>철새와 사람이 함께하는 터전<br />철새들의 비행길</p>
+        </div>
+
+        <!-- 장면 번호 -->
+        <div class="fly_count"><b>01</b> / 05</div>
+
+        <!-- 장면별 문구 (배경 순서와 같음) -->
+        <ol class="fly_caps">
+          <li>철새와 사람이 함께하는 생태의 터전, 낙동강 하구</li>
+          <li>갈대숲에서 숨을 고르고 다시 떠날 채비를 합니다</li>
+          <li>쉬지 않고 수천 킬로미터의 바다를 건너</li>
+          <li>북쪽 번식지에서 새 생명을 맞이하고</li>
+          <li>남쪽 끝 갯벌에서 겨울을 보냅니다</li>
+        </ol>
+      </section>
+    </main>
 
     <footer>
       <div class="footer_wrap"></div>
