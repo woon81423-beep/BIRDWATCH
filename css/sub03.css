@@ -541,6 +541,28 @@ video {
   .modal {
     width: 50%;
   }
+  /*con04 태블릿 반응형 */
+
+  #con04 h4 {
+    font-size: 1.7rem;
+  }
+
+  #con04 ul {
+    width: 80%;
+    max-width: 1000px;
+    margin: 70px auto;
+  }
+  #con04 .bg_width {
+    width: 100%;
+  }
+
+  .con04_txt {
+    padding-top: 30px;
+    display: flex;
+    gap: 20px;
+    width:100%;
+  }
+
 }
 
 @media (max-width: 789px) {
@@ -640,15 +662,20 @@ video {
   }
 
   #con04 ul {
-    width: 100%;
+    width: 80%;
     max-width: 1000px;
     margin: 70px auto;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
-    z-index: 1;
   }
+  #con04 .bg_width {
+    width: 100%;
+  }
+
+  .con04_txt {
+    padding-top: 30px;
+    display: flex;
+    gap: 20px;
+  }
+
   /*con05 모바일 반응형*/
   #con05 {
     width: 90%;
