@@ -64,38 +64,6 @@ $(function () {
       { x: "0%", opacity: 1 },
       0,
     );
-  /* */
-  //   gsap
-  //       .timeline({
-  //         scrollTrigger: {
-  //           trigger: ".con01",
-  //           start: "top 100%",
-  //           end: "top 10%",
-  //           scrub: 10,
-  //         },
-  //       })
-  //       .to(".con01", {
-  //         backgroundColor: "#000",
-  //         color: "#fff",
-  //       })
-  //       .to(".con01 .title", {
-  //         position: "fixed",
-  //         left: 0,
-  //         top: 0,
-  //       });
-  // /*나가기 */
-  // gsap
-  //   .timeline({
-  //     scrollTrigger: {
-  //       markers: true,
-  //       trigger: ".con01",
-  //       scrub: 5,
-  //       start: "top 20%",
-  //       end: "top 0%",
-  //     },
-  //   })
-  //   .to(".con01 .my", { x: "-100%", opacity: 0 }, 0)
-  //   .to(".con01 .work", { x: "100%", opacity: 0 }, 0);
 
   //con03 넓이 조절
   $(".con03 .card").mouseenter(function () {
@@ -137,6 +105,41 @@ $(function () {
       }, 3000);
     }
   });
-});
 
-//자바스크립트
+  //스크롤이벤트
+  $(window).on("scroll", function () {
+    let sc = $(window).scrollTop();
+    // console.log(sc);
+    let pg01 = $(".con01").offset().top;
+    let pg02 = $(".con02").offset().top;
+    let pg03 = $(".con03").offset().top;
+    let pg04 = $("#con04").offset().top;
+    let pg05 = $("#con05").offset().top;
+
+    if (sc >= pg01 - 600) {
+      $(".con01").addClass("on");
+    } else {
+      $(".con01").removeClass("on");
+    }
+    if (sc >= pg02 - 600) {
+      $(".con02").addClass("on");
+    } else {
+      $(".con02").removeClass("on");
+    }
+    if (sc >= pg03 - 600) {
+      $(".con03").addClass("on");
+    } else {
+      $(".con03").removeClass("on");
+    }
+    if (sc >= pg04 - 600) {
+      $("#con04").addClass("on");
+    } else {
+      $("#con04").removeClass("on");
+    }
+    if (sc >= pg05 - 600) {
+      $("#con05").addClass("on");
+    } else {
+      $("#con05").removeClass("on");
+    }
+  });
+});

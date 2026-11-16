@@ -147,7 +147,7 @@
   text-align: center;
   width: 100%;
   position: absolute;
-  transform: translate(-50%, 80%);
+  transform: translate(-50%, -50%);
 
   top: 50%;
   left: 50%;
@@ -560,9 +560,8 @@ video {
     padding-top: 30px;
     display: flex;
     gap: 20px;
-    width:100%;
+    width: 100%;
   }
-
 }
 
 @media (max-width: 789px) {
@@ -712,4 +711,23 @@ video {
     left: 0;
     display: none;
   }
+}
+
+/*===스크롤이벤트===*/
+.con01,
+.con02,
+.con03,
+#con04,
+#con05 {
+  transform: translateY(100px);
+  transition: 1s;
+  opacity: 0;
+}
+.con01.on,
+.con02.on,
+.con03.on,
+#con04.on,
+#con05.on {
+  transform: translateY(0);
+  opacity: 1;
 }
