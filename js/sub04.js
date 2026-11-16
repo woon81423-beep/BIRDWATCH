@@ -16,6 +16,32 @@ $(function () {
     }, 200);
   });
 
+  let visualText = "우리가 지켜야 할 하늘의 길,";
+  var k = 0;
+  function vt() {
+    if (k < visualText.length) {
+      $("#visual h2 span").eq(0).append(visualText.charAt(k));
+      k++;
+      setTimeout(vt, 200);
+    } else if (k == visualText.length) {
+      $("#visual h2 span").eq(1).html("");
+    }
+  }
+  vt();
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: "#visual",
+        start: "top top",
+      },
+    })
+    .from("#visual p", {
+      y: 300,
+      duration: 2,
+      opacity: 0,
+    })
+    .from("#visual img", { y: 300, duration: 1, opacity: 0 });
+
   // con01
   gsap.from(".con01_wrap", {
     scrollTrigger: {
@@ -45,7 +71,7 @@ $(function () {
       duration: 2,
     })
     .to(".con02_bird p", { opacity: 1 }, 2)
-    .to(".con02_btn", { y: -500 });
+    .to(".con02_btn", { y: "-340%" });
 
   $(".con02_btn").on("click", () => {
     $(".con02_bird").toggle();
@@ -67,49 +93,105 @@ $(function () {
     scrollTrigger: {
       trigger: "#con03",
       start: "-=300 top",
-      scrub: 1,
     },
     y: 200,
-    stagger: 0.5,
     ease: "back.out",
     duration: 1,
     opacity: 0,
+  });
+  $(".con03_wrap li").on("mouseenter", function () {
+    $(".con03_wrap li").stop().removeClass("on");
+    $(this).stop().addClass("on");
+    $(this)
+      .find(".con03_txt")
+      .stop()
+      .animate({ top: "50%", opacity: "1" }, 1500);
+  });
+  $(".con03_wrap li").on("mouseleave", function () {
+    $(".con03_txt").stop().css({ top: "100%", opacity: "0" });
   });
 
   // con04
-  gsap.from(".con04_wrap", {
-    scrollTrigger: {
-      trigger: "#con04",
-      start: "-=300 top",
-      scrub: 1,
-    },
-    y: 200,
-    ease: "back.out",
-    duration: 1,
-    opacity: 0,
+  let con04Timer;
+  let w = $(".con04_wrap li").width();
+  function con04Rolling() {
+    con04Timer = setInterval(function () {
+      $(".con04_wrap").css({
+        transition: "transform 0.5s ease-in-out",
+        transform: `translateX(-${w + 30}px)`,
+      });
+      setTimeout(function () {
+        $(".con04_wrap").css({
+          transition: "none",
+          transform: "translateX(0)",
+        });
+        $(".con04_wrap li").eq(0).appendTo(".con04_wrap");
+        $(".con04_video li").eq(0).appendTo(".con04_video");
+      }, 500);
+    }, 1500);
+  }
+  con04Rolling();
+  $(".con04_wrap li").on("click", function () {
+    clearInterval(con04Timer);
+    let j = $(this).index();
+    $(".con04_modalBg").addClass("on");
+    $(".con04_video li").removeClass("on");
+    $(".con04_video li").eq(j).addClass("on");
   });
-
+  $(".con04_modal button").on("click", function () {
+    $(".con04_modalBg").removeClass("on");
+    con04Rolling();
+  });
   //   con05
   gsap.from(".con05_wrap", {
     scrollTrigger: {
       trigger: "#con05",
       start: "-=300 top",
-      scrub: 1,
     },
     y: 200,
     ease: "back.out",
-    duration: 1,
+    duration: 2,
     opacity: 0,
   });
-  let i = 1;
-  setInterval(function () {
-    if (i == 4) {
-      i = 0;
-    }
+  let con05_index = 1;
+  let con05Timer;
+  function con05Rolling() {
+    clearInterval(con05Timer);
+    con05Timer = setInterval(function () {
+      if (con05_index == 4) {
+        con05_index = 0;
+      }
+      $(".con05_img li").removeClass("on");
+      $(".con05_img li").eq(con05_index).addClass("on");
+      $(".con05_txt li").removeClass("on");
+      $(".con05_txt li").eq(con05_index).addClass("on");
+      con05_index++;
+    }, 1500);
+  }
+  con05Rolling();
+  $(".con05_txt li").on("mouseenter", function () {
+    let i = $(this).index();
+    clearInterval(con05Timer);
+    $(".con05_txt li").removeClass("on");
+    $(this).addClass("on");
     $(".con05_img li").removeClass("on");
     $(".con05_img li").eq(i).addClass("on");
-    $(".con05_txt li").removeClass("on");
-    $(".con05_txt li").eq(i).addClass("on");
-    i++;
-  }, 1500);
+  });
+  $(".con05_txt li").on("mouseleave", function () {
+    let i = $(this).index() + 1;
+    con05_index = i;
+    con05Rolling();
+  });
+  // con06
+  gsap.from(".con06_wrap", {
+    scrollTrigger: {
+      trigger: "#con06",
+      start: "-=300 top",
+      end: "bottom top",
+    },
+    y: 200,
+    ease: "back.out",
+    duration: 2,
+    opacity: 0,
+  });
 });
