@@ -42,21 +42,33 @@ $(function () {
     })
     .from("#visual img", { y: 300, duration: 1, opacity: 0 });
 
-  // con01
+  con01;
   gsap.from(".con01_wrap", {
     scrollTrigger: {
       trigger: "#con01",
       start: "-=300 top",
-      // scrub: 1,
     },
     y: 200,
     opacity: 0,
     duration: 2,
   });
-  setInterval(function () {
-    $(".con01_wrap li").eq(0).appendTo(".con01_wrap");
-  }, 3000);
-  // con02
+
+  let con01_li = document.querySelectorAll(".con01_wrap li");
+  con01_li.forEach((li) => {
+    li.addEventListener("mouseenter", () => {
+      gsap.to(li.querySelector(".con01_img"), { x: "100%", duration: 2 });
+      gsap.to(li.querySelector(".con01_txt"), { x: "-100%", duration: 2 });
+    });
+    li.addEventListener("mouseleave", () => {
+      gsap.to(li.querySelector(".con01_img"), { x: "0%", duration: 1 });
+      gsap.to(li.querySelector(".con01_txt"), { x: "0%", duration: 1 });
+    });
+  });
+
+  // setInterval(function () {
+  //   $(".con01_wrap li").eq(0).appendTo(".con01_wrap");
+  // }, 3000);
+  con02;
   gsap
     .timeline({
       scrollTrigger: {
@@ -70,7 +82,7 @@ $(function () {
       ease: "bounce.out",
       duration: 2,
     })
-    .to(".con02_bird p", { opacity: 1 }, 2)
+    .to(".con02_bird p", { opacity: 1 })
     .to(".con02_btn", { y: "-340%" });
 
   $(".con02_btn").on("click", () => {
