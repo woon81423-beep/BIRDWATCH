@@ -15,13 +15,7 @@ $(function () {
       res();
     }, 200);
   });
-  // 비쥬얼
-  // gsap.from("#visual h2", {
-  //   x: "-100%",
-  //   y: "-100%",
-  //   opacity: 0,
-  //   duration: 2,
-  // });
+
   let visualText = "우리가 지켜야 할 하늘의 길,";
   var k = 0;
   function vt() {
@@ -77,7 +71,7 @@ $(function () {
       duration: 2,
     })
     .to(".con02_bird p", { opacity: 1 }, 2)
-    .to(".con02_btn", { y: -400 });
+    .to(".con02_btn", { y: "-340%" });
 
   $(".con02_btn").on("click", () => {
     $(".con02_bird").toggle();
@@ -119,13 +113,23 @@ $(function () {
 
   // con04
   let con04Timer;
+  let w = $(".con04_wrap li").width();
   function con04Rolling() {
     con04Timer = setInterval(function () {
-      $(".con04_wrap li").eq(0).appendTo(".con04_wrap");
-      $(".con04_video li").eq(0).appendTo(".con04_video");
+      $(".con04_wrap").css({
+        transition: "transform 0.5s ease-in-out",
+        transform: `translateX(-${w + 30}px)`,
+      });
+      setTimeout(function () {
+        $(".con04_wrap").css({
+          transition: "none",
+          transform: "translateX(0)",
+        });
+        $(".con04_wrap li").eq(0).appendTo(".con04_wrap");
+        $(".con04_video li").eq(0).appendTo(".con04_video");
+      }, 500);
     }, 1500);
   }
-
   con04Rolling();
   $(".con04_wrap li").on("click", function () {
     clearInterval(con04Timer);
@@ -143,34 +147,51 @@ $(function () {
     scrollTrigger: {
       trigger: "#con05",
       start: "-=300 top",
-      scrub: 1,
     },
     y: 200,
     ease: "back.out",
-    duration: 1,
+    duration: 2,
     opacity: 0,
   });
-  let i = 1;
-  setInterval(function () {
-    if (i == 4) {
-      i = 0;
-    }
+  let con05_index = 1;
+  let con05Timer;
+  function con05Rolling() {
+    clearInterval(con05Timer);
+    con05Timer = setInterval(function () {
+      if (con05_index == 4) {
+        con05_index = 0;
+      }
+      $(".con05_img li").removeClass("on");
+      $(".con05_img li").eq(con05_index).addClass("on");
+      $(".con05_txt li").removeClass("on");
+      $(".con05_txt li").eq(con05_index).addClass("on");
+      con05_index++;
+    }, 1500);
+  }
+  con05Rolling();
+  $(".con05_txt li").on("mouseenter", function () {
+    let i = $(this).index();
+    clearInterval(con05Timer);
+    $(".con05_txt li").removeClass("on");
+    $(this).addClass("on");
     $(".con05_img li").removeClass("on");
     $(".con05_img li").eq(i).addClass("on");
-    $(".con05_txt li").removeClass("on");
-    $(".con05_txt li").eq(i).addClass("on");
-    i++;
-  }, 1500);
+  });
+  $(".con05_txt li").on("mouseleave", function () {
+    let i = $(this).index() + 1;
+    con05_index = i;
+    con05Rolling();
+  });
   // con06
   gsap.from(".con06_wrap", {
     scrollTrigger: {
       trigger: "#con06",
       start: "-=300 top",
-      scrub: 1,
+      end: "bottom top",
     },
     y: 200,
     ease: "back.out",
-    duration: 1,
+    duration: 2,
     opacity: 0,
   });
 });
