@@ -1,34 +1,53 @@
 /* 폰트 */
+body {
+  /* overflow-x: hidden; */
+}
 .cursor {
   color: #f29985;
 }
 h2 {
-  font-size: 5rem;
+  font-size: 4rem;
   color: #fff;
   margin-top: 100px;
-  span {
-    color: #f29985;
-  }
+  font-family: "IBM Plex Sans KR", sans-serif;
 }
 h3 {
-  width: calc(100% / 3);
   font-size: 2rem;
 }
+body img {
+  filter: contrast(1.2);
+}
 #visual {
-  background-image: url(../img//sub04/sub04_visual.jpg);
-  background-repeat: no-repeat;
-  background-position: bottom;
-  background-size: cover;
   width: 100%;
   height: 800px;
   margin: 0px auto;
   text-align: center;
-  padding: 50px 0px;
-
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  position: relative;
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .visual_txt {
+    width: 100%;
+    text-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+  }
   p {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-top: 2rem;
-    color: #fff;
+    /* color: #fff; */
+    color: #061221;
+  }
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -38,15 +57,13 @@ h3 {
   padding: 50px 0px;
 }
 .con_title {
-  padding: 10px 0px;
   display: flex;
+  gap: 30px;
   align-items: center;
   div {
-    width: calc(100% / 3);
     font-size: 2.5rem;
   }
   p {
-    width: calc(100% / 3);
     color: #061221;
   }
 }
@@ -75,24 +92,26 @@ h3 {
       filter: brightness(50%);
     }
     .con01_txt {
-      text-align: center;
       position: absolute;
+      top: 100%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       bottom: 10px;
-      display: none;
+      opacity: 0;
+      transition: 2s;
+      color: #fff;
       h4 {
         font-size: 2rem;
       }
       p {
-        color: #f29985;
+        color: rgba(50, 150, 250, 1);
       }
     }
   }
   li:nth-of-type(1) {
+    box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
     position: relative;
     img {
-      filter: brightness(1);
       aspect-ratio: 1/1;
     }
   }
@@ -116,16 +135,24 @@ h3 {
     bottom: 0px;
     transform: translateX(-105%);
   }
-  li:hover .con01_txt {
-    display: block;
+  li:hover {
+    img {
+      filter: brightness(1);
+    }
+    .con01_txt {
+      top: 50%;
+      opacity: 1;
+    }
   }
 }
 /* con02 */
 #container #con02,
-#container #con04 {
+#container #con04,
+#container #con06 {
   background-color: #061221;
   .con_title {
     width: 90%;
+    max-width: 1440px;
     margin: 0px auto;
     div {
       color: #fff;
@@ -181,38 +208,185 @@ h3 {
     color: #fff;
     border-color: #fff;
   }
+  .con02_btn:hover {
+    color: #061221;
+    border-color: #061221;
+  }
 }
-.font_co:hover {
-  color: #f29985;
-  border-color: #f29985;
-}
+
 /* con03 */
 .con03_wrap {
   margin: 50px 0px;
   display: flex;
+  gap: 10px;
   text-align: center;
   li {
-    width: calc(100% / 3);
+    width: 20%;
+    position: relative;
+    transition: 1s;
     .con03_img {
-      width: 70%;
-      aspect-ratio: 1/1;
-      border-radius: 50%;
+      width: 100%;
+      height: 300px;
+      border-radius: 20px;
       margin: 50px auto;
       overflow: hidden;
-      border: 2px solid #061221;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
     }
+    .con03_txt {
+      color: #fff;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+  }
+  .on {
+    width: 60%;
+    .con03_img {
+      box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+      img {
+        transform: scale(1.5);
+      }
+    }
   }
 }
 /* con04 */
+#con04 {
+  position: relative;
+  overflow: hidden;
+  .on {
+    display: block;
+  }
+}
 .con04_wrap {
+  margin: 50px auto;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  li {
+    width: 300px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  li:hover {
+    img {
+      transform: scale(1.1);
+      box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+    }
+  }
+  img {
+    display: block;
+    width: 100%;
+    border-radius: 30px;
+  }
+}
+.con04_modalBg {
+  background-color: rgba(32, 25, 25, 0.7);
+  position: absolute;
+  width: 100vw;
+  height: 130vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0px auto;
+  display: none;
+  .con04_modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    button {
+      text-align: right;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      padding: 5px 8px;
+      cursor: none;
+    }
+    .con04_video {
+      li {
+        display: none;
+      }
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 30px;
+      }
+    }
+  }
+}
+
+/* con05 */
+.con05_wrap {
+  margin: 50px 0px;
+  display: flex;
+  gap: 50px;
+  .con05_txt {
+    width: 50%;
+    li {
+      width: 100%;
+      border-radius: 10px;
+      padding: 10px;
+      div {
+        display: flex;
+        justify-content: space-between;
+      }
+      p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .date {
+        text-align: right;
+      }
+    }
+    .on {
+      box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+    }
+    li:hover {
+      p {
+        white-space: initial;
+        overflow: initial;
+        text-overflow: initial;
+      }
+    }
+  }
+  .con05_img {
+    width: 50%;
+    position: relative;
+    li {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+      overflow: hidden;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: none;
+      img {
+        width: 100%;
+        max-height: 250px;
+        object-fit: cover;
+        display: block;
+      }
+    }
+    .on {
+      display: block;
+    }
+  }
+}
+.con06_wrap {
   width: 90%;
   max-width: 1440px;
-  margin: 50px auto;
+  margin: 50px auto 100px;
   display: flex;
   gap: 50px;
   text-align: center;
@@ -232,84 +406,21 @@ h3 {
   li:hover {
     top: -30px;
     a {
-      color: #f29985;
-      border-color: #f29985;
-      box-shadow: 5px 5px 10px 5px #f29985;
+      color: rgba(50, 150, 250, 1);
+      border-color: rgba(50, 150, 250, 1);
+      box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
     }
   }
 }
-
-/* con05 */
-.con05_wrap {
-  margin: 50px 0px;
-  display: flex;
-  gap: 50px;
-  .con05_txt {
-    width: 50%;
-    li {
-      width: 100%;
-      a {
-        width: 100%;
-        display: block;
-        border-radius: 10px;
-        padding: 10px;
-        div {
-          display: flex;
-          justify-content: space-between;
-        }
-        p {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .date {
-          text-align: right;
-        }
-      }
-    }
-    .on {
-      a {
-        box-shadow: 5px 5px 10px 5px #f29985;
-      }
-    }
-  }
-  .con05_img {
-    width: 50%;
-    position: relative;
-    li {
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: 5px 5px 10px 5px #f29985;
-      overflow: hidden;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      display: none;
-      img {
-        width: 100%;
-        max-height: 250px;
-        object-fit: cover;
-        display: block;
-      }
-    }
-    .on {
-      display: block;
-    }
-  }
-}
-/* 이미지 호버 */
-.imgBig:hover {
-  box-shadow: 5px 5px 10px 5px #f29985;
-  img {
-    transform: scale(1.5);
-  }
+footer {
+  margin-top: 0px;
 }
 /* 미디어쿼리 */
 @media (max-width: 999px) {
   h2 {
     font-size: 4rem;
   }
-  .con04_wrap {
+  .con06_wrap {
     flex-wrap: wrap;
     li {
       width: calc((100% - 50px) / 2);
@@ -357,6 +468,9 @@ h3 {
         transition: none;
       }
     }
+    .con04_wrap li {
+      width: 250px;
+    }
     .con05_txt li {
       h4 {
         font-size: 0.9rem;
@@ -388,16 +502,22 @@ h3 {
           width: calc((100% - 20px) / 2);
         }
       }
+      .con02_wrap .con02_btn {
+        width: 150px;
+        border-width: 2px;
+        font-size: 0.6rem;
+      }
       .con03_wrap {
-        flex-wrap: wrap;
         li {
-          width: 100%;
           h4 {
-            font-size: 2rem;
+            font-size: 1rem;
           }
         }
       }
-      .con04_wrap {
+      .con04_wrap li {
+        width: 200px;
+      }
+      .con06_wrap {
         li {
           width: 100%;
         }
