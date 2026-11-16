@@ -1,7 +1,4 @@
 /* 폰트 */
-body {
-  /* overflow-x: hidden; */
-}
 .cursor {
   color: #f29985;
 }
@@ -78,70 +75,87 @@ body img {
 }
 .con01_wrap {
   margin: 50px 0px;
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
   li {
-    width: 50%;
-    position: absolute;
-    overflow: hidden;
+    background-color: rgba(6, 18, 33, 0.1);
+    width: calc((100% - 30px) / 2);
     border-radius: 20px;
-    img {
-      width: 100%;
-      display: block;
-      aspect-ratio: 1/1.2;
-      object-fit: cover;
-      filter: brightness(50%);
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    div {
+      width: 50%;
+      margin: 0px auto;
+    }
+    .con01_img {
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      img {
+        width: 100%;
+      }
     }
     .con01_txt {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      bottom: 10px;
-      opacity: 0;
-      transition: 2s;
-      color: #fff;
+      text-align: center;
       h4 {
         font-size: 2rem;
+        margin: 30px;
+        span {
+          color: #555;
+          font-size: 3rem;
+        }
       }
       p {
-        color: rgba(50, 150, 250, 1);
+        font-size: 0.9rem;
       }
     }
   }
   li:nth-of-type(1) {
-    box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
-    position: relative;
-    img {
-      aspect-ratio: 1/1;
+    transform: translateY(10%);
+    .con01_img {
+      background: url("../img/sub04/con01_1.jpg") no-repeat center;
+      background-size: cover;
+      img {
+        transform: scale(1.2);
+      }
     }
   }
   li:nth-of-type(2) {
-    width: 20%;
-    top: 0px;
-    right: 0px;
-    transform: translateX(-135%);
-    transition: 1s;
+    .con01_img {
+      background: url("../img/sub04/con01_2.jpg") no-repeat center;
+      background-size: cover;
+      img {
+        transform: scale(1.2);
+      }
+    }
   }
   li:nth-of-type(3) {
-    width: 20%;
-    top: 50%;
-    right: 0px;
-    transform: translateY(-70%);
-    transition: 1.5s;
+    transform: translateY(10%);
+    .con01_img {
+      background: url("../img/sub04/con01_3.jpg") no-repeat center;
+      background-size: cover;
+    }
   }
   li:nth-of-type(4) {
-    width: 20%;
-    right: 0px;
-    bottom: 0px;
-    transform: translateX(-105%);
+    .con01_img {
+      background: url("../img/sub04/con01_4.jpg") no-repeat center;
+      background-size: cover;
+    }
   }
   li:hover {
-    img {
-      filter: brightness(1);
+    box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+    .con01_img {
+      box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
+      img {
+        filter: brightness(1.2);
+      }
     }
     .con01_txt {
-      top: 50%;
-      opacity: 1;
+      p {
+        color: rgba(50, 150, 250, 1);
+      }
     }
   }
 }
@@ -198,8 +212,7 @@ body img {
     width: 200px;
     color: #fff;
     background-color: transparent;
-    border-width: 5px;
-    border-color: #fff;
+    border: 5px solid #fff;
     border-radius: 20px;
     padding: 10px;
     margin-top: 50px;
@@ -209,8 +222,9 @@ body img {
     border-color: #fff;
   }
   .con02_btn:hover {
-    color: #061221;
-    border-color: #061221;
+    color: rgba(50, 150, 250, 1);
+    border-color: rgba(50, 150, 250, 1);
+    box-shadow: 0px 10px 35px rgba(50, 150, 250, 0.5);
   }
 }
 
@@ -420,6 +434,23 @@ footer {
   h2 {
     font-size: 4rem;
   }
+  .con01_wrap {
+    li {
+      display: block;
+      padding: 20px;
+      .con01_txt {
+        h4 {
+          font-size: 1.5rem;
+          span {
+            font-size: 2rem;
+          }
+        }
+        p {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
   .con06_wrap {
     flex-wrap: wrap;
     li {
@@ -436,36 +467,11 @@ footer {
       }
     }
     .con01_wrap {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
       li {
-        position: relative;
-      }
-      li:nth-of-type(1) {
-        width: 70%;
-      }
-      li:nth-of-type(2) {
-        width: calc((100% - 40px) / 3);
-        top: 0px;
-        right: 0px;
-        transform: translateX(0);
-        transition: none;
-      }
-      li:nth-of-type(3) {
-        width: calc((100% - 40px) / 3);
-        top: 0px;
-        right: 0px;
-        transform: translateY(0);
-        transition: none;
-      }
-      li:nth-of-type(4) {
-        width: calc((100% - 40px) / 3);
-        top: 0px;
-        right: 0px;
-        transform: translateX(0);
-        transition: none;
+        width: 80%;
+        margin: 0px auto;
+        padding: 20px;
+        transform: translateY(10%);
       }
     }
     .con04_wrap li {
