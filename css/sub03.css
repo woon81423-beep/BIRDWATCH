@@ -703,13 +703,25 @@ video {
     overflow: hidden;
     margin-top: 20px;
   }
-  .left li {
-  }
+ 
   .con05_img {
     position: absolute;
     top: 0;
     left: 0;
     display: none;
+  }
+  .con05_wrap .right li {
+    display: flex;
+    gap: 20px;
+    font-size: 1rem;
+    align-items: center;
+  }
+  .con05_wrap .right span {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .con05_wrap .right li i {
+    font-size: 3rem;
   }
 }
 
